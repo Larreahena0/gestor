@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% block cuerpo %}
+
+    <form action="post">
+        <label for="select_grupo">Grupo de investigación:</label>
+        <br>
+        <select name="selectGrupo" id="select_grupo">
+
+        </select>
+        <br>
+        <label for="semillero_name">Nombre del semillero:</label>
+        <br>
+        <input type="text" name="semilleroName" id="semillero_name">
+        <br>
+        <label for="select_linea">Líneas de trabajo:</label>
+        <br>
+        <select name="selectLinea" id="select_linea">
+            
+        </select>
+        <input type="button" value="Añadir">
+        <br>
+        <button type="submit">Registrar</button>
+    </form>
+
+{% endblock %}

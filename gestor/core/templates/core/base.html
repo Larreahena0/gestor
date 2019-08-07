@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestor de semilleros | Facultad de ingenieria</title>
+</head>
+<body>
+    <header>
+        <h1>Gestor de semilleros</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Inicio</a></li>
+            <li><a href="{% url 'create' %}">Registrar semillero</a></li>
+            <li><a href="{% url 'register' %}">Registrar integrantes de semillero</a></li>
+            <li><a href="{% url 'add_workline' %}">Añadir línea de trabajo</a></li>
+            <li><a href="{% url 'conv_create' %}">Crear/actualizar convocatoria</a></li>
+            <li><a href="{% url 'participate' %}">Participar en convocatoria</a></li>
+        </ul>
+    </nav>
+    <section id="formulario">
+        {% block cuerpo %}{% endblock %}
+    </section>
+</body>
+</html>

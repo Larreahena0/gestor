@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block cuerpo %}
+
+    <form action="">
+        <label for="conv_name">Nombre de la convocatoria:</label>
+        <br>
+        <input type="text" name="convName" id="conv_name">
+        <br>
+        <label for="conv_description">Descripción:</label>
+        <br>
+        <textarea name="convDescription" id="conv_description" cols="30" rows="10"></textarea>
+        <br>
+        <label for="apertura_date">Fecha de apertura:</label>
+        <br>
+        <input type="date" name="aperturaDate" id="apertura_date">
+        <br>
+        <label for="cierre_date">Fecha de cierre:</label>
+        <br>
+        <input type="date" name="cierreDate" id="cierre_date">
+        <br>
+        <label for="">Documentos:</label>
+        <br>
+        <!-- Añadir archivos -->
+        <button type="submit">Crear convocatoria</button>
+    </form>
+
+{% endblock %}

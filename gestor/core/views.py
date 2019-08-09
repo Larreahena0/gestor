@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Convocatoria
 
 # Create your views here.
 def home(request):
@@ -17,4 +18,5 @@ def conv_create(request):
     return render(request, "core/conv_create.html")
 
 def participate(request):
-    return render(request, "core/participate.html")
+    convocatorias = Convocatoria.objects.all()
+    return render(request, "core/participate.html", {"convocatorias":convocatorias})

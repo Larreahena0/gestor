@@ -68,5 +68,3 @@ class Convocatoria(models.Model):
     def __str__(self):
         return self.name
 
-        #Hola, me llamo así
-

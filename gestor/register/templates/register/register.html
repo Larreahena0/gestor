@@ -4,9 +4,57 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
+        <label for="">Nombre del integrante:</label>
+        <br>
+        <input type="text" name="name" id="name">
+        <br>
+        <label for="">Documento de identidad:</label>
+        <br>
+        <input type="text" name="document" id="document">
+        <br>
+        <label for="">Semillero:</label>
+        <br>
+        <select name="semillero" id="semillero">
+            {% for semillero in semilleros %}
+                <option value="{{semillero.id}}">{{semillero.name}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="">Rol:</label>
+        <br>
+        <select name="rol" id="rol">
+
+        </select>
+        <br>
+        <label for="">Fecha de ingreso:</label>
+        <br>
+        <input type="date" name="joined" id="joined">
+        <br>
+        <label for="">Correo electrónico:</label>
+        <br>
+        <input type="email" name="email" id="email">
+        <br>
+        <label for="">Programa de pregrado:</label>
+        <br>
+        <select name="career" id="career">
+
+        </select>
+        <br>
+        <label for="">Nivel en el programa:</label>
+        <br>
+        <select name="level" id="level">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
 

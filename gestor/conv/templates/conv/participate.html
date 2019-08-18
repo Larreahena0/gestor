@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block cuerpo %}
+
+    <h1>Convocatorias:</h1>
+
+    <table>
+      <tr>
+        <th>Número</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha de apertura</th>
+      </tr>
+      {% for convocatoria in convocatorias %}
+      <tr>
+        <td>{{convocatoria.id}}</td>
+        <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
+        <td>{{convocatoria.description}}</td>
+        <td>{{convocatoria.opened}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+
+{% endblock %}

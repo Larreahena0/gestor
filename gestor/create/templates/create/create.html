@@ -4,9 +4,27 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
+        <br>
+        <label for="id_group">Grupo de investigación:</label>
+        <br>
+        <select name="id_group" id="id_group">
+            {% for grupo in grupos %}
+                <option value="{{grupo.id}}">{{grupo.name}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="name">Nombre del semillero:</label>
+        <br>
+        <input type="text" name="name" id="name">
+        <br>
+        <label for="lines">Linea de investigación:</label>
+        <br>
+        <select name="lines" id="lines">
+            {% for linea in lineas %}
+                <option value="{{linea.id}}">{{linea.name}}</option>
+            {% endfor %}
+        </select>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
 

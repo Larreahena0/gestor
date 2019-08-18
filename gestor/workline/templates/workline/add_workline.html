@@ -4,9 +4,14 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
+        <label for="name">Linea de investigación:</label>
+        <br>
+        <input type="text" name="name" id="name">
+        <br>
+        <label for="description">Descripción:</label>
+        <br>
+        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
 

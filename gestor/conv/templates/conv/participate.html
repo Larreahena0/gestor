@@ -10,15 +10,19 @@
         <th>Título</th>
         <th>Descripción</th>
         <th>Fecha de apertura</th>
+        <th>Fecha de cierre</th>
       </tr>
-      {% for convocatoria in convocatorias %}
+    {% for convocatoria in convocatorias %}
+    {% if convocatoria.closed >= today.date %}
       <tr>
         <td>{{convocatoria.id}}</td>
         <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
         <td>{{convocatoria.description}}</td>
         <td>{{convocatoria.opened}}</td>
+        <td>{{convocatoria.closed}}</td>
       </tr>
-      {% endfor %}
+    {% endif %}
+    {% endfor %}
     </table>
 
 

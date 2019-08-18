@@ -13,7 +13,7 @@ class Convocatoria(models.Model):
     class Meta():
         verbose_name = "Convocatoria"
         verbose_name_plural = "Convocatorias"
-        ordering = ["-opened"]
+        ordering = ["closed"]
 
     def __str__(self):
         return self.name

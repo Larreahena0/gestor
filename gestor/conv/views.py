@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Convocatoria
 from django.conf import settings
 import os
+import datetime
 
 # Create your views here.
 def conv_create(request):
@@ -31,5 +32,6 @@ def conv_details(request, id_item=None):
     return render(request, "conv/details.html",{'item':item})
 
 def participate(request):
+    today = datetime.datetime.now()
     convocatorias = Convocatoria.objects.all()
-    return render(request, "conv/participate.html",{'convocatorias':convocatorias})
+    return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})

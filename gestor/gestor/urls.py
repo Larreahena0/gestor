@@ -27,7 +27,7 @@ urlpatterns = [
     #Register paths
     path('register/', include('register.urls')),
     #Workline paths
-    path('add_workline/', include('workline.urls')),
+    path('add/', include('workline.urls')),
     #Conv paths
     path('convocatorias/', include('conv.urls')),
 ]

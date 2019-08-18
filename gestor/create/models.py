@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Semillero(models.Model):
-    
+
     id = models.AutoField(primary_key=True, verbose_name="Id")
     id_group = models.CharField(max_length=50, verbose_name="Grupo", null=True)
     name = models.CharField(max_length=50, verbose_name="Nombre", null=True)

@@ -10,4 +10,4 @@ def add_workline(request):
         insert = Linea(name=name, description=description)
         insert.save()
 
-    return render(request, "workline/add_workline.html")
+    return render(request, "workline/workline.html")

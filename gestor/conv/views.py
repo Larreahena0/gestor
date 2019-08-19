@@ -34,4 +34,5 @@ def conv_details(request, id_item=None):
 def participate(request):
     today = datetime.datetime.now()
     convocatorias = Convocatoria.objects.all()
+    print(convocatorias)
     return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})

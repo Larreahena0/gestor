@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Convocatoria
+from .models import Documento
 from django.conf import settings
-import os
 import datetime
 
 # Create your views here.
@@ -15,15 +15,16 @@ def conv_create(request):
         insert = Convocatoria(name=name, description=description, opened=opened, closed=closed)
         insert.save()
 
-        latest_conv = Convocatoria.objects.latest('id')
-        os.mkdir(settings.MEDIA_ROOT + '/convocatorias/' + str(latest_conv.id))
+        count = int(request.POST['contador'])
 
-        for count, x in enumerate(request.FILES.getlist("documents")):
-            def process(f):
-                with open(settings.MEDIA_ROOT + '/convocatorias/' + str(latest_conv.id) + '/' + str(x), 'wb+') as destination:
-                    for chunk in f.chunks():
-                        destination.write(chunk)
-            process(x)
+        for i in range(1,count+1):
+            id_conv = Convocatoria.objects.latest('id')
+            documento = request.FILES['doc_' + str(i)]
+            print('doc_' + str(i))
+            description = request.POST['text_' + str(i)]
+
+            insert = Documento(id_conv=id_conv, description=description, documento=documento)
+            insert.save()
 
     return render(request, "conv/convocatoria.html")
 

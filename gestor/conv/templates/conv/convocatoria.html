@@ -4,27 +4,33 @@
 
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="name">Nombre de la convocatoria:</label>
-        <br>
-        <input type="text" name="name" id="name">
-        <br>
-        <label for="description">Descripción:</label>
-        <br>
-        <textarea name="description" id="description" cols="30" rows="10"></textarea>
-        <br>
-        <label for="opened">Fecha de apertura:</label>
-        <br>
-        <input type="date" name="opened" id="opened">
-        <br>
-        <label for="closed">Fecha de cierre:</label>
-        <br>
-        <input type="date" name="closed" id="closed">
-        <br>
-        <label for="documents">Documentos:</label>
-        <br>
-        <input type="file" name="documents" id="documents" accept="application/pdf" multiple>
-        <br>
+        <div id="campos">
+          <input type="hidden" name="contador" id="contador" value="0">
+          <label for="name">Nombre de la convocatoria:</label>
+          <br>
+          <input type="text" name="name" id="name">
+          <br>
+          <label for="description">Descripción:</label>
+          <br>
+          <textarea name="description" id="description" cols="30" rows="10"></textarea>
+          <br>
+          <label for="opened">Fecha de apertura:</label>
+          <br>
+          <input type="date" name="opened" id="opened">
+          <br>
+          <label for="closed">Fecha de cierre:</label>
+          <br>
+          <input type="date" name="closed" id="closed">
+          <br>
+          <label for="add_doc">Añadir documento</label>
+          <br>
+          <button type="button" name="add_doc" onclick="add()">Añadir documento</button>
+          <br>
+        </div>
         <input type="submit" value="Enviar"/>
     </form>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
 
 {% endblock %}

@@ -26,7 +26,9 @@ def conv_create(request):
             insert = Documento(id_conv=id_conv, description=description, documento=documento)
             insert.save()
 
-    return render(request, "conv/convocatoria.html")
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    return render(request, "conv/convocatoria.html",{'today':today})
 
 def conv_details(request, id_item=None):
     item = Convocatoria.objects.get(id=id_item)

@@ -124,7 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/larreahenao/gestor/gestor/'
+STATIC_ROOT = '/home/larreahenao/gestor/gestor/static'
 
 #Documentos
 MEDIA_URL = '/documents/'

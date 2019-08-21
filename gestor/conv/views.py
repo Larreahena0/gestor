@@ -32,7 +32,8 @@ def conv_create(request):
 
 def conv_details(request, id_item=None):
     item = Convocatoria.objects.get(id=id_item)
-    return render(request, "conv/details.html",{'item':item})
+    documents = Documento.objects.filter(id_conv=id_item)
+    return render(request, "conv/details.html",{'item':item,'documents':documents,})
 
 def participate(request):
     today = datetime.datetime.now()

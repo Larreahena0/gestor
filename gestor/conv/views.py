@@ -20,7 +20,6 @@ def conv_create(request):
         for i in range(1,count+1):
             id_conv = Convocatoria.objects.latest('id')
             documento = request.FILES['doc_' + str(i)]
-            print('doc_' + str(i))
             description = request.POST['text_' + str(i)]
 
             insert = Documento(id_conv=id_conv, description=description, documento=documento)
@@ -38,5 +37,4 @@ def conv_details(request, id_item=None):
 def participate(request):
     today = datetime.datetime.now()
     convocatorias = Convocatoria.objects.all()
-    print(convocatorias)
     return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})

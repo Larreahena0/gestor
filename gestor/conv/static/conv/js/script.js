@@ -9,11 +9,13 @@ function add(){
   description.type = 'text';
   description.id = "text_" + count.toString();
   description.name = "text_" + count.toString();
+  description.required = true;
 
   input.type = 'file';
   input.accept = 'application/pdf';
   input.id = "doc_" + count.toString();
   input.name = "doc_" + count.toString();
+  input.required = true;
 
   contador.value = count;
 

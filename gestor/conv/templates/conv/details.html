@@ -7,27 +7,26 @@
     <b>Descripción:</b>
     <p>{{item.description}}</p>
     <table>
-      <tr>
-        <th>Actividad</th>
-        <th>Fecha</th>
-        <th>Documentos</th>
-      </tr>
-      <tr>
-        <td>Apertura</td>
-        <td>{{item.opened}}</td>
-        <td>
-          {% for document in documents %}
-          <ul>
-            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
-          </ul>
-          {% endfor %}
-        </td>
-      </tr>
-      <tr>
-        <td>Cierre</td>
-        <td>{{item.closed}}</td>
-      </tr>
+        <tr>
+            <th>Actividad</th>
+            <th>Fecha</th>
+            <th>Documentos</th>
+        </tr>
+        <tr>
+            <td>Apertura</td>
+            <td>{{item.opened}}</td>
+            <td>
+              {% for document in documents %}
+              <ul>
+                <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+              </ul>
+              {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Cierre</td>
+            <td>{{item.closed}}</td>
+        </tr>
     </table>
-
 
 {% endblock %}

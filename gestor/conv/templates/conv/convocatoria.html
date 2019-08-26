@@ -5,27 +5,27 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="campos">
-          <input type="hidden" name="contador" id="contador" value="0">
-          <label for="name">Nombre de la convocatoria:</label>
-          <br>
-          <input type="text" name="name" id="name" required>
-          <br>
-          <label for="description">Descripción:</label>
-          <br>
-          <textarea name="description" id="description" cols="30" rows="10" required></textarea>
-          <br>
-          <label for="opened">Fecha de apertura:</label>
-          <br>
-          <input type="date" min="{{today}}" name="opened" id="opened" required>
-          <br>
-          <label for="closed">Fecha de cierre:</label>
-          <br>
-          <input type="date" min="{{today}}" name="closed" id="closed" required>
-          <br>
-          <label for="add_doc">Añadir documento</label>
-          <br>
-          <button type="button" name="add_doc" onclick="add()">Añadir documento</button>
-          <br>
+            <input type="hidden" name="contador" id="contador" value="0">
+            <label for="name">Nombre de la convocatoria:</label>
+            <br>
+            <input type="text" name="name" id="name" required>
+            <br>
+            <label for="description">Descripción:</label>
+            <br>
+            <textarea name="description" id="description" cols="30" rows="10" required></textarea>
+            <br>
+            <label for="opened">Fecha de apertura:</label>
+            <br>
+            <input type="date" min="{{today}}" name="opened" id="opened" required>
+            <br>
+            <label for="closed">Fecha de cierre:</label>
+            <br>
+            <input type="date" min="{{today}}" name="closed" id="closed" required>
+            <br>
+            <label for="add_doc">Añadir documento</label>
+            <br>
+            <button type="button" name="add_doc" onclick="add()">Añadir documento</button>
+            <br>
         </div>
         <input type="submit" value="Enviar"/>
     </form>

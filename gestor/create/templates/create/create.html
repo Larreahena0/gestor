@@ -4,28 +4,39 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-        <br>
-        <label for="id_group">Grupo de investigación:</label>
-        <br>
-        <select name="id_group" id="id_group">
-            {% for grupo in grupos %}
-                <option value="{{grupo.id}}">{{grupo.name}}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="name">Nombre del semillero:</label>
-        <br>
-        <input type="text" name="name" id="name" required>
-        <br>
-        <label for="lines">Linea de investigación:</label>
-        <br>
-        <select name="lines" id="lines">
-            {% for linea in lineas %}
-                <option value="{{linea.id}}">{{linea.name}}</option>
-            {% endfor %}
-        </select>
-        <br>
+        <div id="campos">
+            <input type="hidden" name="contador" id="contador" value="0">
+            <label for="id_group">Grupo de investigación:</label>
+            <br>
+            <select name="id_group" id="id_group">
+                {% for grupo in grupos %}
+                    <option value="{{grupo.id}}">{{grupo.name}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="name">Nombre del semillero:</label>
+            <br>
+            <input type="text" name="name" id="name" required>
+            <br>
+            <label for="lines">Lineas de investigación:</label>
+            <br>
+            <select name="lineas" id="lineas">
+                {% for linea in lineas %}
+                    <option value="{{linea.id}}">{{linea.name}}</option>
+                {% endfor %}
+            </select>
+            <button type="button" name="add_line" onclick="add()">Añadir línea</button>
+            <table id="tabla">
+                <tr>
+                    <th>Líneas</th>
+                </tr>
+            </table>
+            <br>
+        </div>
         <input type="submit" value="Enviar"/>
     </form>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
 
 {% endblock %}

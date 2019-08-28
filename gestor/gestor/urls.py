@@ -23,13 +23,9 @@ urlpatterns = [
     #Core paths
     path('', include('core.urls')),
     #Create paths
-    path('create/', include('create.urls')),
-    #Register paths
-    path('register/', include('register.urls')),
-    #Workline paths
-    path('add/', include('workline.urls')),
+    path('', include('create.urls')),
     #Conv paths
-    path('convocatorias/', include('conv.urls')),
+    path('', include('conv.urls')),
 ]
 
 if settings.DEBUG:

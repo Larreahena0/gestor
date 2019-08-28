@@ -3,8 +3,8 @@ var count = 1;
 function add(){
     var formulario = document.getElementById('campos');
     var description = document.createElement('input');
-    var input = document.createElement('input')
-    var contador = document.getElementById('contador')
+    var input = document.createElement('input');
+    var contador = document.getElementById('contador');
 
     description.type = 'text';
     description.id = "text_" + count.toString();

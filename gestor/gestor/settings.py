@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
     'create.apps.CreateConfig',
-    'register.apps.RegisterConfig',
-    'workline.apps.WorklineConfig',
     'conv.apps.ConvConfig',
 ]
 

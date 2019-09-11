@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Semillero
 from .models import Integrante
+from .models import LineaSemillero
 from .models import Career
 from .models import Linea
 
@@ -17,4 +18,5 @@ class IntegranteAdmin(admin.ModelAdmin):
 admin.site.register(Semillero, SemilleroAdmin)
 admin.site.register(Linea, LineaAdmin)
 admin.site.register(Integrante, IntegranteAdmin)
+admin.site.register(LineaSemillero)
 admin.site.register(Career)

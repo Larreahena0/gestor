@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Semillero
 from .models import Linea
+from .models import LineaSemillero
 from .models import Integrante
 from .models import Career
 from core.models import Grupo
@@ -14,9 +15,18 @@ def create(request):
     if request.method == "POST":
         id_group = request.POST['id_group']
         name = request.POST['name']
-        lines = request.POST['lines']
-        insert = Semillero(id_group=id_group, name=name, lines=lines)
+        insert = Semillero(id_group=id_group, name=name)
         insert.save()
+
+        count = int(request.POST['contador'])
+
+        for i in range(1,count+1):
+            id_sem = Semillero.objects.latest('id');
+            name = request.POST['line_' + str(i)]
+            id_linea = request.POST['idline_' + str(i)]
+
+            insert = LineaSemillero(id_sem=id_sem, name=name, id_linea=id_linea)
+            insert.save()
 
     return render(request, "create/create.html", {'grupos':grupos,'lineas':lineas,})
 

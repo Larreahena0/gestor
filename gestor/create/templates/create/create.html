@@ -20,6 +20,9 @@
             <br>
             <label for="lines">Lineas de investigación:</label>
             <br>
+            <label for="">Coordinador:</label>
+            <br>
+            <input type="text" name="" id="">
             <select name="lineas" id="lineas">
                 {% for linea in lineas %}
                     <option value="{{linea.id}}">{{linea.name}}</option>
@@ -27,8 +30,9 @@
             </select>
             <button type="button" name="add_line" onclick="add()">Añadir línea</button>
             <table id="tabla">
+                <h3>Líneas</h3>
                 <tr>
-                    <th>Líneas</th>
+                    <th></th>
                 </tr>
             </table>
             <br>

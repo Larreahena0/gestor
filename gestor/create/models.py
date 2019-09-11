@@ -20,9 +20,9 @@ class Semillero(models.Model):
 class LineaSemillero(models.Model):
 
     id = models.AutoField(primary_key=True, verbose_name="Id")
-    id_sem = models.ForeignKey(Semillero, null=True, blank=True, on_delete=models.CASCADE)
+    id_sem = models.ForeignKey(Semillero, verbose_name="Id del semillero", null=True, blank=True, on_delete=models.CASCADE)
+    id_linea = models.PositiveSmallIntegerField(verbose_name="Id de la línea", null=True)
     name = models.CharField(max_length=100, verbose_name="Linea de investigación", null=True)
-    description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 

@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block cuerpo %}
+
+    <p>{{ mensaje }}</p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="username">Nombre de usuario:</label>
+        <br>
+        <input type="text" name="username" id="username" required>
+        <br>
+        <label for="password">Contraseña:</label>
+        <br>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <label for="rpassword">Confirmar la contraseña:</label>
+        <br>
+        <input type="password" name="rpassword" id="rpassword" required>
+        <br>
+        <label for="name">Nombre:</label>
+        <br>
+        <input type="text" name="name" id="name" required>
+        <br>
+        <label for="lastname">Apellidos:</label>
+        <br>
+        <input type="text" name="lastname" id="lastname" required>
+        <br>
+        <label for="email">Correo electrónico:</label>
+        <br>
+        <input type="email" name="email" id="email" required>
+        <br>
+        <button type="submit">Registrar.</button>
+    </form>
+
+{% endblock %}

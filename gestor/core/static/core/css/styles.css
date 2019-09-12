@@ -1,8 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather:900&display=swap');
+
+* {
+    margin: 0;
+}
+
 header {
-    
+    background: #396534;
+    width: 70%;
+    height: 140px;
+    margin-left: 15%;
+    min-width: 825px;
+}
+
+header img {
+    float: left;
+    padding-left: 18%;
+}
+
+header p {  
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 600;
+    font-size: 20px;
+    padding-left: 41%;
+    letter-spacing: 5pt;
+    color: #fff;
+}
+
+#title_uno {
+    padding-top: 53px;
+}
+
+#title_dos {
+
 }
 
 nav {
-    background: red;
+    background: #274712;
+    width: 70%;
+    height: 36px;
+    margin-left: 15%;
+    min-width: 825px;
 }
 
+nav ul {
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+    padding-top: 9px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    font-style: italic;
+    padding: 9px;
+    color: #fff;
+}
+
+nav ul li a:hover {
+    color: #000;
+    background: #fff;
+}
+
+#formulario {
+    margin-left: 15%;
+    float: left;
+}
+
+#side_bar {
+    width: 12%;
+    margin-left: 73%;
+    margin-top: 40px;
+}
+
+#side_bar div {
+    height: 200px;
+    background: #274712;
+    float: left;
+}
+
+#side_bar p {
+    display: inline-block;
+    text-decoration: underline;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    padding:10px;
+    text-align: center;
+    color: #fff;
+}
+
+#side_bar a {
+    display: inline-block;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    color: #fff;
+    background: #4a6439;
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 18%;
+}

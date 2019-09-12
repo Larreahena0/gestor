@@ -8,16 +8,17 @@
 </head>
 <body>
     <header>
-        <h1>Gestor de semilleros</h1>
+        <h1>GESTIÓN DE SEMILLEROS</h1>
+        <h1>FACULTAD DE INGENIERÍA</h1>
     </header>
     <nav>
         <ul>
             <li><a href="{% url 'home' %}">Inicio</a></li>
             <li><a href="{% url 'create' %}">Registrar semillero</a></li>
-            <li><a href="{% url 'register' %}">Registrar integrantes de semillero</a></li>
-            <li><a href="{% url 'workline' %}">Añadir línea de trabajo</a></li>
-            <li><a href="{% url 'conv_create' %}">Crear/actualizar convocatoria</a></li>
-            <li><a href="{% url 'participate' %}">Participar en convocatoria</a></li>
+            <li><a href="{% url 'register' %}">Registrar integrante</a></li>
+            <li><a href="{% url 'workline' %}">Añadir línea</a></li>
+            <li><a href="{% url 'conv_create' %}">Crear convocatoria</a></li>
+            <li><a href="{% url 'participate' %}">Participar</a></li>
         </ul>
     </nav>
     <section id="formulario">
@@ -31,5 +32,9 @@
             <a href="{% url 'login' %}">Iniciar sesión.</a>
         {% endif %}
     </div>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+    
 </body>
 </html>

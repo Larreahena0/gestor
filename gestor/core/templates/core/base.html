@@ -23,5 +23,13 @@
     <section id="formulario">
         {% block cuerpo %}{% endblock %}
     </section>
+    <div id="side_bar">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}">Cerrar sesión.</a>
+            <p>Bienvenido, {{ request.user.first_name }} {{ request.user.last_name }}</p>
+        {% else %}
+            <a href="{% url 'login' %}">Iniciar sesión.</a>
+        {% endif %}
+    </div>
 </body>
 </html>

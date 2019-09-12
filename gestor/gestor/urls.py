@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.contrib.auth import views
 
 urlpatterns = [
     #Admin paths
@@ -26,6 +27,8 @@ urlpatterns = [
     path('', include('create.urls')),
     #Conv paths
     path('', include('conv.urls')),
+    path('login/', views.LoginView.as_view(template_name='core/login.html'), name='login'),
+    path('logout/', views.LogoutView.as_view(template_name='core/login.html'), name='logout'),
 ]
 
 if settings.DEBUG:

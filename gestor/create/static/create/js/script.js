@@ -1,4 +1,7 @@
 var count = 1;
+var flag = true;
+
+esconder();
 
 function add(){
     var tabla = document.getElementById('tabla');
@@ -24,11 +27,6 @@ function add(){
     tr.id = "tr_" + count.toString();
     tr.name = "tr_" + count.toString();
 
-    id = count.toString();
-    eliminar.id = 'del_' + count.toString();
-    eliminar.text = "Eliminar";
-    eliminar.href = "javascript:remove("+ id +")";
-
     contador.value = count;
 
     tabla.appendChild(tr)
@@ -37,21 +35,35 @@ function add(){
     tr.appendChild(eliminar);
 
     count += 1;
+    
+    esconder();
+    
 }
 
 
-function remove(id){
+function remove(){
+    id = (count-1).toString();
     var tabla = document.getElementById('tabla');
     var linea = document.getElementById('line_' + id);
     var id_linea = document.getElementById('idline_' + id);
-    var eliminar = document.getElementById('del_' + id);
     var tr = document.getElementById('tr_' + id);
 
-    tr.removeChild(eliminar);
     tr.removeChild(linea);
     tr.removeChild(id_linea);
     tabla.removeChild(tr);
 
     count -= 1;
+    
+    esconder();
+
 }
 
+function esconder(){
+    if(count <= 1){
+        var boton = document.getElementById('eliminar');
+        boton.hidden = true;
+    } else {
+        var boton = document.getElementById('eliminar');
+        boton.hidden = false;
+    }
+}

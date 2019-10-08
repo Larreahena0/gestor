@@ -9,40 +9,39 @@
 
 {% load static %}
 <body>
-    
-    <header>
-        <img src="{% static 'core/img/logo_udea.png' %}" alt="">
-        <p id="title_uno">GESTIÓN DE SEMILLEROS</p>
-        <p id="title_dos">FACULTAD DE INGENIERÍA</p>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}" id="a_inicio">Inicio</a></li>
-            <li><a href="{% url 'create' %}" id="a_create">Registrar semillero</a></li>
-            <li><a href="{% url 'register' %}" id="a_register">Registrar integrante</a></li>
-            <li><a href="{% url 'workline' %}" id="a_line">Añadir línea</a></li>
-            <li><a href="{% url 'conv_create' %}" id="a_conv">Crear convocatoria</a></li>
-            <li><a href="{% url 'participate' %}" id="a_participate">Participar</a></li>
-        </ul>
-    </nav>
-    <section id="formulario">
-        {% block cuerpo %}{% endblock %}
-    </section>
-    <div id="side_bar">
-        {% if request.user.is_authenticated %}
-            <div>
-                <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
-            </div>
-            <a href="{% url 'logout' %}">Cerrar sesión</a>
-        {% else %}
-            <div>
-                <p>No ha iniciado sesión actualmente.</p>
-            </div>
-            <a href="{% url 'login' %}">Iniciar sesión</a>
-        {% endif %}
-    </div>
+        <header>
+            <img src="{% static 'core/img/logo_udea.png' %}" alt="">
+            <p id="title_uno">GESTIÓN DE SEMILLEROS</p>
+            <p id="title_dos">FACULTAD DE INGENIERÍA</p>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}" id="a_inicio">Inicio</a></li>
+                <li><a href="{% url 'create' %}" id="a_create">Registrar semillero</a></li>
+                <li><a href="{% url 'register' %}" id="a_register">Registrar integrante</a></li>
+                <li><a href="{% url 'workline' %}" id="a_line">Añadir línea</a></li>
+                <li><a href="{% url 'conv_create' %}" id="a_conv">Crear convocatoria</a></li>
+                <li><a href="{% url 'participate' %}" id="a_participate">Participar</a></li>
+            </ul>
+        </nav>
+        <section id="formulario">
+            {% block cuerpo %}{% endblock %}
+        </section>
+        <div id="side_bar">
+            {% if request.user.is_authenticated %}
+                <div>
+                    <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
+                </div>
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+            {% else %}
+                <div>
+                    <p>No ha iniciado sesión actualmente.</p>
+                </div>
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+            {% endif %}
+        </div>
 
-    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
-    
+        <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+        
 </body>
 </html>

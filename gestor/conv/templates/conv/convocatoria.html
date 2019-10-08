@@ -2,6 +2,10 @@
 
 {% block cuerpo %}
 
+    <h1>Crear convocatoria</h1>
+    <hr>
+    <br>
+
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="campos">
@@ -24,13 +28,17 @@
             <br>
             <label for="add_doc">Añadir documentos:</label>
             <br>
-            <button type="button" name="add_doc" onclick="add()">Añadir documento</button>
+            <div>
+                <button type="button" name="add_doc" onclick="add()">Añadir documento</button>
+            </div>
             <br>
         </div>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
 
     {% load static %}
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'conv/css/conv_styles.css' %}">
 
 {% endblock %}

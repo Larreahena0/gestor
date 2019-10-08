@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
+    <h1>Registrar semillero</h1>
+    <hr>
+    <br>
 
     <form action="" method="POST">
         {% csrf_token %}
@@ -20,28 +23,26 @@
             <br>
             <label for="lines">Lineas de investigación:</label>
             <br>
-            <label for="">Coordinador:</label>
-            <br>
-            <input type="text" name="" id="">
+            <input type="text" name="coordinador" id="coordinador" placeholder="Coordinador">
             <select name="lineas" id="lineas">
                 {% for linea in lineas %}
                     <option value="{{linea.id}}">{{linea.name}}</option>
                 {% endfor %}
             </select>
             <button type="button" name="add_line" onclick="add()">Añadir línea</button>
-            <table id="tabla">
-                <h3>Líneas</h3>
-                <tr>
-                    <th></th>
-                </tr>
-            </table>
-            <a id="eliminar" href="javascript:remove()">Eliminar último</a>
-            <br>
+            <div>
+                <table id="tabla">
+                    <h4 id="tit_lineas">Líneas</h4>
+                </table>
+                <a id="eliminar" href="javascript:remove()">Eliminar último</a>
+            </div>
         </div>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
 
     {% load static %}
     <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'create/css/create_styles.css' %}">
 
 {% endblock %}

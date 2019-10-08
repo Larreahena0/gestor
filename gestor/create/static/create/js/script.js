@@ -6,6 +6,7 @@ esconder();
 function add(){
     var tabla = document.getElementById('tabla');
     var tr = document.createElement('tr');
+    var td = document.createElement('td');
     var lineas = document.getElementById('lineas');
     var valLinea = lineas.options[lineas.selectedIndex].text;
     var idLinea = lineas.options[lineas.selectedIndex].value;
@@ -27,13 +28,19 @@ function add(){
     tr.id = "tr_" + count.toString();
     tr.name = "tr_" + count.toString();
 
+    td.id = "td_" + count.toString();
+    td.name = "td_" + count.toString();
+
     contador.value = count;
 
-    tabla.appendChild(tr)
-    tr.appendChild(id_linea);
-    tr.appendChild(linea);
-    tr.appendChild(eliminar);
-
+    tabla.appendChild(tr);
+    tr.appendChild(td);
+    td.appendChild(id_linea);
+    var td = document.createElement('td');
+    td.id = "td_" + count.toString();
+    td.name = "td_" + count.toString();
+    tr.appendChild(td);
+    td.appendChild(linea);
     count += 1;
     
     esconder();
@@ -47,9 +54,9 @@ function remove(){
     var linea = document.getElementById('line_' + id);
     var id_linea = document.getElementById('idline_' + id);
     var tr = document.getElementById('tr_' + id);
+    var td = document.getElementById('td_' + id);
 
-    tr.removeChild(linea);
-    tr.removeChild(id_linea);
+    tr.removeChild(td)
     tabla.removeChild(tr);
 
     count -= 1;
@@ -61,9 +68,13 @@ function remove(){
 function esconder(){
     if(count <= 1){
         var boton = document.getElementById('eliminar');
-        boton.hidden = true;
+        var titulo = document.getElementById('tit_lineas');
+        boton.style.display = "none";
+        titulo.hidden = true;
     } else {
         var boton = document.getElementById('eliminar');
-        boton.hidden = false;
+        var titulo = document.getElementById('tit_lineas');
+        titulo.hidden = false;
+        boton.style.display = "block";
     }
 }

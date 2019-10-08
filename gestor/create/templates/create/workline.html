@@ -1,7 +1,9 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
-
+    <h1>Añadir línea de trabajo</h1>
+    <hr>
+    <br>
     <form action="" method="POST">
         {% csrf_token %}
         <label for="name">Linea de investigación:</label>
@@ -12,7 +14,11 @@
         <br>
         <textarea name="description" id="description" cols="30" rows="10" required></textarea>
         <br>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'create/css/workline_styles.css' %}">
 
 {% endblock %}

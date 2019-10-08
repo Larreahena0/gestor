@@ -1,7 +1,9 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
-
+    <h1>Registrar semillero</h1>
+    <hr>
+    <br>
     <form action="" method="POST">
         {% csrf_token %}
         <label for="">Nombre del integrante:</label>
@@ -60,7 +62,11 @@
             <option value="10">10</option>
         </select>
         <br>
+        <br>
         <input type="submit" value="Enviar"/>
     </form>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'create/css/register_styles.css' %}">
 
 {% endblock %}

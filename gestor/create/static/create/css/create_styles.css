@@ -1,0 +1,82 @@
+nav a#a_create {
+    background: #fff;
+    color: black;
+}
+
+h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+label {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 1px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+input[type=submit] {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=submit]:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+h4 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 2px 0px;
+}
+
+div table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td, tr {
+    border: 1px solid black;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+div table input {
+    border: 0;
+    appearance: none;
+}
+
+div a {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    text-align: center;
+    font-size: 10pt;
+    padding: 3px 20px;
+    background: #396534;
+}
+
+div a:hover {
+    background: #274712;
+    cursor: pointer;
+}

@@ -1,0 +1,49 @@
+nav a#a_conv {
+    background: #fff;
+    color: black;
+}
+
+h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+label {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+input[type=submit] {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=submit]:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+input[type=file] {
+    text-transform: uppercase;
+}

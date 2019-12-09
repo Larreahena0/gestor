@@ -44,6 +44,17 @@ def conv_create(request):
             insert = Convocatoria(id=id_conv, name=name_conv, description=description, opened=opened, closed=closed)
             insert.save()
 
+            count = int(request.POST['contador'])
+
+            for i in range(1,count+1):
+                id_conv = Convocatoria.objects.latest('id')
+                documento = request.FILES['doc_' + str(i)]
+                tipo = request.POST['sel_' + str(i)]
+                description = request.POST['text_' + str(i)]
+
+                insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
+                insert.save()
+
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
     return render(request, "conv/convocatoria.html",{'today':today,'convocatorias':convocatorias})

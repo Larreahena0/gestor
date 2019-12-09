@@ -23,6 +23,7 @@ class Documento(models.Model):
     id_conv = models.ForeignKey(Convocatoria, null=True, blank=True, on_delete=models.CASCADE)
     documento = models.FileField(verbose_name="Documento", null=True)
     description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
+    tipo = models.PositiveSmallIntegerField(verbose_name="Tipo", null=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 

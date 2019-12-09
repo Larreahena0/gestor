@@ -2,31 +2,82 @@
 
 {% block cuerpo %}
 
-    <b>Número:</b>
-    <p>{{item.id}}</p>
-    <b>Descripción:</b>
-    <p>{{item.description}}</p>
+    <h1>Convocatoria {{item.id}}</h1>
+    <hr>
+    <br>
     <table>
         <tr>
+            <th>Número</th>
+            <th>Descripción</th>
             <th>Actividad</th>
             <th>Fecha</th>
-            <th>Documentos</th>
+            <th>Documentos informativos</th>
         </tr>
         <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.description}}</td>
             <td>Apertura</td>
             <td>{{item.opened}}</td>
             <td>
-              {% for document in documents %}
-              <ul>
-                <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
-              </ul>
+              {% for document in inf_documents %}
+                <ul>
+                    <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                </ul>
               {% endfor %}
             </td>
         </tr>
         <tr>
+            <td></td>
+            <td></td>
             <td>Cierre</td>
             <td>{{item.closed}}</td>
         </tr>
     </table>
+    <br>
+
+    {% if item.closed >= today.date and item.opened <= today.date %}
+    <input type="button" id="participar" value="Participar" onclick="participate()"/>
+    {% endif %}
+
+    <div id="dparticipar">
+        <form action="" method="POST">
+            <label for="grupo">Seleccione un grupo de investigación:</label>
+            <select name="grupo" id="grupo" required>
+                {% for grupo in grupos %}
+                    <option value="{{grupo.id}}">{{grupo.name}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Subir</th>
+                    <th>Obligatorio</th>
+                </tr>
+                {% for document in opc_documents %}
+                <tr>
+                    <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
+                    <td><input type="file" name="{{document.id}}" id="{{document.id}}"></td>
+                    <td><input type="checkbox" name="" id="" onclick="return false;"></td>
+                </tr>
+                {% endfor %}
+                {% for document in obl_documents %}
+                <tr>
+                    <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
+                    <td><input type="file" name="{{document.id}}" id="{{document.id}}" required></td>
+                    <td><input type="checkbox" name="" id="" onclick="return false;" checked></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'conv/css/details_styles.css' %}">
 
 {% endblock %}

@@ -2,6 +2,17 @@ var count = 1;
 var flag = true;
 
 esconder();
+ocultar();
+
+function verificar(){
+    var rol = document.getElementById('rol');
+    var n_rol = rol.options[rol.selectedIndex].value;
+    if(n_rol == "3"){
+        mostrar();
+    }else{
+        ocultar();
+    }
+}
 
 function add(){
     var tabla = document.getElementById('tabla');
@@ -44,7 +55,6 @@ function add(){
     count += 1;
     
     esconder();
-    
 }
 
 
@@ -62,7 +72,6 @@ function remove(){
     count -= 1;
     
     esconder();
-
 }
 
 function esconder(){
@@ -77,4 +86,26 @@ function esconder(){
         titulo.hidden = false;
         boton.style.display = "block";
     }
+}
+
+function ocultar(){
+    var l_title = document.getElementById('tline');
+    var l_select = document.getElementById('lineas');
+    var l_salto = document.getElementById('lsalto');
+    var l_boton = document.getElementById('lañadir');
+    l_title.hidden = true;
+    l_select.hidden = true;
+    l_salto.hidden = true;
+    l_boton.style.display = "none";
+}
+
+function mostrar(){
+    var l_title = document.getElementById('tline');
+    var l_select = document.getElementById('lineas');
+    var l_salto = document.getElementById('lsalto');
+    var l_boton = document.getElementById('lañadir');
+    l_title.hidden = false;
+    l_select.hidden = false;
+    l_salto.hidden = false;
+    l_boton.style.display = "inline-block";
 }

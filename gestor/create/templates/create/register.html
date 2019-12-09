@@ -1,11 +1,12 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
-    <h1>Registrar semillero</h1>
+    <h1>Registrar integrante de semillero</h1>
     <hr>
     <br>
     <form action="" method="POST">
         {% csrf_token %}
+        <input type="hidden" name="contador" id="contador" value="0">
         <label for="">Nombre del integrante:</label>
         <br>
         <input type="text" name="name" id="name" required>
@@ -24,13 +25,29 @@
         <br>
         <label for="">Rol:</label>
         <br>
-        <select name="rol" id="rol">
+        <select name="rol" id="rol" onchange="verificar()">
             <option value="1">Coordinador de grupo</option>
             <option value="2">Coordinador de semillero</option>
-            <option value="3">Estudiante lider</option>
-            <option value="4">Estudiante</option>
+            <option value="3">Coordinador de línea</option>
+            <option value="4">Estudiante lider</option>
+            <option value="5">Estudiante de pregrado</option>
+            <option value="5">Estudiante de posgrado</option>
         </select>
         <br>
+        <label id="tline" for="lines">Lineas de investigación:</label>
+        <br id="lsalto">
+        <select name="lineas" id="lineas">
+            {% for linea in lineas %}
+                <option value="{{linea.id}}">{{linea.name}}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="lañadir" onclick="add()">Añadir línea</button>
+        <div>
+            <table id="tabla">
+                <h4 id="tit_lineas">Líneas</h4>
+            </table>
+            <a id="eliminar" href="javascript:remove()">Eliminar último</a>
+        </div>
         <label for="">Fecha de ingreso:</label>
         <br>
         <input type="date" name="joined" id="joined" required>
@@ -68,5 +85,5 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'create/css/register_styles.css' %}">
-
+    <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
 {% endblock %}

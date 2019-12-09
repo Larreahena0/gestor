@@ -2,7 +2,9 @@
 
 {% block cuerpo %}
 
-    <h1>Iniciar sesión:</h1>
+    <h1>Iniciar sesión</h1>
+    <hr>
+    <br>
 
     <form action="" method="POST">
         {% csrf_token %}
@@ -16,5 +18,8 @@
         <br>
         <button type="submit">Ingresar</button>
     </form>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'conv/css/conv_styles.css' %}">
 
 {% endblock %}

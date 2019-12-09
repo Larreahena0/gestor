@@ -1,0 +1,68 @@
+#dparticipar {
+    display: none;
+}
+
+nav a#a_participate {
+    background: #fff;
+    color: black;
+}
+
+h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+table {
+    border-collapse: collapse;
+    max-width: 850px;
+}
+
+table, tr, th, td {
+    text-align: center;
+    border: 2px solid black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 10pt;
+    padding: 10px;
+}
+
+table a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #274712;
+}
+
+input[type=button] {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=button]:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+input[type=submit] {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=submit]:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+input[type=file] {
+    text-transform: uppercase;
+}

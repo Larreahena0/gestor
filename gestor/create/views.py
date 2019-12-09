@@ -18,6 +18,7 @@ def create(request):
         insert = Semillero(id_group=id_group, name=name)
         insert.save()
 
+    """   
         count = int(request.POST['contador'])
 
         for i in range(1,count+1):
@@ -26,7 +27,9 @@ def create(request):
             id_linea = request.POST['idline_' + str(i)]
 
             insert = LineaSemillero(id_sem=id_sem, name=name, id_linea=id_linea)
-            insert.save()
+            insert.save() 
+        
+    """
 
     return render(request, "create/create.html", {'grupos':grupos,'lineas':lineas,})
 
@@ -34,6 +37,7 @@ def register(request):
 
     semilleros = Semillero.objects.all()
     careers = Career.objects.all()
+    lineas = Linea.objects.all()
 
     if request.method == "POST":
         name = request.POST['name']
@@ -47,7 +51,17 @@ def register(request):
         insert = Integrante(name=name, document=document, semillero=semillero, rol=rol, joined=joined, email=email, career=career, level=level)
         insert.save()
 
-    return render(request, "create/register.html",{'semilleros':semilleros, 'careers': careers})
+        count = int(request.POST['contador'])
+
+        for i in range(1,count+1):
+            id_sem = Semillero.objects.latest('id');
+            name = request.POST['line_' + str(i)]
+            id_linea = request.POST['idline_' + str(i)]
+
+            insert = LineaSemillero(id_sem=id_sem, name=name, id_linea=id_linea)
+            insert.save()
+
+    return render(request, "create/register.html",{'semilleros':semilleros, 'careers': careers,'lineas':lineas,})
 
 def add_workline(request):
 

@@ -15,7 +15,6 @@
             <th>Fecha de cierre</th>
         </tr>
     {% for convocatoria in convocatorias %}
-        {% if convocatoria.closed >= today.date and convocatoria.opened <= today.date %}
         <tr>
             <td>{{convocatoria.id}}</td>
             <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
@@ -23,7 +22,6 @@
             <td>{{convocatoria.opened}}</td>
             <td>{{convocatoria.closed}}</td>
         </tr>
-        {% endif %}
     {% endfor %}
     </table>
 

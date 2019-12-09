@@ -20,22 +20,6 @@
             <label for="name">Nombre del semillero:</label>
             <br>
             <input type="text" name="name" id="name" required>
-            <br>
-            <label for="lines">Lineas de investigación:</label>
-            <br>
-            <input type="text" name="coordinador" id="coordinador" placeholder="Coordinador">
-            <select name="lineas" id="lineas">
-                {% for linea in lineas %}
-                    <option value="{{linea.id}}">{{linea.name}}</option>
-                {% endfor %}
-            </select>
-            <button type="button" name="add_line" onclick="add()">Añadir línea</button>
-            <div>
-                <table id="tabla">
-                    <h4 id="tit_lineas">Líneas</h4>
-                </table>
-                <a id="eliminar" href="javascript:remove()">Eliminar último</a>
-            </div>
         </div>
         <br>
         <input type="submit" value="Enviar"/>

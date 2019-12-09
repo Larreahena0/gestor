@@ -1,3 +1,7 @@
+window.onload = function(){
+    document.getElementById('sName').hidden = true;
+};
+
 var count = 1;
 
 function add(){
@@ -51,4 +55,21 @@ function participate(){
     var tabla = document.getElementById("dparticipar");
     tabla.style.display = "inline-block";
 
+}
+
+function edit(){
+    estado = document.getElementById('estado').value;
+    if(estado == "0"){
+        document.getElementById('editar').text = "Añadir";
+        document.getElementById('name').required = false;
+        document.getElementById('name').hidden = true;
+        document.getElementById('sName').hidden = false;
+        document.getElementById('estado').value = "1";
+    }else{
+        document.getElementById('editar').text = "Editar";
+        document.getElementById('name').hidden = false;
+        document.getElementById('sName').hidden = true;
+        document.getElementById('estado').value = "0";
+    }
+    
 }

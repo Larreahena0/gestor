@@ -1,12 +1,26 @@
 from django.shortcuts import render
 from .models import Usuario
+from .models import Noticia
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
 
 # Create your views here.
 def home(request):
-    return render(request, "core/home.html")
+    noticias = Noticia.objects.all().order_by('-created')
+    layers = Noticia.objects.all().order_by('-created')[:4]
+
+    """ if request.method == "POST":
+        title = request.POST['title']
+        image = request.POST['image']
+        description = request.POST['description']
+        content = request.POST['content']
+
+        insert = Noticia(title=title, image=image, description=description, content=content)
+        insert.save()
+    """
+
+    return render(request, "core/home.html", {'noticias':noticias,'layers':layers})
 
 def login(request):
     if request.method == "POST":
@@ -34,3 +48,19 @@ def signup(request):
         else:
             return render(request, "core/sign-up.html", {'mensaje':'Las contraseñas no coinciden.'})
     return render(request, "core/sign-up.html")
+
+def add_news(request):
+    if request.method == "POST":
+        image = request.FILES['image']
+        banner = request.FILES['banner']
+        title = request.POST['title']
+        description = request.POST['description']
+        content = request.POST['content']
+        insert = Noticia(title=title, description=description, content=content, image=image, banner=banner)
+        insert.save()
+
+    return render(request, "core/add_news.html")
+
+def news(request, id_item=None):
+    item = Noticia.objects.get(id=id_item)
+    return render(request, "core/news.html",{'item':item,})

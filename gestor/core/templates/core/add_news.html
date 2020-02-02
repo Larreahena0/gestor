@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block cuerpo %}
+
+    <!--- Slider --->
+    <h1>Añadir noticia</h1><a href="">Editar</a>
+    <hr><br>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="campos">
+            <label for="title">Título:</label>
+            <br>
+            <input type="text" name="title" id="title">
+            <br>
+            <label for="image">Imagen:</label>
+            <br>
+            <input type="file" name="image" id="image">
+            <br>
+            <label for="banner">Banner:</label>
+            <br>
+            <input type="file" name="banner" id="banner">
+            <br>
+            <label for="description">Descripción:</label>
+            <br>
+            <textarea name="description" id="description" cols="30" rows="10"></textarea>
+            <br>
+            <label for="content">Contenido:</label>
+            <br>
+            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        </div>
+        <br>
+        <input type="submit" value="Enviar"/>
+    </form>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'create/css/create_styles.css' %}">
+
+{% endblock %}

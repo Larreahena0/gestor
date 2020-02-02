@@ -3,6 +3,8 @@ from core import views
 
 urlpatterns = [
     path('', views.home, name="home"),
+    path('add_news', views.add_news, name="add_news"),
     path('login', views.login, name="login"),
-    path('sign-up', views.signup, name="sign-up")
+    path('sign-up', views.signup, name="sign-up"),
+    path(r'news/<int:id_item>', views.news, name="news")
 ]

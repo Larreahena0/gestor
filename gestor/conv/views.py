@@ -27,6 +27,10 @@ def conv_create(request):
 
             for i in range(1,count+1):
                 id_conv = Convocatoria.objects.latest('id')
+                docs = request.POST
+                campos = request.FILES 
+                print(docs)
+                print(campos)
                 documento = request.FILES['doc_' + str(i)]
                 tipo = request.POST['sel_' + str(i)]
                 description = request.POST['text_' + str(i)]

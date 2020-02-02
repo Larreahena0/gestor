@@ -125,7 +125,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/home/larreahenao/gestor/gestor/static'
 
 #Documentos
-MEDIA_URL = '/documents/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "documents")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

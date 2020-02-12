@@ -9,7 +9,7 @@ import datetime
 def conv_create(request):
 
     convocatorias = Convocatoria.objects.all()
-
+    
     if request.method == "POST":
 
         estado = int(request.POST['estado'])

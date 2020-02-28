@@ -50,7 +50,7 @@ class Noticia(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 
-    # Asignamos un nombre a la tabla y ordenamos por ultima en ser creada.
+    # Asignamos un nombre a la tabla y ordenamos por ultima en ser creada     .
     class Meta():
         verbose_name = "Noticia"
         verbose_name_plural = "Noticias"

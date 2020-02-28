@@ -6,7 +6,7 @@
     <h1>{{item.title}}</h1><hr>
 
     <div>
-        <p>{{item.content}}</p>
+        {{ item.content | safe }}
     </div>
 
     {% load static %}

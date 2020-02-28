@@ -11,6 +11,7 @@ def create(request):
 
     grupos = Grupo.objects.all()
     lineas = Linea.objects.all()
+    semilleros = Semillero.objects.all()
 
     if request.method == "POST":
         id_group = request.POST['id_group']
@@ -31,7 +32,7 @@ def create(request):
         
     """
 
-    return render(request, "create/create.html", {'grupos':grupos,'lineas':lineas,})
+    return render(request, "create/create.html", {'grupos':grupos,'lineas':lineas,'semilleros':semilleros})
 
 def register(request):
 

@@ -1,14 +1,17 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
-    <h1>Registrar semillero</h1><a href="">Editar</a>
+    <h1>Registrar semillero</h1>
+    <a id="delete" href="">Eliminar</a>
+    <a id="editar" href="">Editar</a>
     <hr>
     <br>
 
     <form action="" method="POST">
         {% csrf_token %}
+        <input type="hidden" name="estado" id="estado" value="0">
+        <input type="hidden" name="contador" id="contador" value="0">
         <div id="campos">
-            <input type="hidden" name="contador" id="contador" value="0">
             <label for="id_group">Grupo de investigación:</label>
             <br>
             <select name="id_group" id="id_group">
@@ -20,13 +23,23 @@
             <label for="name">Nombre del semillero:</label>
             <br>
             <input type="text" name="name" id="name" required>
+            <select name="sName" id="sName">
+                {% for semillero in semilleros %}
+                <option value="{{semillero.id}}">{{semillero.name}}</option>
+                {% endfor %}
+            </select>
         </div>
         <br>
-        <input type="submit" value="Enviar"/>
+        <select name="lista" id="lista" hidden>
+            {% for semillero in semilleros %}
+            <option value="{{semillero.id}}">{{semillero.name}}</option>
+            {% endfor %}
+        </select>
+        <input id="enviar" type="submit" value="Enviar"/>
     </form>
 
     {% load static %}
-    <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
     <link rel="stylesheet" href="{% static 'create/css/create_styles.css' %}">
 
 {% endblock %}

@@ -1,3 +1,8 @@
+#home {
+    color: #000;
+    background: #fff;
+}
+
 .project {
     margin-top: 2%;
     display: block;
@@ -45,10 +50,5 @@
 
 .prj_boton:hover {
     background-color: #274712;
-}
-
-#a_inicio {
-    color: #000;
-    background: #fff;
 }
 

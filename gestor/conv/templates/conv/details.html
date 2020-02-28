@@ -18,7 +18,7 @@
             <td>{{item.description}}</td>
             <td>Apertura</td>
             <td>{{item.opened}}</td>
-            <td>
+            <td rowspan="2">
               {% for document in inf_documents %}
                 <ul>
                     <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
@@ -36,7 +36,7 @@
     <br>
 
     {% if item.closed >= today.date and item.opened <= today.date %}
-    <input type="button" id="participar" value="Participar" onclick="participate()"/>
+    <input type="button" id="bparticipar" value="Participar"/>
     {% endif %}
 
     <div id="dparticipar">

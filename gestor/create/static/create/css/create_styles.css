@@ -1,9 +1,10 @@
-nav a#a_create {
+#semillero {
+    color: #000;
     background: #fff;
-    color: black;
 }
 
 h1 {
+    display: inline-block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 500;
 }
@@ -65,18 +66,37 @@ div table input {
     appearance: none;
 }
 
-div a {
+div #editar {
+    float: right;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-decoration: none;
     color: white;
     display: inline-flex;
     text-align: center;
     font-size: 10pt;
-    padding: 3px 20px;
+    margin-top: 2px;
+    padding: 4px 15px;
     background: #396534;
 }
 
-div a:hover {
+div #editar:hover {
     background: #274712;
-    cursor: pointer;
 }
+
+div #delete {
+    float: right;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    text-align: center;
+    font-size: 10pt;
+    margin-top: 2px;
+    padding: 4px 15px;
+    background: #b41818;
+}
+
+div #delete:hover {
+    background: #8f1010;
+}
+

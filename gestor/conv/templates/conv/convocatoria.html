@@ -2,15 +2,17 @@
 
 {% block cuerpo %}
 
-    <h1>Crear convocatoria</h1><a id="editar" href="javascript:edit()">Editar</a>
+    <h1>Crear convocatoria</h1>
+    <a id="delete" href="">Eliminar</a>
+    <a id="editar" href="">Editar</a>
     <hr>
     <br>
 
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+        <input type="hidden" name="contador" id="contador" value="0">
+        <input type="hidden" name="estado" id="estado" value="0">
         <div id="campos">
-            <input type="hidden" name="contador" id="contador" value="0">
-            <input type="hidden" name="estado" id="estado" value="0">
             <label for="name">Nombre de la convocatoria:</label>
             <br>
             <input type="text" name="name" id="name" required>
@@ -35,12 +37,18 @@
             <label for="add_doc">Añadir documentos:</label>
             <br>
             <div>
-                <button type="button" name="add_doc" onclick="add()">Añadir documento</button>
+                <button type="button" name="add_doc" id="add">Añadir documento</button>
             </div>
             <br>
         </div>
         <br>
-        <input type="submit" value="Enviar"/>
+        <select name="lista" id="lista" hidden>
+            {% for convocatoria in convocatorias %}
+            <option value="{{convocatoria.id}}">{{convocatoria.name}}</option>
+            {% endfor %}
+        </select>
+        <input id="enviar" type="submit" value="Enviar"/>
+
     </form>
 
     {% load static %}

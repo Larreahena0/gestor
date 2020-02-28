@@ -4,10 +4,9 @@
 
 header {
     background: #396534;
-    width: 70%;
+    width: 1050px;
     height: 140px;
-    margin-left: 15%;
-    min-width: 825px;
+    margin: 0 auto;
 }
 
 header img {
@@ -28,16 +27,11 @@ header p {
     padding-top: 53px;
 }
 
-#title_dos {
-
-}
-
 nav {
     background: #274712;
-    width: 70%;
-    height: 36px;
-    margin-left: 15%;
-    min-width: 825px;
+    width: 1050px;
+    height: 37px;
+    margin: 0 auto;
 }
 
 nav ul {
@@ -56,32 +50,45 @@ nav ul li a {
     font-size: 15px;
     padding: 9px;
     color: #fff;
+    background: #274712;
 }
+
+/* nav ul li a {
+    color: #000;
+    background: #fff;
+} */
 
 nav ul li a:hover {
     color: #000;
     background: #fff;
 }
 
+#content {
+    width: 1050px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
 #formulario {
-    margin-left: 16%;
-    margin-top: 1%;
     float: left;
+    width: 820px;
 }
 
-#side_bar {
-    width: 12%;
-    margin-left: 73%;
-    margin-top: 40px;
+aside {
+    float: left;
+    background-color: #274712;
+    margin: 35px 0 0 30px;
+    width: 200px;
+    height: 200px;
 }
 
-#side_bar div {
+aside div {
     height: 200px;
     background: #274712;
     float: left;
 }
 
-#side_bar p {
+aside p {
     display: inline-block;
     text-decoration: underline;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -89,10 +96,10 @@ nav ul li a:hover {
     font-style: italic;
     padding:10px;
     text-align: center;
-    color: #fff;
+    color: #ffffff;
 }
 
-#side_bar a {
+aside a {
     display: inline-block;
     text-decoration: none;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -102,8 +109,9 @@ nav ul li a:hover {
     background: #4a6439;
     padding: 10px;
     text-align: center;
+    margin: 0 auto;
     margin-top: 10px;
-    margin-left: 18%;
+    margin-left: 40px;
 }
 
 h1 {

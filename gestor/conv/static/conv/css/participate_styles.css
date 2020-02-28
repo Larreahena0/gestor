@@ -1,6 +1,6 @@
-nav a#a_participate {
+#participar {
+    color: #000;
     background: #fff;
-    color: black;
 }
 
 h1 {
@@ -10,7 +10,7 @@ h1 {
 
 table {
     border-collapse: collapse;
-    max-width: 850px;
+    width: 100%;
 }
 
 table, tr, th, td {

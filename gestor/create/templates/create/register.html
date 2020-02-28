@@ -1,7 +1,10 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
-    <h1>Registrar integrante de semillero</h1><a href="">Editar</a>
+ 
+    <h1>Registrar integrante de semillero</h1>
+    <a id="delete" href="">Eliminar</a>
+    <a id="editar" href="">Editar</a>
     <hr>
     <br>
     <form action="" method="POST">
@@ -86,4 +89,5 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'create/css/register_styles.css' %}">
     <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
 {% endblock %}

@@ -15,6 +15,7 @@ def conv_create(request):
         estado = int(request.POST['estado'])
 
         if estado == 0:
+            print("Hola")
             name = request.POST['name']
             description = request.POST['description']
             opened = request.POST['opened']
@@ -37,6 +38,11 @@ def conv_create(request):
 
                 insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
                 insert.save()
+
+        elif estado == 1:
+            conv = Convocatoria.objects.get(id=request.POST['lista'])
+            conv.delete() 
+
         else:
             conv = Convocatoria.objects.get(id=request.POST['sName'])
             id_conv = conv.id
@@ -57,7 +63,7 @@ def conv_create(request):
                 description = request.POST['text_' + str(i)]
 
                 insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
-                insert.save()
+                insert.save()  
 
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -73,7 +79,7 @@ def conv_details(request, id_item=None):
     return render(request, "conv/details.html",{'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
         'obl_documents':obl_documents,'today':today,})
 
-def participate(request):
+def participar(request):
     today = datetime.datetime.now()
     convocatorias = Convocatoria.objects.all()
     return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})

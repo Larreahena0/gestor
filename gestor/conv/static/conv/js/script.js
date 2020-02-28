@@ -1,75 +1,91 @@
-window.onload = function(){
-    document.getElementById('sName').hidden = true;
-};
+$(document).ready(function(){
 
-var count = 1;
+    var count = 1;
 
-function add(){
-    var formulario = document.getElementById('campos');
-    var description = document.createElement('input');
-    var input = document.createElement('input');
-    var contador = document.getElementById('contador');
-    var tipo = document.createElement('select');
-    
-    array = [
-        "Informativo",
-        "Opcional",
-        "Obligatorio"
-    ];
+    $('#sName').hide();
+    $('#editar').click(function(e){
+        e.preventDefault();
+        $('#campos').show();
+        $('#lista').hide();
+        $('form').removeAttr('novalidate');
+        var estado = $('#estado').val();
+        if(estado == "0"){
+            $('#editar').text("Añadir");
+            $('#name').attr("required", "true");
+            $('#name').hide();
+            $('#sName').show();
+            $('input[type="submit"]').val("Editar");
+            $('#estado').val("2");
+        }
+        else {
+            $('#editar').text("Editar");
+            $('#name').show();
+            $('#sName').hide();
+            $('input[type="submit"]').val("Enviar");
+            $('#estado').val("0");
+        }
+        
+    });
 
-    tipo.id = "sel_" + count.toString();
-    tipo.name = "sel_" + count.toString();
+    $('#delete').click(function(e){
+        e.preventDefault();
+        $('form').attr("novalidate","true")
+        $('#campos').hide();
+        $('#estado').val("1");
+        $('#lista').show();
+        $('#enviar').val("Eliminar");
+    });
 
-    description.type = 'text';
-    description.id = "text_" + count.toString();
-    description.name = "text_" + count.toString();
-    description.required = true;
+    $('#enviar').click(function(e){
+        e.preventDefault();
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'La convocatoria no podra ser restaurada',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        $('form').submit();
+                    }
+                },
+                cancel: function () {
+                    
+                }
+            }
+        });
+    });
 
-    input.type = 'file';
-    input.accept = 'application/pdf';
-    input.id = "doc_" + count.toString();
-    input.name = "doc_" + count.toString();
-    input.required = true;
+    $("#bparticipar").click(function(e){
+        e.preventDefault();
+        $("#bparticipar").hide();
+        $("#dparticipar").show();
+    });
 
-    contador.value = count;
+    $('#add').click(function(e){
 
-    formulario.appendChild(description);
-    formulario.appendChild(tipo);
-    
-    for(var i = 1; i <= array.length; i++){
-        var option = document.createElement('option');
-        option.value = i.toString();
-        option.text = array[i-1];
-        tipo.appendChild(option);
-    }
+        e.preventDefault();
+        var formulario = $('#campos div');
+        var contador = $('#contador');
 
-    formulario.appendChild(input);
-    formulario.appendChild(document.createElement('br'))
+        formulario.append('<br>');
 
-    count += 1;
-}
+        formulario.append("<input type='text' name='text_" + count.toString() + "' id='text_" + count.toString() + "' required/>");
 
-function participate(){
-    var boton = document.getElementById("participar");
-    boton.style.display = "none";
-    var tabla = document.getElementById("dparticipar");
-    tabla.style.display = "inline-block";
+        contador.val(count);
 
-}
+        formulario.append("<select id='sel_"+ count.toString() +"' name='sel_"+ count.toString() +"'></select>");
 
-function edit(){
-    estado = document.getElementById('estado').value;
-    if(estado == "0"){
-        document.getElementById('editar').text = "Añadir";
-        document.getElementById('name').required = false;
-        document.getElementById('name').hidden = true;
-        document.getElementById('sName').hidden = false;
-        document.getElementById('estado').value = "1";
-    }else{
-        document.getElementById('editar').text = "Editar";
-        document.getElementById('name').hidden = false;
-        document.getElementById('sName').hidden = true;
-        document.getElementById('estado').value = "0";
-    }
-    
-}
+        $("#sel_" + count.toString()).append("<option value='1'>Informativo</option><option value='2'>Opcional</option><option value='3'>Obligatorio</option>");
+
+        formulario.append("<input type='file' name='doc_" + count.toString() + "' id='doc_" + count.toString() + "' required/>");
+        formulario.append('<br>');
+
+        count += 1;
+    });
+
+});

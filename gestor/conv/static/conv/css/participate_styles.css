@@ -29,6 +29,7 @@ table a {
 }
 
 #textSearch {
+	width: auto;
 	float: right;
 	font-size: 12pt;
 }

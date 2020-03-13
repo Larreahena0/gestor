@@ -19,19 +19,21 @@
 
 .prj_img {
     float: left;
-    width: 20%;
+    width: 170px;
+	height: auto;
 }
 
 .prj_img img {
     margin-right: 5%;
-    width: 100%;
-    height: 10vw;
+    width: 170px;
+    height: 155px;
 }
 
 .prj_content {
     float: left;
-    width: 77%;
-    margin-left: 3%;
+    width: 650px;
+	margin-left: 20px;
+	margin-bottom: 20px;
 }
 
 .prj_content h2,p {
@@ -51,4 +53,3 @@
 .prj_boton:hover {
     background-color: #274712;
 }
-

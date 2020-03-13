@@ -18,7 +18,7 @@
                 <option value="{{semillero.id}}">{{semillero.name}}</option>
             {% endfor %}
         </select>
-        <select name="rol" id="rol" onchange="verificar()">
+        <select name="rol" id="rol">
 			<option disabled selected>Seleccione un rol</option>
             <option value="1">Coordinador de grupo</option>
             <option value="2">Coordinador de semillero</option>
@@ -27,24 +27,26 @@
             <option value="5">Estudiante de pregrado</option>
             <option value="5">Estudiante de posgrado</option>
         </select>
-        <label id="tline" for="lines">Lineas de investigación:</label>
-        <select name="lineas" id="lineas">
-            {% for linea in lineas %}
-                <option value="{{linea.id}}">{{linea.name}}</option>
-            {% endfor %}
-        </select>
-        <button type="button" id="lañadir" onclick="add()">Añadir línea</button>
-        <div>
-            <table id="tabla">
-                <h4 id="tit_lineas">Líneas</h4>
-            </table>
-            <a id="eliminar" href="javascript:remove()">Eliminar último</a>
-        </div>
+		<div class="lineas">
+			<label id="tline" for="lines">Lineas de investigación:</label>
+	        <select name="lineas" id="lineas">
+	            {% for linea in lineas %}
+	                <option value="{{linea.id}}">{{linea.name}}</option>
+	            {% endfor %}
+	        </select>
+	        <button type="button" id="lañadir">Añadir línea</button>
+	        <div>
+	            <table id="tabla">
+	                <tr><th colspan="2">Líneas</th></tr>
+	            </table>
+	            <a id="eliminar">Eliminar último</a>
+	        </div>
+		</div>
         <label for="">Fecha de ingreso:</label>
         <input type="date" name="joined" id="joined" required>
         <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
         <select name="career" id="career">
-			<option disabled selected>Seleccione un programa de pregrado</option>
+			<option selected>Seleccione un programa de pregrado</option>
             {% for career in careers %}
                 <option value="{{career.id}}">{{career.name}}</option>
             {% endfor %}
@@ -62,11 +64,10 @@
             <option value="9">9</option>
             <option value="10">10</option>
         </select>
-        <input type="submit" value="Enviar"/>
+        <input type="submit" id="enviar" value="Enviar"/>
     </form>
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'create/css/register_styles.css' %}">
     <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
-    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
 {% endblock %}

@@ -1,111 +1,76 @@
-var count = 1;
-var flag = true;
 
-esconder();
-ocultar();
+$(document).ready(function(){
 
-function verificar(){
-    var rol = document.getElementById('rol');
-    var n_rol = rol.options[rol.selectedIndex].value;
-    if(n_rol == "3"){
-        mostrar();
-    }else{
-        ocultar();
-    }
-}
+	var contador = 0;
 
-function add(){
-    var tabla = document.getElementById('tabla');
-    var tr = document.createElement('tr');
-    var td = document.createElement('td');
-    var lineas = document.getElementById('lineas');
-    var valLinea = lineas.options[lineas.selectedIndex].text;
-    var idLinea = lineas.options[lineas.selectedIndex].value;
-    var linea = document.createElement('input');
-    var id_linea = document.createElement('input')
-    var eliminar = document.createElement('a');
-    var contador = document.getElementById('contador');
+	if($('#rol').val() != 3){
+		$('.lineas').each(function(){
+			$(this).hide();
+		});
+	}
 
-    linea.id = "line_" + count.toString();
-    linea.name = "line_" + count.toString();
-    linea.value = valLinea;
-    linea.readOnly = true;
+	$('#rol').change(function(){
+		if($('#rol').val() != 3){
+			$('.lineas').each(function(){
+				$(this).hide();
+			});
+		}
+		else {
+			$('.lineas').each(function(){
+				$(this).show();
+			});
+		}
+	});
 
-    id_linea.id = "idline_" + count.toString();
-    id_linea.name = "idline_" + count.toString();
-    id_linea.value = idLinea;
-    id_linea.readOnly = true;
+	$('#lañadir').click(function(){
 
-    tr.id = "tr_" + count.toString();
-    tr.name = "tr_" + count.toString();
+		var flag = false;
 
-    td.id = "td_" + count.toString();
-    td.name = "td_" + count.toString();
+		$('#tabla .classLine input').each(function(){
+			if($(this).val().indexOf($('#lineas').val()) === -1){
 
-    contador.value = count;
+			} else {
+				flag = true;
+			}
+		});
+		if(!flag){
+			$('#tabla').append(`<tr id='tr_` + contador.toString() + `'>
+									<td class='classLine' id='td_` + contador.toString() + `'>
+										<input id='idline_` + contador.toString() + `' name='idline_` + contador.toString() + `' type='text' value='`+ $('#lineas').val() + `' readOnly>
+								 	</td>
+									<td>
+										<input id='line_` + contador.toString() + `' name='line_` + contador.toString() + `' type='text' value='`+ $('#lineas option:selected').text() +`' readOnly>
+									</td>
+								</tr>`);
+			contador++;
+		} else {
+			$.confirm({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: 'Línea ya añadida',
+                content: 'No es posible añadir la misma línea dos veces.',
+                typeAnimated: true,
+                buttons: {
+					ok: {
+						btnClass: 'btn-warning',
+                    }
+                }
+            });
+		}
+	});
 
-    tabla.appendChild(tr);
-    tr.appendChild(td);
-    td.appendChild(id_linea);
-    var td = document.createElement('td');
-    td.id = "td_" + count.toString();
-    td.name = "td_" + count.toString();
-    tr.appendChild(td);
-    td.appendChild(linea);
-    count += 1;
-    
-    esconder();
-}
+	$('#eliminar').click(function(){
+		if($('#tabla tbody tr').length != 1){
+			$('#tabla tr:last-child').remove();
+			contador--;
+		}
+	});
 
+	$('#enviar').click(function(e){
+		e.preventDefault();
+		$('#contador').val(contador-1);
+		//$('form').submit();
+	});
 
-function remove(){
-    id = (count-1).toString();
-    var tabla = document.getElementById('tabla');
-    var linea = document.getElementById('line_' + id);
-    var id_linea = document.getElementById('idline_' + id);
-    var tr = document.getElementById('tr_' + id);
-    var td = document.getElementById('td_' + id);
-
-    tr.removeChild(td)
-    tabla.removeChild(tr);
-
-    count -= 1;
-    
-    esconder();
-}
-
-function esconder(){
-    if(count <= 1){
-        var boton = document.getElementById('eliminar');
-        var titulo = document.getElementById('tit_lineas');
-        boton.style.display = "none";
-        titulo.hidden = true;
-    } else {
-        var boton = document.getElementById('eliminar');
-        var titulo = document.getElementById('tit_lineas');
-        titulo.hidden = false;
-        boton.style.display = "block";
-    }
-}
-
-function ocultar(){
-    var l_title = document.getElementById('tline');
-    var l_select = document.getElementById('lineas');
-    var l_salto = document.getElementById('lsalto');
-    var l_boton = document.getElementById('lañadir');
-    l_title.hidden = true;
-    l_select.hidden = true;
-    l_salto.hidden = true;
-    l_boton.style.display = "none";
-}
-
-function mostrar(){
-    var l_title = document.getElementById('tline');
-    var l_select = document.getElementById('lineas');
-    var l_salto = document.getElementById('lsalto');
-    var l_boton = document.getElementById('lañadir');
-    l_title.hidden = false;
-    l_select.hidden = false;
-    l_salto.hidden = false;
-    l_boton.style.display = "inline-block";
-}
+});

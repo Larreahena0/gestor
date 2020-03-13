@@ -13,10 +13,6 @@ label {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-input[type=text], input[type=email],#semillero,#rol,#career {
-    width: 90%;
-}
-
 input[type=submit] {
     background-color: #396534; /* Green */
     border: none;
@@ -74,15 +70,10 @@ div table {
     width: 100%;
 }
 
-table, th, td, tr {
+table, tr, td {
     border: 1px solid black;
     text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-div table input {
-    border: 0;
-    appearance: none;
 }
 
 div #editar {
@@ -118,4 +109,3 @@ div #delete {
 div #delete:hover {
     background: #8f1010;
 }
-

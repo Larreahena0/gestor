@@ -2,6 +2,8 @@ $(document).ready(function(){
 
     var count = 1;
 
+	$('#lista').hide();
+
     $('#sName').hide();
     $('#editar').click(function(e){
         e.preventDefault();

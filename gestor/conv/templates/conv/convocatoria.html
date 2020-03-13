@@ -2,46 +2,33 @@
 
 {% block cuerpo %}
 
-    <h1>Crear convocatoria</h1>
+	<h1>Crear convocatoria</h1>
     <a id="delete" href="">Eliminar</a>
     <a id="editar" href="">Editar</a>
     <hr>
     <br>
 
     <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+  		{% csrf_token %}
         <input type="hidden" name="contador" id="contador" value="0">
         <input type="hidden" name="estado" id="estado" value="0">
         <div id="campos">
-            <label for="name">Nombre de la convocatoria:</label>
-            <br>
-            <input type="text" name="name" id="name" required>
+            <input type="text" name="name" id="name" placeholder="Nombre de la convocatoria" autocomplete="off" required>
             <select name="sName" id="sName">
                 {% for convocatoria in convocatorias %}
                 <option value="{{convocatoria.id}}">{{convocatoria.name}}</option>
                 {% endfor %}
             </select>
-            <br>
-            <label for="description">Descripción:</label>
-            <br>
-            <textarea name="description" id="description" cols="30" rows="10" required></textarea>
-            <br>
-            <label for="opened">Fecha de apertura:</label>
-            <br>
+            <textarea name="description" id="description" cols="30" rows="10" placeholder="Descripción" equired></textarea>
+			<label for="closed">Fecha de apertura</label>
             <input type="date" min="{{today}}" name="opened" id="opened" required>
-            <br>
-            <label for="closed">Fecha de cierre:</label>
-            <br>
+            <label for="closed">Fecha de cierre</label>
             <input type="date" min="{{today}}" name="closed" id="closed" required>
-            <br>
-            <label for="add_doc">Añadir documentos:</label>
-            <br>
+            <label for="add_doc">Añadir documentos</label>
             <div>
                 <button type="button" name="add_doc" id="add">Añadir documento</button>
             </div>
-            <br>
         </div>
-        <br>
         <select name="lista" id="lista" hidden>
             {% for convocatoria in convocatorias %}
             <option value="{{convocatoria.id}}">{{convocatoria.name}}</option>

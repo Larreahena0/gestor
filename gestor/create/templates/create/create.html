@@ -12,24 +12,19 @@
         <input type="hidden" name="estado" id="estado" value="0">
         <input type="hidden" name="contador" id="contador" value="0">
         <div id="campos">
-            <label for="id_group">Grupo de investigación:</label>
-            <br>
-            <select name="id_group" id="id_group">
+            <select name="id_group" id="id_group" required>
+				<<option disabled selected>Seleccione un grupo de investigación</option>
                 {% for grupo in grupos %}
                     <option value="{{grupo.id}}">{{grupo.name}}</option>
                 {% endfor %}
             </select>
-            <br>
-            <label for="name">Nombre del semillero:</label>
-            <br>
-            <input type="text" name="name" id="name" required>
+            <input type="text" name="name" id="name" placeholder="Nombre del semillero" autocomplete="off" required>
             <select name="sName" id="sName">
                 {% for semillero in semilleros %}
                 <option value="{{semillero.id}}">{{semillero.name}}</option>
                 {% endfor %}
             </select>
         </div>
-        <br>
         <select name="lista" id="lista" hidden>
             {% for semillero in semilleros %}
             <option value="{{semillero.id}}">{{semillero.name}}</option>

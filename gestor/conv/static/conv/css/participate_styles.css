@@ -4,6 +4,7 @@
 }
 
 h1 {
+	display: inline-block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 500;
 }
@@ -25,4 +26,9 @@ table a {
     text-decoration: none;
     font-weight: bold;
     color: #274712;
+}
+
+#textSearch {
+	float: right;
+	font-size: 12pt;
 }

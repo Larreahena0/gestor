@@ -8,20 +8,13 @@
     <br>
     <form action="" method="POST">
         {% csrf_token %}
-        <label for="name">Linea de investigación:</label>
-        <br>
-        <input type="text" name="name" id="name" required>
-        <br>
-        <label for="description">Descripción:</label>
-        <br>
-        <textarea name="description" id="description" cols="30" rows="10" required></textarea>
-        <br>
-        <br>
+        <input type="text" name="name" id="name" placeholder="Linea de investigación" autocomplete="off" required>
+        <textarea name="description" id="description" cols="30" rows="10" placeholder="Descripción" required></textarea>
         <input type="submit" value="Enviar"/>
     </form>
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'create/css/workline_styles.css' %}">
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
-    
+
 {% endblock %}

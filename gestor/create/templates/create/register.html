@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
- 
+
     <h1>Registrar integrante de semillero</h1>
     <a id="delete" href="">Eliminar</a>
     <a id="editar" href="">Editar</a>
@@ -10,25 +10,16 @@
     <form action="" method="POST">
         {% csrf_token %}
         <input type="hidden" name="contador" id="contador" value="0">
-        <label for="">Nombre del integrante:</label>
-        <br>
-        <input type="text" name="name" id="name" required>
-        <br>
-        <label for="">Documento de identidad:</label>
-        <br>
-        <input type="text" name="document" id="document" required>
-        <br>
-        <label for="">Semillero:</label>
-        <br>
+        <input type="text" name="name" id="name" placeholder="Nombre del integrante" autocomplete="off" required>
+        <input type="text" name="document" id="document" placeholder="Documento de identidad" autocomplete="off" required>
         <select name="semillero" id="semillero" required>
+			<option disabled selected>Seleccione un semillero</option>
             {% for semillero in semilleros %}
                 <option value="{{semillero.id}}">{{semillero.name}}</option>
             {% endfor %}
         </select>
-        <br>
-        <label for="">Rol:</label>
-        <br>
         <select name="rol" id="rol" onchange="verificar()">
+			<option disabled selected>Seleccione un rol</option>
             <option value="1">Coordinador de grupo</option>
             <option value="2">Coordinador de semillero</option>
             <option value="3">Coordinador de línea</option>
@@ -36,9 +27,7 @@
             <option value="5">Estudiante de pregrado</option>
             <option value="5">Estudiante de posgrado</option>
         </select>
-        <br>
         <label id="tline" for="lines">Lineas de investigación:</label>
-        <br id="lsalto">
         <select name="lineas" id="lineas">
             {% for linea in lineas %}
                 <option value="{{linea.id}}">{{linea.name}}</option>
@@ -52,24 +41,16 @@
             <a id="eliminar" href="javascript:remove()">Eliminar último</a>
         </div>
         <label for="">Fecha de ingreso:</label>
-        <br>
         <input type="date" name="joined" id="joined" required>
-        <br>
-        <label for="">Correo electrónico:</label>
-        <br>
-        <input type="email" name="email" id="email" required>
-        <br>
-        <label for="">Programa de pregrado:</label>
-        <br>
+        <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
         <select name="career" id="career">
+			<option disabled selected>Seleccione un programa de pregrado</option>
             {% for career in careers %}
                 <option value="{{career.id}}">{{career.name}}</option>
             {% endfor %}
         </select>
-        <br>
-        <label for="">Nivel en el programa:</label>
-        <br>
         <select name="level" id="level">
+			<option disabled selected>Seleccione un nivel en el programa</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -81,8 +62,6 @@
             <option value="9">9</option>
             <option value="10">10</option>
         </select>
-        <br>
-        <br>
         <input type="submit" value="Enviar"/>
     </form>
 

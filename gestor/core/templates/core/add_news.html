@@ -10,30 +10,30 @@
         {% csrf_token %}
         <div id="campos">
             <label for="title">Título:</label>
-            <br>
             <input type="text" name="title" id="title">
-            <br>
             <label for="image">Imagen:</label>
-            <br>
             <input type="file" name="image" id="image">
-            <br>
             <label for="banner">Banner:</label>
-            <br>
             <input type="file" name="banner" id="banner">
-            <br>
             <label for="description">Descripción:</label>
-            <br>
-            <textarea name="description" id="description" cols="30" rows="10"></textarea>
-            <br>
+            <textarea name="description" cols="30" rows="10"></textarea>
             <label for="content">Contenido:</label>
-            <br>
-            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+            <textarea name="content" id="textEditor" cols="30" rows="10"></textarea>
         </div>
         <br>
         <input type="submit" value="Enviar"/>
     </form>
 
     {% load static %}
+	<<script type="text/javascript">
+		tinymce.init({
+      		selector: '#textEditor',
+			toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+  			plugins: "image imagetools",
+			width: 900,
+			height: 600
+    	});
+	</script>
     <link rel="stylesheet" href="{% static 'create/css/create_styles.css' %}">
 
 {% endblock %}

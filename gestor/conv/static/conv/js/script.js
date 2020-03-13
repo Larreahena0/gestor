@@ -24,11 +24,12 @@ $(document).ready(function(){
             $('input[type="submit"]').val("Enviar");
             $('#estado').val("0");
         }
-        
+
     });
 
     $('#delete').click(function(e){
         e.preventDefault();
+        $('#editar').text("Añadir");
         $('form').attr("novalidate","true")
         $('#campos').hide();
         $('#estado').val("1");
@@ -37,27 +38,29 @@ $(document).ready(function(){
     });
 
     $('#enviar').click(function(e){
-        e.preventDefault();
-        $.confirm({
-            boxWidth: '400px',
-            useBootstrap: false,
-            closeIcon: true,
-            title: '¿Está seguro?',
-            content: 'La convocatoria no podra ser restaurada',
-            typeAnimated: true,
-            buttons: {
-                somethingElse: {
-                    text: 'Seguro',
-                    btnClass: 'btn-warning',
-                    action: function(){
-                        $('form').submit();
+        if($('#estado').val() == 1){
+            e.preventDefault();
+            $.confirm({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: '¿Está seguro?',
+                content: 'La convocatoria no podra ser restaurada',
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Seguro',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                            $('form').submit();
+                        }
+                    },
+                    cancel: function () {
+
                     }
-                },
-                cancel: function () {
-                    
                 }
-            }
-        });
+            });
+        }
     });
 
     $("#bparticipar").click(function(e){
@@ -87,5 +90,23 @@ $(document).ready(function(){
 
         count += 1;
     });
+
+	$('#textSearch').keyup(function(e){
+		e.preventDefault();
+		texto = $(this).val().toLowerCase();
+		var contador = 0;
+		$.each($('#tableConv .info'),function(){
+			if($(this).text().toLowerCase().indexOf(texto) === -1){
+				$(this).hide();
+			}
+			else {
+				$(this).show();
+				contador++;
+			}
+		});
+		if(contador == 0){
+			alert("No papi");
+		}
+	});
 
 });

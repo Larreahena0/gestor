@@ -3,10 +3,11 @@
 {% block cuerpo %}
 
     <h1>Convocatorias</h1>
+	<input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
 
-    <table style="overflow-x:auto;">
+    <table id="tableConv" style="overflow-x:auto;">
         <tr>
             <th>Número</th>
             <th>Título</th>
@@ -15,7 +16,7 @@
             <th>Fecha de cierre</th>
         </tr>
     {% for convocatoria in convocatorias %}
-        <tr>
+        <tr class="info">
             <td>{{convocatoria.id}}</td>
             <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
             <td>{{convocatoria.description}}</td>

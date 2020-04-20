@@ -25,7 +25,7 @@ SECRET_KEY = 'af8+fs@&co&+to!+j@4z$e*)c@nk%wjzb78j#q_iviu!kdm+oq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['larreahenao.pythonanywhere.com','127.0.0.1']
+ALLOWED_HOSTS = ['larreahena0.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -123,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/larreahenao/gestor/gestor/static'
+STATIC_ROOT = '/home/larreahena0/gestor/gestor/static'
 
 #Documentos
 MEDIA_URL = '/media/'

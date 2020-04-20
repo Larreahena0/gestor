@@ -12,7 +12,7 @@
             {% for layer in layers %}
             <li>    
                 <a href="{% url 'news' id_item=layer.id %}"><img src="{{layer.banner.url}}"/></a>
-                <p class="flex-caption">Adventurer Cheesecake Brownie</p>
+                <p class="flex-caption">{{layer.title}}</p>
             </li>
             {% endfor %}
         </ul>

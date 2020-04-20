@@ -42,7 +42,7 @@ class Usuario(models.Model):
 class Noticia(models.Model):
     # Definimos los campos del modelo con sus respectivos parametros
     id = models.AutoField(primary_key=True, verbose_name="Id")
-    title = models.CharField(max_length=30, verbose_name="Título", null=True)
+    title = models.CharField(max_length=200, verbose_name="Título", null=True)
     image = models.FileField(verbose_name="Imagen", null=True)
     banner = models.FileField(verbose_name="Banner", null=True)
     description = models.TextField(verbose_name="Descripción", null=True)

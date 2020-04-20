@@ -106,9 +106,6 @@ $(document).ready(function(){
 				contador++;
 			}
 		});
-		if(contador == 0){
-			alert("No papi");
-		}
 	});
 
 });

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Convocatoria
 from .models import Documento
 from core.models import Grupo
@@ -8,66 +8,70 @@ import datetime
 # Create your views here.
 def conv_create(request):
 
-    convocatorias = Convocatoria.objects.all()
-    
-    if request.method == "POST":
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name="Administrador").exists():
+            convocatorias = Convocatoria.objects.all()
 
-        estado = int(request.POST['estado'])
+            if request.method == "POST":
 
-        if estado == 0:
-            print("Hola")
-            name = request.POST['name']
-            description = request.POST['description']
-            opened = request.POST['opened']
-            closed = request.POST['closed']
+                estado = int(request.POST['estado'])
 
-            insert = Convocatoria(name=name, description=description, opened=opened, closed=closed)
-            insert.save()
+                if estado == 0:
+                    print("Hola")
+                    name = request.POST['name']
+                    description = request.POST['description']
+                    opened = request.POST['opened']
+                    closed = request.POST['closed']
 
-            count = int(request.POST['contador'])
+                    insert = Convocatoria(name=name, description=description, opened=opened, closed=closed)
+                    insert.save()
 
-            for i in range(1,count+1):
-                id_conv = Convocatoria.objects.latest('id')
-                docs = request.POST
-                campos = request.FILES 
-                print(docs)
-                print(campos)
-                documento = request.FILES['doc_' + str(i)]
-                tipo = request.POST['sel_' + str(i)]
-                description = request.POST['text_' + str(i)]
+                    count = int(request.POST['contador'])
 
-                insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
-                insert.save()
+                    for i in range(1,count+1):
+                        id_conv = Convocatoria.objects.latest('id')
+                        docs = request.POST
+                        campos = request.FILES
+                        print(docs)
+                        print(campos)
+                        documento = request.FILES['doc_' + str(i)]
+                        tipo = request.POST['sel_' + str(i)]
+                        description = request.POST['text_' + str(i)]
 
-        elif estado == 1:
-            conv = Convocatoria.objects.get(id=request.POST['lista'])
-            conv.delete() 
+                        insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
+                        insert.save()
 
-        else:
-            conv = Convocatoria.objects.get(id=request.POST['sName'])
-            id_conv = conv.id
-            name_conv = conv.name
-            description = request.POST['description']
-            opened = request.POST['opened']
-            closed = request.POST['closed']
+                elif estado == 1:
+                    conv = Convocatoria.objects.get(id=request.POST['lista'])
+                    conv.delete()
 
-            insert = Convocatoria(id=id_conv, name=name_conv, description=description, opened=opened, closed=closed)
-            insert.save()
+                else:
+                    conv = Convocatoria.objects.get(id=request.POST['sName'])
+                    id_conv = conv.id
+                    name_conv = conv.name
+                    description = request.POST['description']
+                    opened = request.POST['opened']
+                    closed = request.POST['closed']
 
-            count = int(request.POST['contador'])
+                    insert = Convocatoria(id=id_conv, name=name_conv, description=description, opened=opened, closed=closed)
+                    insert.save()
 
-            for i in range(1,count+1):
-                id_conv = Convocatoria.objects.latest('id')
-                documento = request.FILES['doc_' + str(i)]
-                tipo = request.POST['sel_' + str(i)]
-                description = request.POST['text_' + str(i)]
+                    count = int(request.POST['contador'])
 
-                insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
-                insert.save()  
+                    for i in range(1,count+1):
+                        id_conv = Convocatoria.objects.latest('id')
+                        documento = request.FILES['doc_' + str(i)]
+                        tipo = request.POST['sel_' + str(i)]
+                        description = request.POST['text_' + str(i)]
 
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
+                        insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
+                        insert.save()
 
-    return render(request, "conv/convocatoria.html",{'today':today,'convocatorias':convocatorias})
+            today = datetime.datetime.now().strftime("%Y-%m-%d")
+
+            return render(request, "conv/convocatoria.html",{'today':today,'convocatorias':convocatorias})
+
+    return redirect('/')
 
 def conv_details(request, id_item=None):
     grupos = Grupo.objects.all()

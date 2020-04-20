@@ -1,8 +1,7 @@
-
 $(document).ready(function(){
 
 	var contador = 0;
-
+	
 	if($('#rol').val() != 3){
 		$('.lineas').each(function(){
 			$(this).hide();

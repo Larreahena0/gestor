@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% load auth_extras %}
+
 {% block cuerpo %}
 
     <h1>Convocatoria {{item.id}}</h1>
@@ -36,7 +38,11 @@
     <br>
 
     {% if item.closed >= today.date and item.opened <= today.date %}
-    <input type="button" id="bparticipar" value="Participar"/>
+        {% if request.user.is_authenticated %}
+            {% if request.user|is_coord %}
+            <input type="button" id="bparticipar" value="Participar"/>
+            {% endif %}
+        {% endif %}
     {% endif %}
 
     <div id="dparticipar">

@@ -10,8 +10,9 @@
     <div class="flexslider">
         <ul class="slides">
             {% for layer in layers %}
-            <li>
+            <li>    
                 <a href="{% url 'news' id_item=layer.id %}"><img src="{{layer.banner.url}}"/></a>
+                <p class="flex-caption">Adventurer Cheesecake Brownie</p>
             </li>
             {% endfor %}
         </ul>

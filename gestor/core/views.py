@@ -4,6 +4,8 @@ from .models import Noticia
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 # Create your views here.
 def home(request):
@@ -39,11 +41,16 @@ def signup(request):
         name = request.POST['name']
         lastname = request.POST['lastname']
         email = request.POST['email']
+        grupo = request.POST['group']
         if " " in username:
             return render(request, "core/sign-up.html", {'mensaje':'El nombre de usuario no puede contener espacios.'})
         elif rpassword == password:
-            insert = Usuario(username=username, password=make_password(password), name=name, lastname=lastname, email=email)
-            insert.save()
+            user = User.objects.create_user(username, email, password)
+            group = Group.objects.all().filter(name=grupo)
+            user.first_name = name
+            user.last_name = lastname
+            user.groups.set(group)
+            user.save()
             return render(request, "core/sign-up.html")
         else:
             return render(request, "core/sign-up.html", {'mensaje':'Las contraseñas no coinciden.'})

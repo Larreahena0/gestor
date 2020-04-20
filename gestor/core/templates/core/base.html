@@ -2,6 +2,7 @@
 <html lang="en">
 
 {% load static %}
+{% load auth_extras %}
 
 <head>
     <meta charset="UTF-8">
@@ -22,10 +23,14 @@
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}" id="home">Inicio</a></li>
-                <li><a href="{% url 'create' %}" id="semillero">Registrar semillero</a></li>
-                <li><a href="{% url 'register' %}" id="integrante">Registrar integrante</a></li>
-                <li><a href="{% url 'workline' %}" id="linea">Añadir línea</a></li>
-                <li><a href="{% url 'conv_create' %}" id="convocatoria">Crear convocatoria</a></li>
+                {% if request.user.is_authenticated %}
+                    {% if request.user|is_admin %}
+                    <li><a href="{% url 'create' %}" id="semillero">Registrar semillero</a></li>
+                    <li><a href="{% url 'register' %}" id="integrante">Registrar integrante</a></li>
+                    <li><a href="{% url 'workline' %}" id="linea">Añadir línea</a></li>
+                    <li><a href="{% url 'conv_create' %}" id="convocatoria">Crear convocatoria</a></li>
+                    {% endif %}
+                {% endif %}
                 <li><a href="{% url 'participar' %}" id="participar">Participar</a></li>
             </ul>
         </nav>
@@ -47,7 +52,7 @@
                 {% endif %}
             </aside>
         </div>
-
+    
     </div>
 
         <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">

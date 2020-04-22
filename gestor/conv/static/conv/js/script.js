@@ -13,7 +13,7 @@ $(document).ready(function(){
         var estado = $('#estado').val();
         if(estado == "0"){
             $('#editar').text("Añadir");
-            $('#name').attr("required", "true");
+            $('#name').removeAttr("required");
             $('#name').hide();
             $('#sName').show();
             $('input[type="submit"]').val("Editar");
@@ -21,6 +21,7 @@ $(document).ready(function(){
         }
         else {
             $('#editar').text("Editar");
+            $('#name').attr("required","required");
             $('#name').show();
             $('#sName').hide();
             $('input[type="submit"]').val("Enviar");

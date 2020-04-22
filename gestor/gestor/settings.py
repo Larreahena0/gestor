@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'af8+fs@&co&+to!+j@4z$e*)c@nk%wjzb78j#q_iviu!kdm+oq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['larreahena0.pythonanywhere.com','127.0.0.1']
 
@@ -123,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/larreahena0/gestor/gestor/static'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 #Documentos
 MEDIA_URL = '/media/'

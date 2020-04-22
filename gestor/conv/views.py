@@ -46,6 +46,7 @@ def conv_create(request):
                     conv.delete()
 
                 else:
+                    print("Hola")
                     conv = Convocatoria.objects.get(id=request.POST['sName'])
                     id_conv = conv.id
                     name_conv = conv.name

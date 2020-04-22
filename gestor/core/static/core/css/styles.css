@@ -55,6 +55,10 @@ nav ul li a:hover {
     background: #fff;
 }
 
+#login {
+    display: none;
+}
+
 #content {
     width: 1050px;
     margin: 0 auto;
@@ -206,6 +210,10 @@ form textarea {
     aside {
         display: none;
         margin: 0;
+    }
+    #login {
+        clear: both;
+        display: inherit;
     }
 }
 

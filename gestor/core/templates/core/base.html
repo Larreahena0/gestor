@@ -34,6 +34,15 @@
                 <li><a href="{% url 'participar' %}" id="participar">Convocatorias</a></li>
             </ul>
         </nav>
+        <div id="login">
+            {% if request.user.is_authenticated %}
+                <p>Bienvenido(a), {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+            {% else %}
+                <p>¿Desea iniciar sesión?</p>
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+            {% endif %}
+        </div>
         <div id="content">
             <section id="formulario">
                 {% block cuerpo %}{% endblock %}

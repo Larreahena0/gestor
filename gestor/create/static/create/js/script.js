@@ -69,7 +69,7 @@ $(document).ready(function(){
 	$('#enviar').click(function(e){
 		e.preventDefault();
 		$('#contador').val(contador-1);
-		//$('form').submit();
+		$('form').submit();
 	});
 
 });

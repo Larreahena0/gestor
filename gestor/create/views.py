@@ -10,36 +10,96 @@ from core.models import Grupo
 def create(request):
 
 	if request.user.is_authenticated:
+
 		if request.user.groups.filter(name = "Administrador").exists():
+
 			grupos = Grupo.objects.all()
 			lineas = Linea.objects.all()
 			semilleros = Semillero.objects.all()
 
 			if request.method == "POST":
+
+				if 'lista' in request.POST:
+
+					id = request.POST['lista']
+
+					instance = Semillero.objects.get(id=id)
+					instance.delete()
+
+				elif 'id_group' in request.POST:
+					
+					id_group = request.POST['id_group']
+					name = request.POST['name']
+					history = request.POST['history'] 
+					mision = request.POST['mision']
+					vision = request.POST['vision']
+					goals = request.POST['goals']
+
+
+					insert = Semillero(id_group=id_group, name=name, history=history, mision=mision, vision=vision, goals=goals)
+					insert.save()
+
+			return render(request, "create/create.html", {'grupos':grupos,'lineas':lineas,'semilleros':semilleros})
+
+	return redirect('/')
+
+def semillero_edit(request, id):
+
+	if request.user.is_authenticated:
+
+		if request.user.groups.filter(name = "Administrador").exists():
+			
+			semilleros = Semillero.objects.all()
+			semillero = Semillero.objects.get(id=id)
+			grupos = Grupo.objects.all()
+
+			if request.method == "POST":
+
+				id_group = request.POST['id_group']
+				name = request.POST['name']
+				history = request.POST['history'] 
+				mision = request.POST['mision']
+				vision = request.POST['vision']
+				goals = request.POST['goals']
+
+
+				insert = Semillero(id=id, id_group=id_group, name=name, history=history, mision=mision, vision=vision, goals=goals)
+				insert.save()
+
+				return redirect('create')
+
+			return render(request, "create/create_edit.html", {'grupos':grupos,'semillero': semillero,'semilleros': semilleros})
+
+	return redirect('/')
+
+def semillero_delete(request, id):
+
+	if request.user.is_authenticated:
+
+		if request.user.groups.filter(name = "Administrador").exists():
+	
+			semillero = Semillero.objects.get(id=id)
+			grupos = Grupo.objects.all()
+
+			if request.method == "POST":
 				id_group = request.POST['id_group']
 				name = request.POST['name']
 
-				insert = Semillero(id_group=id_group, name=name)
+				insert = Semillero(id=id, id_group=id_group, name=name)
 				insert.save()
 
-			# count = request.POST['contador']
-			# print(count)
-			#
-			# for i in range(0,count+1):
-			# 	id_sem = Semillero.objects.latest('id')
-			# 	name = request.POST['line_' + str(i)]
-			# 	id_linea = request.POST['idline_' + str(i)]
-			#
-			# 	insert = LineaSemillero(id_sem=id_sem, name=name, id_linea=id_linea)
-			# 	insert.save()
-			return render(request, "create/create.html", {'grupos':grupos,'lineas':lineas,'semilleros':semilleros})
+				return redirect('create')
+
+			return render(request, "create/create_edit.html", {'grupos':grupos,'semillero': semillero})
 
 	return redirect('/')
 
 def register(request):
 
 	if request.user.is_authenticated:
-		if request.user.groups.filter(name = "Administrador").exists():
+
+		if request.user.groups.filter(name = "Coordinador").exists():
+
 			semilleros = Semillero.objects.all()
 			careers = Career.objects.all()
 			lineas = Linea.objects.all()
@@ -74,7 +134,7 @@ def register(request):
 def add_workline(request):
 
 	if request.user.is_authenticated:
-		if request.user.groups.filter(name = "Administrador").exists():
+		if request.user.groups.filter(name = "Coordinador").exists():
 			if request.method == "POST":
 				name = request.POST['name']
 				description = request.POST['description']
@@ -84,3 +144,9 @@ def add_workline(request):
 			return render(request, "create/workline.html")
 
 	return redirect('/')
+
+def produccion(request):
+
+	
+
+	return render(request, "create/produccion.html")

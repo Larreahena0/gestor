@@ -9,10 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gestor de semilleros | Facultad de ingenieria</title>
+    <link rel="stylesheet"  href="{% static 'core/css/jquery-confirm.min.css' %}">
     <script src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
 	<script src="https://cdn.tiny.cloud/1/9waku09ntanwuu106ap52sin622wwamoga5fhx6xjscl62da/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <link rel="stylesheet"  href="{% static 'core/css/jquery-confirm.min.css' %}">
+    <script src="{% static 'core/js/all.min.js' %}"></script>
     <script src="{% static 'core/js/jquery-confirm.min.js' %}"></script>
+    <script src="{% static 'core/js/script.js' %}"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 
@@ -26,9 +28,11 @@
                 {% if request.user.is_authenticated %}
                     {% if request.user|is_admin %}
                     <li><a href="{% url 'create' %}" id="semillero">Registrar semillero</a></li>
+                    <li><a href="{% url 'conv_create' %}" id="convocatoria">Crear convocatoria</a></li>
+                    {% elif request.user|is_coord %}
                     <li><a href="{% url 'register' %}" id="integrante">Registrar integrante</a></li>
                     <li><a href="{% url 'workline' %}" id="linea">Añadir línea</a></li>
-                    <li><a href="{% url 'conv_create' %}" id="convocatoria">Crear convocatoria</a></li>
+                    <li><a href="{% url 'produccion' %}" id="produccion">Producción cientifica</a></li>
                     {% endif %}
                 {% endif %}
                 <li><a href="{% url 'participar' %}" id="participar">Convocatorias</a></li>
@@ -59,3 +63,4 @@
 
 </body>
 </html>
+                

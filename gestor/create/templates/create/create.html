@@ -1,36 +1,67 @@
 {% extends 'core/base.html' %}
 {% block cuerpo %}
     <h1>Registrar semillero</h1>
-    <a id="delete" href="">Eliminar</a>
-    <a id="editar" href="">Editar</a>
+    <a class="config" title="Eliminar" alt="Eliminar" id="delete" href="#"><i class="fas fa-trash-alt"></i></a>
+    <a class="config" title="Editar" alt="Editar" id="editar" href="#"><i class="fas fa-pencil-alt"></i></a>
+    <a class="config" title="Editar" alt="Editar" id="add" href="#"><i class="fas fa-plus"></i></a>
+    <a class="config" title="Ver" alt="Ver" id="see" href="#"><i class="fas fa-eye"></i></a>
     <hr>
     <br>
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="estado" id="estado" value="0">
-        <input type="hidden" name="contador" id="contador" value="0">
-        <div id="campos">
-            <select name="id_group" id="id_group" required>
-				<<option disabled selected>Seleccione un grupo de investigación</option>
-                {% for grupo in grupos %}
-                    <option value="{{grupo.id}}">{{grupo.name}}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="name" id="name" placeholder="Nombre del semillero" autocomplete="off" required>
-            <select name="sName" id="sName">
-                {% for semillero in semilleros %}
-                <option value="{{semillero.id}}">{{semillero.name}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <select name="lista" id="lista" hidden>
-            {% for semillero in semilleros %}
-            <option value="{{semillero.id}}">{{semillero.name}}</option>
-            {% endfor %}
-        </select>
-        <input id="enviar" type="submit" value="Enviar"/>
-    </form>
+    <div class="add">    
+        <form method="POST">
+            {% csrf_token %}
+            <div id="campos">
+                <select name="id_group" id="id_group" required>
+                    <<option disabled selected>Seleccione un grupo de investigación</option>
+                    {% for grupo in grupos %}
+                        <option value="{{grupo.id}}">{{grupo.name}}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="name" id="name" placeholder="Nombre del semillero" autocomplete="off" required>
+                <textarea name="history" id="history" cols="30" placeholder="Antecedentes" rows="10" required></textarea>
+                <textarea name="mision" id="mision" cols="30" placeholder="Misión" rows="10" required></textarea>
+                <textarea name="vision" id="vision" cols="30" placeholder="Visión" rows="10" required></textarea>
+                <textarea name="goals" id="goals" cols="30" placeholder="Objetivos" rows="10" required></textarea>
+            </div>
+            <input id="enviar" type="submit" value="Enviar"/>
+        </form>
+    </div>
+
+    <div class="edit" hidden>
+        {% if semilleros.count != 0 %}
+            <form>
+                <select name="lista" id="lista">
+                    {% for semillero in semilleros  %}
+                        <option value="{{ semillero.id }}">{{ semillero.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Editar">
+            </form>
+        {% else %}
+            <div class="message in-info">
+                <p>En este momento no hay semilleros registrados.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="delete" hidden>
+        {% if semilleros.count != 0 %}
+            <form method="POST">
+                {% csrf_token %}
+                <select name="lista" id="lista">
+                    {% for semillero in semilleros  %}
+                        <option value="{{ semillero.id }}">{{ semillero.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Eliminar">
+            </form>
+        {% else %}
+            <div class="message in-info">
+                <p>En este momento no hay semilleros registrados.</p>
+            </div>
+        {% endif %}
+    </div>
 
     {% load static %}
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>

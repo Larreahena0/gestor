@@ -48,37 +48,3 @@ input[type=submit]:hover {
 input[type=file] {
     text-transform: uppercase;
 }
-
-div #editar {
-    float: right;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-decoration: none;
-    color: white;
-    display: inline-flex;
-    text-align: center;
-    font-size: 10pt;
-    margin-top: 2px;
-    padding: 4px 15px;
-    background: #396534;
-}
-
-div #editar:hover {
-    background: #274712;
-}
-
-div #delete {
-    float: right;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-decoration: none;
-    color: white;
-    display: inline-flex;
-    text-align: center;
-    font-size: 10pt;
-    margin-top: 2px;
-    padding: 4px 15px;
-    background: #b41818;
-}
-
-div #delete:hover {
-    background: #8f1010;
-}

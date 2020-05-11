@@ -2,44 +2,6 @@ $(document).ready(function(){
 
     var count = 1;
 
-	$('#lista').hide();
-
-    $('#sName').hide();
-    $('#editar').click(function(e){
-        e.preventDefault();
-        $('#campos').show();
-        $('#lista').hide();
-        $('form').removeAttr('novalidate');
-        var estado = $('#estado').val();
-        if(estado == "0"){
-            $('#editar').text("Añadir");
-            $('#name').removeAttr("required");
-            $('#name').hide();
-            $('#sName').show();
-            $('input[type="submit"]').val("Editar");
-            $('#estado').val("2");
-        }
-        else {
-            $('#editar').text("Editar");
-            $('#name').attr("required","required");
-            $('#name').show();
-            $('#sName').hide();
-            $('input[type="submit"]').val("Enviar");
-            $('#estado').val("0");
-        }
-
-    });
-
-    $('#delete').click(function(e){
-        e.preventDefault();
-        $('#editar').text("Añadir");
-        $('form').attr("novalidate","true")
-        $('#campos').hide();
-        $('#estado').val("1");
-        $('#lista').show();
-        $('#enviar').val("Eliminar");
-    });
-
     $('#enviar').click(function(e){
         if($('#estado').val() == 1){
             e.preventDefault();

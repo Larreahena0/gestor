@@ -6,6 +6,10 @@ class Semillero(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
 	id_group = models.CharField(max_length=50, verbose_name="Grupo", null=True)
 	name = models.CharField(max_length=50, verbose_name="Nombre", null=True)
+	history = models.TextField(verbose_name="Antesedentes", null=True)
+	mision = models.TextField(verbose_name="Misión", null=True)
+	vision = models.TextField(verbose_name="Visión", null=True)
+	goals = models.TextField(verbose_name="Objetivos", null=True)
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 

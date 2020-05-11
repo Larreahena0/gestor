@@ -165,6 +165,54 @@ table td input {
 	cursor: pointer;
 }
 
+div .config {
+    float: right;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    text-align: center;
+    font-size: 12pt;
+    margin-top: 2px;
+}
+
+div #see {
+    padding: 4px 10px;
+    background: #2b49c0;
+}
+
+div #see:hover {
+    background: #183194;
+}
+
+div #editar, div #add {
+    padding: 4px 10px;
+    background: #396534;
+}
+
+div #editar:hover, div #add:hover {
+    background: #274712;
+}
+
+div #delete {
+    padding: 4px 12px;
+    background: #b41818;
+}
+
+div #delete:hover {
+    background: #8f1010;
+}
+
+div #back {
+    font-size: 11pt;
+    padding: 4px 12px;
+    background: #b41818;
+}
+
+div #back:hover {
+    background: #8f1010;
+}
+
 /* table * {
 	display: inline;
 } */
@@ -190,6 +238,22 @@ form textarea {
 
 #textEditor {
 	width: 300px;
+}
+
+.message {
+    position: relative;
+    top: 0px;
+    width: 600px;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.2rem;
+    background-color: #d82a2a;
+}
+
+.message p {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: #fff;
 }
 
 @media screen and (max-width: 1050px){

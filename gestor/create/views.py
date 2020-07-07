@@ -3,7 +3,7 @@ from .models import Semillero
 from .models import Linea
 from .models import LineaSemillero
 from .models import Integrante
-from .models import Career
+from .models import Career,Rol,Atributos
 from core.models import Grupo
 
 # Create your views here.
@@ -107,35 +107,55 @@ def register(request):
         if request.user.groups.filter(name="Coordinador").exists():
 
             semilleros = Semillero.objects.all()
-            careers = Career.objects.all()
+            pregrados = Career.objects.filter(tipo="Pregrado")
+            postgrados = Career.objects.filter(tipo="Postgrado")
             lineas = Linea.objects.all()
+            roles = Rol.objects.all()
 
             if request.method == "POST":
                 name = request.POST['name']
                 document = request.POST['document']
                 semillero = request.POST['semillero']
-                rol = request.POST['rol']
+                rol1 = request.POST['rol']
                 joined = request.POST['joined']
                 email = request.POST['email']
-                career = request.POST['career']
-                level = request.POST['level']
+                phone = request.POST['phone']
+                aditional = request.POST['adicional']
+                #career = request.POST['career']
+                #level = request.POST['level']
+                rol=Rol.objects.get(id=rol1)
                 insert = Integrante(name=name, document=document, semillero=semillero,
-                                    rol=rol, joined=joined, email=email, career=career, level=level)
+                                    rol=rol, joined=joined, email=email, phone=phone, aditional=aditional)
                 insert.save()
 
-                count = int(request.POST['contador'])
-                print(count)
+                #Cuando es un coordinador de linea se agregan las lineas asociadas
+                if(int(rol1) == 3):
+                    count = int(request.POST['contador'])
+                    print(count)
 
-                for i in range(0, count+1):
-                    id_coo = Integrante.objects.latest('id')
-                    name = request.POST['line_' + str(i)]
-                    id_linea = request.POST['idline_' + str(i)]
+                    for i in range(0, count+1):
+                        id_coo = Integrante.objects.latest('id')
+                        id_linea = request.POST['idline_' + str(i)]
+                        linea = Linea.objects.get(id=id_linea)
 
-                    insert = LineaSemillero(
-                        id_coo=id_coo, name=name, id_linea=id_linea)
+                        insert = LineaSemillero(
+                            id_coo=id_coo, id_linea=linea)
+                        insert.save()
+
+                #Cuando es estudiante se deben agregar los atributos de los estudiantes (nivel y carrera)        
+                elif(int(rol1) == 4 or int(rol1) == 5):
+                    tipo = request.POST['tipo']
+                    if(int(tipo) == 1):
+                        id_prog = request.POST['pregrado']
+                    elif(int(tipo) == 2):
+                        id_prog = request.POST['postgrado']
+                    programa = Career.objects.get(id=id_prog)
+                    id_est = Integrante.objects.latest('id')
+                    nivel = request.POST['level']
+                    insert = Atributos(id_estudiante=id_est,id_programa=programa,nivel=nivel)
                     insert.save()
 
-            return render(request, "create/register.html", {'semilleros': semilleros, 'careers': careers, 'lineas': lineas})
+            return render(request, "create/register.html", {'semilleros': semilleros, 'pregrados': pregrados, 'postgrados': postgrados, 'lineas': lineas,'roles':roles})
 
     return redirect('/')
 

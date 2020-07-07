@@ -4,6 +4,8 @@ from .models import Integrante
 from .models import LineaSemillero
 from .models import Career
 from .models import Linea
+from .models import Atributos
+from .models import Rol
 
 # Register your models here.
 class SemilleroAdmin(admin.ModelAdmin):
@@ -20,3 +22,5 @@ admin.site.register(Integrante, IntegranteAdmin)
 admin.site.register(Linea, LineaAdmin)
 admin.site.register(Career)
 admin.site.register(LineaSemillero)
+admin.site.register(Atributos)
+admin.site.register(Rol)

@@ -1,26 +1,79 @@
 $(document).ready(function(){
 
 	var contador = 0;
-	
+	//Funciones que ocultan las divisiones al iniciar o refrescar la pagina
 	if($('#rol').val() != 3){
 		$('.lineas').each(function(){
 			$(this).hide();
 		});
-	}
-
+	};
+	if($('#rol').val() != 4 && $('#rol').val() != 5){
+		$('.estudiante').each(function(){
+			$(this).hide();
+		});
+	};
+	if($('#tipo').val() != 1 && $('#tipo').val() != 2){
+		$('.pre').each(function(){
+			$(this).hide();
+		});
+		$('.post').each(function(){
+			$(this).hide();
+		});
+	};
+	//Con esta funcion se controla el select que despliega los atributos de los estudiantes (nivel, carrera) y los atributos del coordinador de linea (cuantas lineas)
 	$('#rol').change(function(){
-		if($('#rol').val() != 3){
+		if($('#rol').val() == 3){
+			$('.lineas').each(function(){
+				$(this).show();
+			});
+			$('.estudiante').each(function(){
+				$(this).hide();
+			});
+		}
+		else if($('#rol').val() == 4 || $('#rol').val() == 5){
 			$('.lineas').each(function(){
 				$(this).hide();
+			});
+			$('.estudiante').each(function(){
+				$(this).show();
 			});
 		}
 		else {
 			$('.lineas').each(function(){
+				$(this).hide();
+			});
+			$('.estudiante').each(function(){
+				$(this).hide();
+			});
+		};
+	});
+	//Con esta funcion se controla el select que despliega las carreras de pregrado o de postgrado dependeiendo del tipo de estudiante
+	$('#tipo').change(function(){
+		if($('#tipo').val() == 1){
+			$('.pre').each(function(){
+				$(this).show();
+			});
+			$('.post').each(function(){
+				$(this).hide();
+			});
+		}
+		else if($('#tipo').val() == 2){
+			$('.pre').each(function(){
+				$(this).hide();
+			});
+			$('.post').each(function(){
 				$(this).show();
 			});
 		}
+		else{
+			$('.pre').each(function(){
+				$(this).hide();
+			});
+			$('.post').each(function(){
+				$(this).hide();
+			});
+		}
 	});
-
 	$('#lañadir').click(function(){
 
 		var flag = false;

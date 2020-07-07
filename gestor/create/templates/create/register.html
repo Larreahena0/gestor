@@ -21,12 +21,9 @@
         </select>
         <select name="rol" id="rol">
 			<option disabled selected>Seleccione un rol</option>
-            <option value="1">Coordinador de grupo</option>
-            <option value="2">Coordinador de semillero</option>
-            <option value="3">Coordinador de línea</option>
-            <option value="4">Estudiante lider</option>
-            <option value="5">Estudiante de pregrado</option>
-            <option value="5">Estudiante de posgrado</option>
+            {% for rol in roles %}
+                <option value="{{rol.id}}">{{rol.name}}</option>
+            {% endfor %}
         </select>
 		<div class="lineas">
 			<label id="tline" for="lines">Lineas de investigación:</label>
@@ -46,25 +43,44 @@
         <label for="">Fecha de ingreso:</label>
         <input type="date" name="joined" id="joined" required>
         <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
-        <select name="career" id="career">
-			<option selected>Seleccione un programa de pregrado</option>
-            {% for career in careers %}
-                <option value="{{career.id}}">{{career.name}}</option>
-            {% endfor %}
-        </select>
-        <select name="level" id="level">
-			<option disabled selected>Seleccione un nivel en el programa</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
+        <input type="text" name="phone" id="phone" placeholder="Telefono" required>
+        <input type="text" name="adicional" id="adicional" placeholder="Información Adicional" required>
+        <div class="estudiante">
+            <select name="tipo" id="tipo">
+                <option disabled selected>Tipo de estudiante</option>
+                <option value="1">Pregrado</option>
+                <option value="2">Postgrado</option>
+            </select>
+            <div class="pre">
+                <select name="pregrado" id="pregrado">
+                    <option disabled selected>Seleccione un programa de pregrado</option>
+                    {% for pregrado in pregrados %}
+                        <option value="{{pregrado.id}}">{{pregrado.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="post">
+                <select name="postgrado" id="postgrado">
+                    <option disabled selected>Seleccione un programa de postgrado</option>
+                    {% for postgrado in postgrados %}
+                        <option value="{{postgrado.id}}">{{postgrado.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>    
+            <select name="level" id="level">
+                <option disabled selected>Seleccione un nivel en el programa</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>    
         <input type="submit" id="enviar" value="Enviar"/>
     </form>
 

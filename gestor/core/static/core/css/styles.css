@@ -176,6 +176,17 @@ div .config {
     margin-top: 2px;
 }
 
+div .config2 {
+    float: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    text-align: center;
+    font-size: 12pt;
+    margin-top: 2px;
+}
+
 div #see {
     padding: 4px 10px;
     background: #2b49c0;
@@ -197,6 +208,15 @@ div #editar:hover, div #add:hover {
 div #delete {
     padding: 4px 12px;
     background: #b41818;
+}
+
+div #del {
+    padding: 4px 12px;
+    background: #b41818;
+}
+
+div #del:hover {
+    background: #8f1010;
 }
 
 div #delete:hover {

@@ -85,6 +85,58 @@ def conv_details(request, id_item=None):
         'obl_documents':obl_documents,'today':today,})
 
 def participar(request):
+    if request.method == "POST":
+        estado = int(request.POST['estado'])
+        print(estado)
+        if estado == 0:
+            name = request.POST['name']
+            description = request.POST['description']
+            opened = request.POST['opened']
+            closed = request.POST['closed']
+            insert = Convocatoria(name=name, description=description, opened=opened, closed=closed)
+            insert.save()
+            count = int(request.POST['contador'])
+            for i in range(1,count+1):
+                id_conv = Convocatoria.objects.latest('id')
+                documento = request.FILES['doc_' + str(i)]
+                tipo = request.POST['sel_' + str(i)]
+                description = request.POST['text_' + str(i)]
+                insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
+                insert.save()
+        elif estado == 1:
+            conv = Convocatoria.objects.get(id=request.POST['conv'])
+            conv.delete()
+
     today = datetime.datetime.now()
     convocatorias = Convocatoria.objects.all()
     return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})
+
+def convocatoria_edit(request, id=None):
+
+    if request.user.is_authenticated:
+
+        if request.user.groups.filter(name="Administrador").exists():
+
+            convocatoria = Convocatoria.objects.get(id=id)
+            documentos = Documento.objects.filter(id_conv=id)
+
+            if request.method == "POST":
+                if request.POST['caso'] == "eliminar":
+                    print(request.POST['id'])
+                else:      
+                    id_group = request.POST['id_group']
+                    name = request.POST['name']
+                    history = request.POST['history']
+                    mision = request.POST['mision']
+                    vision = request.POST['vision']
+                    goals = request.POST['goals']
+
+                    insert = Semillero(id=id, id_group=id_group, name=name,
+                                        history=history, mision=mision, vision=vision, goals=goals)
+                    insert.save()
+
+                return redirect('create')
+
+            return render(request, "conv/convocatoria_edit.html",{'convocatoria': convocatoria,'documentos':documentos})
+
+    return redirect('/')

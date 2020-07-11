@@ -33,3 +33,41 @@ table a {
 	float: right;
 	font-size: 12pt;
 }
+button {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+input[type=button] {
+    background-color: #396534; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=button]:hover {
+    background-color: #274712;
+    cursor: pointer;
+}
+
+table td select {
+	width: 100%;
+	text-align: center;
+	font-size: 8pt;   
+    font-family : Verdana, Geneva, Tahoma, sans-serif;
+}    

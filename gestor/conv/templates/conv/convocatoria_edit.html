@@ -10,6 +10,7 @@
     <form action="" method="POST" enctype="multipart/form-data">
   		{% csrf_token %}
         <input type="hidden" name="contador" id="contador" value="0">
+        <input type="hidden" name="caso" id="caso" value="editar">
         <input type="hidden" name="convocatoria" id="convocatoria" value="{{convocatoria.id}}">
         <div id="campos">
             <input type="text" name="name" id="name" placeholder="Nombre de la convocatoria" autocomplete="off" value="{{ convocatoria.name }}" required>
@@ -38,7 +39,7 @@
                         {% endif %} 
                         <td><a href="{{document.documento.url}}" download>{{document.description}}</td>
                         <td>
-                            <a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick="delete1('{{document.id}}','2','{{convocatoria.id}}')"href="#"><i class="fas fa-trash-alt"></i></a>
+                            <a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick="delete1('{{document.id}}','2')" href="#"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 {% endfor %} 

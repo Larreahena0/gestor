@@ -13,27 +13,32 @@ function texto(elem, id_text) {
     }
 }
 
-function delete1(id, caso,id_c) {
-    if(caso == "2"){
+function delete1(id, caso) {
+    window.event.preventDefault();
+    if(caso == "1"){
+        //Seleccionamos Fila a eliminar de la tabla
+        var fila = $('#tr_'+id);
+        fila.remove();
+    }
+    else if(caso == "2"){
         var id = id;
         var caso = "eliminar"
-        let url = "{% url 'convocatoria_edit' %}";
+        //Url donde esté, por ende la consulta se hace dependiendo de donde esté el navegador ya sea editando o creando
+        let url = window.location;
         const postData={
             'id': id,
             'caso': caso,
-            'id_c': id_c,
             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
         };
         $.post(url, postData, function(response){
-            console.log(response)
+            window.location.reload()
         });
     }
-    else{
-        console.log("Eliminar una columna")
-    };
 };
 
 $(document).ready(function(){
+    var count = 1;
+    $('#contador').val(count-1);
 
     $('.Crear').hide();
     $('.Editar').hide();
@@ -87,8 +92,6 @@ $(document).ready(function(){
         window.location.href = "edit/" + $('#conv').val();
     });
 
-    var count = 1;
-
     $('#enviar').click(function(e){
         if($('#estado').val() == 1){
             e.preventDefault();
@@ -125,7 +128,6 @@ $(document).ready(function(){
 
         e.preventDefault();
         var formulario = $('#tabla');
-        var contador = $('#contador');
         /*
         formulario.append('<br>');
 
@@ -146,9 +148,9 @@ $(document).ready(function(){
         fila.append("<td><input type='text' name='text_" + count.toString() + "' id='text_" + count.toString() + "' placeholder='Descripcion' required/></td>")
         fila.append("<td><select id='sel_"+ count.toString() +"' name='sel_"+ count.toString() +"'></select></td>")
         fila.append('<td><button type="button" onclick=abrir("doc_'+count.toString()+'") id="boton_'+count.toString()+'">Examinar..</button>  <input type="file" name="doc_' + count.toString() + '" id="doc_' + count.toString() + '" style="display:none;" onchange=texto(this,"span_'+count.toString()+'")> <span id="span_'+count.toString()+'">Subir Archivo</span></td>')
-        fila.append('<td><a class="config2" title="Eliminar" alt="Eliminar" id="del" href="#"><i class="fas fa-trash-alt"></i></a></td>');
-        $("#sel_" + count.toString()).append("<option value='1'>Informativo</option><option value='2'>Opcional</option><option value='3'>Obligatorio</option>");        
-
+        fila.append('<td><a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick=delete1("'+count.toString()+'","1") href="#"><i class="fas fa-trash-alt"></i></a></td>');
+        $("#sel_" + count.toString()).append("<option disabled selected>Seleccione</option><option value='1'>Informativo</option><option value='2'>Opcional</option><option value='3'>Obligatorio</option>");        
+        $('#contador').val(count);
         count += 1;
     });
 

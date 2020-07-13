@@ -27,7 +27,7 @@ def conv_create(request):
                     insert.save()
 
                     count = int(request.POST['contador'])
-
+                    
                     for i in range(1,count+1):
                         id_conv = Convocatoria.objects.latest('id')
                         docs = request.POST
@@ -97,12 +97,16 @@ def participar(request):
             insert.save()
             count = int(request.POST['contador'])
             for i in range(1,count+1):
-                id_conv = Convocatoria.objects.latest('id')
-                documento = request.FILES['doc_' + str(i)]
-                tipo = request.POST['sel_' + str(i)]
-                description = request.POST['text_' + str(i)]
-                insert = Documento(id_conv=id_conv, tipo=tipo, description=description, documento=documento)
-                insert.save()
+                try:
+                    convocatoria=Convocatoria.objects.latest('id')
+                    documento = request.FILES['doc_' + str(i)]
+                    tipo = request.POST['sel_' + str(i)]
+                    description = request.POST['text_' + str(i)]
+                    insert = Documento(id_conv=convocatoria, tipo=tipo, description=description, documento=documento)
+                    insert.save()
+                except:
+                    print("No se puede agregar el archivo ya que fue eliminado en frontend")
+                    
         elif estado == 1:
             conv = Convocatoria.objects.get(id=request.POST['conv'])
             conv.delete()
@@ -122,20 +126,30 @@ def convocatoria_edit(request, id=None):
 
             if request.method == "POST":
                 if request.POST['caso'] == "eliminar":
-                    print(request.POST['id'])
-                else:      
-                    id_group = request.POST['id_group']
+                    id = request.POST['id']
+                    documento = Documento.objects.get(id=id)
+                    documento.delete()
+
+                elif request.POST['caso'] == "editar":   
                     name = request.POST['name']
-                    history = request.POST['history']
-                    mision = request.POST['mision']
-                    vision = request.POST['vision']
-                    goals = request.POST['goals']
-
-                    insert = Semillero(id=id, id_group=id_group, name=name,
-                                        history=history, mision=mision, vision=vision, goals=goals)
+                    description = request.POST['description']
+                    opened = request.POST['opened']
+                    closed = request.POST['closed']
+                    insert = Convocatoria(id=id, name=name, description=description,opened=opened, closed=closed)
                     insert.save()
+                    count = int(request.POST['contador'])
+                    for i in range(1,count+1):
+                        try:
+                            convocatoria=Convocatoria.objects.get(id=id)
+                            documento = request.FILES['doc_' + str(i)]
+                            tipo = request.POST['sel_' + str(i)]
+                            description = request.POST['text_' + str(i)]
+                            insert = Documento(id_conv=convocatoria, tipo=tipo, description=description, documento=documento)
+                            insert.save()
+                        except:
+                            print("No se puede agregar el archivo ya que fue eliminado en frontend")
 
-                return redirect('create')
+                return redirect('participar')
 
             return render(request, "conv/convocatoria_edit.html",{'convocatoria': convocatoria,'documentos':documentos})
 

@@ -45,10 +45,16 @@
             <input type="date" min="{{today}}" name="opened" id="opened" required>
             <label for="closed">Fecha de cierre</label>
             <input type="date" min="{{today}}" name="closed" id="closed" required>
-            <label for="add_doc">Añadir documentos</label>
-            <div>
-                <button type="button" name="add_doc" id="add_doc">Añadir documento</button>
-            </div>
+            <label for="add_doc">Documentos Asociados</label>
+            <table id="tabla">
+                <tr>
+                    <th>Descripción</th>
+                    <th>Tipo</th>
+                    <th>Documentos</th>
+                    <th>Acciones</th>
+                </tr>
+            </table>
+            <button type="button" name="add_doc" id="add_doc">Añadir documento</button>
             <input type="submit" value="Enviar"/>
         </div>
         <div class="Editar">

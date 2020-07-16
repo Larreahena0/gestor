@@ -5,8 +5,6 @@
     <h1>Convocatorias</h1>
     {% if request.user.is_authenticated %}
         {% if request.user|is_admin %}
-            <a class="config" title="Eliminar" alt="Eliminar" id="delete" href="#"><i class="fas fa-trash-alt"></i></a>
-            <a class="config" title="Editar" alt="Editar" id="editar" href="#"><i class="fas fa-pencil-alt"></i></a>
             <a class="config" title="Agregar" alt="Agregar" id="add" href="#"><i class="fas fa-plus"></i></a>
             <a class="config" title="Ver" alt="Ver" id="see" href="#"><i class="fas fa-eye"></i></a>
         {% endif %}
@@ -15,24 +13,39 @@
     <hr>
     <br>
     <div class="Mostrar">
-        <table id="tableConv" style="overflow-x:auto;">
-            <tr>
-                <th>Número</th>
-                <th>Título</th>
-                <th>Descripción</th>
-                <th>Fecha de apertura</th>
-                <th>Fecha de cierre</th>
-            </tr>
-        {% for convocatoria in convocatorias %}
-            <tr class="info">
-                <td>{{convocatoria.id}}</td>
-                <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
-                <td>{{convocatoria.description}}</td>
-                <td>{{convocatoria.opened}}</td>
-                <td>{{convocatoria.closed}}</td>
-            </tr>
-        {% endfor %}
-        </table>
+        {% if convocatorias.count != 0%}
+            <table id="tableConv" style="overflow-x:auto;">
+                <tr>
+                    <th>Número</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Fecha de apertura</th>
+                    <th>Fecha de cierre</th>
+                    {% if request.user|is_admin %}
+                        <th>Acciones</th>
+                    {% endif %}
+                </tr>
+                {% for convocatoria in convocatorias %}
+                    <tr class="info">
+                        <td>{{convocatoria.id}}</td>
+                        <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
+                        <td>{{convocatoria.description}}</td>
+                        <td>{{convocatoria.opened}}</td>
+                        <td>{{convocatoria.closed}}</td>
+                        {% if request.user|is_admin %}
+                            <td>
+                                <a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick="delete1('{{convocatoria.id}}','3')" href="#"><i class="fas fa-trash-alt"></i></a>
+                                <a class="config" title="Editar" alt="Editar" id="editar" href="{% url 'convocatoria_edit' id=convocatoria.id %}"><i class="fas fa-pencil-alt"></i></a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="message in-info">
+                <p>En este momento no hay convocatorias</p>
+            </div>
+        {% endif %}  
     </div>
     <form action="" method="POST" enctype="multipart/form-data">
   		{% csrf_token %}
@@ -56,34 +69,6 @@
             </table>
             <button type="button" name="add_doc" id="add_doc">Añadir documento</button>
             <input type="submit" value="Enviar"/>
-        </div>
-        <div class="Editar">
-            {% if convocatorias.count != 0 %}
-                <select name="conv" id="conv">
-                    {% for convocatoria in convocatorias %}
-                    <option value="{{convocatoria.id}}">{{convocatoria.name}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit" value="Editar"/>
-            {% else %}
-                <div class="message in-info">
-                    <p>En este momento no hay convocatorias</p>
-                </div>
-            {% endif %}    
-        </div>
-        <div class="Eliminar">
-            {% if convocatorias.count != 0 %}
-                <select name="conv" id="conv">
-                    {% for convocatoria in convocatorias %}
-                    <option value="{{convocatoria.id}}">{{convocatoria.name}}</option>
-                    {% endfor %}
-                </select>
-                <input id="enviar" type="submit" value="Eliminar"/>
-            {% else %}
-                <div class="message in-info">
-                    <p>En este momento no hay convocatorias</p>
-                </div>
-            {% endif %}    
         </div>
     </form>
     {% load static %}

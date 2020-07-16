@@ -21,17 +21,63 @@ function delete1(id, caso) {
         fila.remove();
     }
     else if(caso == "2"){
-        var id = id;
-        var caso = "eliminar"
-        //Url donde esté, por ende la consulta se hace dependiendo de donde esté el navegador ya sea editando o creando
-        let url = window.location;
-        const postData={
-            'id': id,
-            'caso': caso,
-            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-        };
-        $.post(url, postData, function(response){
-            window.location.reload()
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'El documento no podra ser restaurado',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        var caso = "eliminar"
+                        //Url donde esté, por ende la consulta se hace dependiendo de donde esté el navegador ya sea editando o creando
+                        let url = window.location;
+                        const postData={
+                            'id': id,
+                            'caso': caso,
+                            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                        };
+                        $.post(url, postData, function(response){
+                            window.location.reload()
+                        });
+                    }
+                },
+                cancel: function () {
+                }
+            }
+        });
+    }
+    else if(caso == "3"){
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'La convocatoria no podra ser restaurada',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        let url = window.location;
+                        const postData={
+                            'conv': id,
+                            'estado': 1,
+                            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                        };
+                        $.post(url, postData, function(response){
+                            window.location.reload()
+                        });
+                    }
+                },
+                cancel: function () {
+                }
+            }
         });
     }
 };
@@ -41,57 +87,24 @@ $(document).ready(function(){
     $('#contador').val(count-1);
 
     $('.Crear').hide();
-    $('.Editar').hide();
-    $('.Eliminar').hide();
     $('#see').click(function(e){
         e.preventDefault();
         $('h1').html('Convocatorias');
         $('.Mostrar').show();
         $('#textSearch').show();
         $('.Crear').hide();
-        $('.Editar').hide();
-        $('.Eliminar').hide();
         $('.Convocatorias').hide();
     });
     
-    $('#editar').click(function(e){
-        e.preventDefault();
-        $('h1').html('Editar una convocatoria');
-        $('#textSearch').hide();
-        $('.Mostrar').hide();
-        $('.Crear').hide();
-        $('.Eliminar').hide();
-        $('.Editar').show();
-        $('#estado').val(2)
-    });
-
     $('#add').click(function(e){
         e.preventDefault();
         $('h1').html('Crear una convocatoria');
         $('#textSearch').hide();
         $('.Mostrar').hide();
-        $('.Editar').hide();
-        $('.Eliminar').hide();
         $('.Crear').show();
         $('#estado').val(0)
     });
     
-    $('#delete').click(function(e){
-        e.preventDefault();
-        $('h1').html('Eliminar una convocatoria');
-        $('#textSearch').hide();
-        $('.Mostrar').hide();
-        $('.Crear').hide();
-        $('.Eliminar').show();
-        $('.Editar').hide();
-        $('#estado').val(1)
-    });
-
-    $('.Editar input').click(function(e){
-        e.preventDefault();
-        window.location.href = "edit/" + $('#conv').val();
-    });
-
     $('#enviar').click(function(e){
         if($('#estado').val() == 1){
             e.preventDefault();
@@ -128,19 +141,6 @@ $(document).ready(function(){
 
         e.preventDefault();
         var formulario = $('#tabla');
-        /*
-        formulario.append('<br>');
-
-        formulario.append("<input type='text' name='text_" + count.toString() + "' id='text_" + count.toString() + "' required/>");
-
-        contador.val(count);
-
-        formulario.append("<select id='sel_"+ count.toString() +"' name='sel_"+ count.toString() +"'></select>");
-
-        $("#sel_" + count.toString()).append("<option value='1'>Informativo</option><option value='2'>Opcional</option><option value='3'>Obligatorio</option>");
-
-        formulario.append("<input type='file' name='doc_" + count.toString() + "' id='doc_" + count.toString() + "' required/>");
-        formulario.append('<br>');*/
         
         formulario.append('<tr id="tr_'+ count.toString() +'"></tr>')
 

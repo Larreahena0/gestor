@@ -3,6 +3,24 @@
     background: #fff;
 }
 
+.container{
+    background: #fff;
+    opacity: 1;
+}
+.row{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+    text-align: justify;
+}
+
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #274712;
+    font-weight: 700;
+    font-size: 28px;
+    font-style: oblique
+}
+
 h1 {
     display: inline-block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -24,32 +42,6 @@ button {
     font-size: 16px;
 }
 
-button:hover {
-    background-color: #274712;
-    cursor: pointer;
-}
-
-input[type=submit] {
-    background-color: #396534; /* Green */
-    border: none;
-    color: white;
-    padding: 5px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-input[type=submit]:hover {
-    background-color: #274712;
-    cursor: pointer;
-}
-
-h4 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding: 2px 0px;
-}
-
 table {
     border-collapse: collapse;
     width: 100%;
@@ -60,7 +52,7 @@ table, tr, th, td {
     border: 2px solid black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 10pt;
-    padding: 2px;
+    padding: 10px;
 }
 
 table a {
@@ -73,15 +65,4 @@ table a {
 div table input {
     border: 0;
     appearance: none;
-}
-
-#textSearch {
-	width: auto;
-	float: right;
-	font-size: 12pt;
-}
-
-.table1{
-    text-align: center;
-    border: hidden;
 }

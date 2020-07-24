@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+
+{% load auth_extras %}
+
+{% block cuerpo %}
+
+    <h1>{{semillero.name}}</h1>
+    <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'create' %}"><i class="fas fa-arrow-circle-left"></i></a>
+    <a class="config" title="Editar" alt="Editar" id="editar" href="{% url 'semillero_edit' id=semillero.id %}"><i class="fas fa-pencil-alt"></i></a>
+    <hr>
+    <br>
+    <div class="container">
+        <div class="row" >
+            <p>Mision</p>
+            <hr>
+            <br>
+            {{semillero.mision}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Vision</p>
+            <hr>
+            <br>
+            {{semillero.vision}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Antecedentes</p>
+            <hr>
+            <br>
+            {{semillero.history}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Objetivos</p>
+            <hr>
+            <br>
+            {{semillero.goals}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Grupo de investigacion</p>
+            <hr>
+            <br>
+            {{semillero.id_group}}
+        </div>
+        <br>
+    </div>
+    <p>Integrantes<p>
+    <hr>
+    <br>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Documento</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Adicional</th>
+            <th>Ingresado</th>
+            <th>Rol</th>
+        </tr>
+        {% for integrante in integrantes %}
+            <tr>
+                <td>{{integrante.id_integrante.name}}<br>{{integrante.id_integrante.lastname}}</td>
+                <td>{{integrante.id_integrante.document}}</td>
+                <td>{{integrante.id_integrante.email}}</td>
+                <td>{{integrante.id_integrante.phone}}</td>
+                <td>{{integrante.id_integrante.aditional}}</td>
+                <td>{{integrante.joined|date:"SHORT_DATE_FORMAT"}}</td>
+                <td>{{integrante.rol}}</td>
+             </tr>
+        {% endfor %}
+    </table>
+    <br>
+    {% load static %}
+    <script src="{% static 'core/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'create/css/details_style.css' %}">
+
+{% endblock %}

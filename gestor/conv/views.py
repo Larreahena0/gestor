@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Convocatoria
-from .models import Documento
+from .models import Documento,Participante
 from core.models import Grupo
 from django.conf import settings
 import datetime
@@ -81,7 +81,8 @@ def conv_details(request, id_item=None):
     inf_documents = Documento.objects.filter(id_conv=id_item,tipo=1)
     opc_documents = Documento.objects.filter(id_conv=id_item,tipo=2)
     obl_documents = Documento.objects.filter(id_conv=id_item,tipo=3)
-    return render(request, "conv/details.html",{'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
+    participantes = Participante.objects.filter(id_convocatoria=id_item)
+    return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
         'obl_documents':obl_documents,'today':today,})
 
 def participar(request):

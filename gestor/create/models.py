@@ -1,15 +1,38 @@
 from django.db import models
+from django.contrib.auth.models import User
+from core.models import Grupo
 
 # Create your models here.
+class Integrante(models.Model):
+
+	id = models.AutoField(primary_key=True, verbose_name="Id del integrante")
+	name = models.CharField(max_length=100, verbose_name="Nombre del integrante", null=True)
+	lastname = models.CharField(max_length=100, verbose_name="Apellidos del integrante", null=True)
+	document = models.CharField(max_length=12, verbose_name="Documento de identidad", null=True)
+	email = models.EmailField(verbose_name="Correo electrónico", null=True)
+	phone = models.CharField(max_length=50, verbose_name="Telefono", null=True)
+	aditional = models.CharField(max_length=100, verbose_name="Informacion Adicional", null=True)
+	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
+	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
+
+	class Meta():
+		verbose_name = "Integrante"
+		verbose_name_plural = "Integrantes"
+		ordering = ["-id"]
+
+	def __str__(self):
+		return self.name
+
 class Semillero(models.Model):
 
 	id = models.AutoField(primary_key=True, verbose_name="Id")
-	id_group = models.CharField(max_length=50, verbose_name="Grupo", null=True)
+	id_group = models.ForeignKey(Grupo, verbose_name="Grupo de investigacion", null=True, blank=True, on_delete=models.CASCADE)
 	name = models.CharField(max_length=50, verbose_name="Nombre", null=True)
 	history = models.TextField(verbose_name="Antesedentes", null=True)
 	mision = models.TextField(verbose_name="Misión", null=True)
 	vision = models.TextField(verbose_name="Visión", null=True)
 	goals = models.TextField(verbose_name="Objetivos", null=True)
+	coordinador = models.ForeignKey(Integrante, verbose_name="coordinador", null=True, blank=True, on_delete=models.CASCADE)
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 
@@ -33,32 +56,6 @@ class Rol(models.Model):
 
 	def __str__(self):
 		return self.name
-
-class Integrante(models.Model):
-
-	id = models.AutoField(primary_key=True, verbose_name="Id del integrante")
-	name = models.CharField(max_length=100, verbose_name="Nombre del integrante", null=True)
-	document = models.CharField(max_length=12, verbose_name="Documento de identidad", null=True)
-	semillero = models.CharField(max_length=100, verbose_name="Semillero", null=True)
-	#rol = models.PositiveSmallIntegerField(verbose_name="Rol", null=True)
-	rol = models.ForeignKey(Rol,verbose_name="Rol", null=True,on_delete=models.CASCADE)
-	joined = models.DateField(verbose_name="Fecha de ingreso", null=True)
-	email = models.EmailField(verbose_name="Correo electrónico", null=True)
-	phone = models.CharField(max_length=50, verbose_name="Telefono", null=True)
-	aditional = models.CharField(max_length=100, verbose_name="Informacion Adicional", null=True)
-	#career = models.CharField(max_length=50, verbose_name="Programa de pregrado", null=True)
-	#level = models.PositiveSmallIntegerField(verbose_name="Nivel en el programa", null=True)
-	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
-	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
-
-	class Meta():
-		verbose_name = "Integrante"
-		verbose_name_plural = "Integrantes"
-		ordering = ["-joined"]
-
-	def __str__(self):
-		return self.name
-
 
 class Linea(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
@@ -120,3 +117,31 @@ class Atributos(models.Model):
 	def __str__(self):
 		return self.id_estudiante.name
 
+class Participante2(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	id_integrante = models.ForeignKey(Integrante, verbose_name="Integrante", null=True, blank=True, on_delete=models.CASCADE)
+	id_semillero = models.ForeignKey(Semillero, verbose_name="Semillero", null=True, blank=True, on_delete=models.CASCADE)
+	rol = models.ForeignKey(Rol,verbose_name="Rol", null=True,on_delete=models.CASCADE)
+	joined = models.DateField(verbose_name="Fecha de ingreso", null=True)
+
+	class Meta():
+		verbose_name = "Participante"
+		verbose_name_plural = "Participantes"
+		ordering = ["id"]
+
+	def __str__(self):
+		return self.id_integrante.name
+
+class coordinadores(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	Integrante = models.ForeignKey(Integrante, verbose_name="Integrante", null=True, blank=True, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.PROTECT)
+	id_semillero = models.CharField(max_length=100, verbose_name="Semillero", null=True)
+
+	class Meta():
+		verbose_name = "Coordinador"
+		verbose_name_plural = "Coordinadores"
+		ordering = ["id"]
+
+	def __str__(self):
+		return self.user.username

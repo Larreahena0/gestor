@@ -59,7 +59,7 @@ class Participante(models.Model):
         ordering = ["id"]
 
     def __str__(self):
-        return self.id_convocatoria
+        return self.id_convocatoria.name
 
 class Documento_Adjunto(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="Id")

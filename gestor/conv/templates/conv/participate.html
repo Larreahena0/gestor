@@ -18,7 +18,6 @@
                 <tr>
                     <th>Número</th>
                     <th>Título</th>
-                    <th>Descripción</th>
                     <th>Fecha de apertura</th>
                     <th>Fecha de cierre</th>
                     {% if request.user|is_admin %}
@@ -29,7 +28,6 @@
                     <tr class="info">
                         <td>{{convocatoria.id}}</td>
                         <td><a href="{% url 'details' id_item=convocatoria.id %}">{{convocatoria.name}}</a></td>
-                        <td>{{convocatoria.description}}</td>
                         <td>{{convocatoria.opened}}</td>
                         <td>{{convocatoria.closed}}</td>
                         {% if request.user|is_admin %}

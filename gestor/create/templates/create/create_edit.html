@@ -1,13 +1,17 @@
 {% extends 'core/base.html' %}
 {% block cuerpo %}
     <h1>Editar semillero</h1>
-    <a class="config" title="Eliminar" alt="Eliminar" id="back" href="{% url 'create' %}">Regresar</a>
+    <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'create' %}"><i class="fas fa-arrow-circle-left"></i></a>
     <hr>
     <br>
-
     <form class="add" action="" method="POST">
         {% csrf_token %}
         <div id="campos">
+            <label for="coord"><b>Información del coordinador</b></label>
+            <p id="coord1"> Nombre: {{semillero.coordinador.name}} {{semillero.coordinador.lastname}}</p>
+            <p id="coord1"> Documento: {{semillero.coordinador.document}} </p>
+            <br>
+            <label for="coord"><b>Información del semillero</b></label>
             <select name="id_group" id="id_group" required>
 				<option disabled>Seleccione un grupo de investigación</option>
                 {% for grupo in grupos %}

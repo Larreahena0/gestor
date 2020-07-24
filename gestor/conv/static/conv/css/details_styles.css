@@ -23,7 +23,30 @@
     display: none;
 }
 
+.row{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+    text-align: justify;
+}
+
+.document p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #274712;
+    font-weight: 700;
+    font-size: 20px;
+    font-style: oblique;
+}
+
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #274712;
+    font-weight: 700;
+    font-size: 28px;
+    font-style: oblique
+}
+
 h1 {
+    display: inline-block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 500;
 }
@@ -41,10 +64,10 @@ table, tr, th, td {
     padding: 10px;
 }
 
-table a {
+div a {
     text-decoration: none;
     font-weight: bold;
-    color: #274712;
+    color: blue;
 }
 
 input[type=button] {

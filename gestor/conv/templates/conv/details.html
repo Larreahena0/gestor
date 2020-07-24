@@ -4,43 +4,108 @@
 
 {% block cuerpo %}
 
-    <h1>Convocatoria {{item.id}}</h1>
+    <h1>{{item.name}}</h1>
+    <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'participar' %}"><i class="fas fa-arrow-circle-left"></i></a>
+    {% if request.user|is_admin %}
+        <a class="config" title="Editar" alt="Editar" id="editar" href="{% url 'convocatoria_edit' id=item.id %}"><i class="fas fa-pencil-alt"></i></a>
+    {% endif %}
     <hr>
     <br>
-    <table>
-        <tr>
-            <th>Número</th>
-            <th>Descripción</th>
-            <th>Actividad</th>
-            <th>Fecha</th>
-            <th>Documentos informativos</th>
-        </tr>
-        <tr>
-            <td>{{item.id}}</td>
-            <td>{{item.description}}</td>
-            <td>Apertura</td>
-            <td>{{item.opened}}</td>
-            <td rowspan="2">
-              {% for document in inf_documents %}
-                <ul>
-                    <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
-                </ul>
-              {% endfor %}
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Cierre</td>
-            <td>{{item.closed}}</td>
-        </tr>
-    </table>
-    <br>
+    <div class="container">
+        <div class="row" >
+            <p>Descripción</p>
+            <hr>
+            <br>
+            {{item.description}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Fecha de Apertura</p>
+            <hr>
+            <br>
+            {{item.opened}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Fecha de cierre</p>
+            <hr>
+            <br>
+            {{item.closed}}
+        </div>
+        <br>
+        <div class="row" >
+            <p>Documentos Asociados</p>
+            <hr>
+            <br>
+            {% if inf_documents.count != 0%}
+                <div class="document">
+                    <p>Informativos</p>
+                    {% for document in inf_documents %}
+                        <ul>
+                            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                        </ul>
+                    {% endfor %}
+                </div>
+                <br>
+            {% endif %}
+            {% if opc_documents.count != 0%}
+                <div class="document">
+                    <p>Opcionales</p>
+                    {% for document in opc_documents %}
+                        <ul>
+                            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                        </ul>
+                    {% endfor %}
+                </div>
+                <br>
+            {% endif %}  
+            {% if obl_documents.count != 0%}
+                <div class="document">
+                    <p>Obligatorios</p>
+                    {% for document in obl_documents %}
+                        <ul>
+                            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                        </ul>
+                    {% endfor %}
+                </div>
+                <br>
+            {% endif %}    
+        </div>
+        <br>
+    </div>
+    {% if request.user|is_admin %}
+        <div id="participantes">
+            <p>Participantes</p>
+            <br>
+            {% if participantes.count != 0%}
+                <table>
+                    <tr>
+                        <th>Semillero</th>
+                        <th>Coordinador</th>
+                        <th>Fecha de <br> inscripción</th>
+                    </tr>    
+                
+                    {% for participante in participantes %}
+                        <tr>
+                            <td>{{participante.id_semillero}}</td>
+                            <td>{{participante.id_semillero.coordinador.name}} {{participante.id_semillero.coordinador.lastname}}</td>
+                            <td>{{participante.created|date:"SHORT_DATE_FORMAT" }}</td>
+                        </tr>
+                    {% endfor %}      
+                </table>
+            {% else %}
+                <div class="message in-info">
+                    <p>En este momento no hay participantes.</p>
+                </div>
+            {% endif %}          
+        </div>
+        <br>
+    {% endif %}
 
     {% if item.closed >= today.date and item.opened <= today.date %}
         {% if request.user.is_authenticated %}
             {% if request.user|is_coord %}
-            <input type="button" id="bparticipar" value="Participar"/>
+                <input type="button" id="bparticipar" value="Participar"/>
             {% endif %}
         {% endif %}
     {% endif %}

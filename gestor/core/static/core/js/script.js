@@ -49,7 +49,7 @@ $(document).ready(function(){
 
     $('.add').hide();
     $('.see').show();
-    $('#coordinador').val("");
+    //$('#coordinador').val("");
 
     $('#see').click(function(e){
         e.preventDefault();
@@ -58,6 +58,13 @@ $(document).ready(function(){
         $('#textSearch').show();
         $('.add').hide();
     });
+
+    $('#register_2').click(function(){
+		$('#campos').hide();
+		$('.add').show();
+		$('#new_coord').hide();
+	});
+
 
     $('#add').click(function(e){
         e.preventDefault();
@@ -121,7 +128,9 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
             };
             $.post(url, postData, function(response){
-                console.log(response)
+                var lista = response.split(",")
+                var response = lista[0]
+                var nombre = lista[1]
                 if(response == "1"){
                     var title='Coordinador existente';
                     var content='¿Desea asignar este usuario al semillero como coordinador?';
@@ -150,7 +159,8 @@ $(document).ready(function(){
                                     $('#coordinador').val(cc);
                                     $('#coord').hide();
                                     $('#campos').show();
-                                    $('#coord1').html(cc);
+                                    $('#coord1').html("Nombre: "+nombre);
+                                    $('#coord3').html("Documento: "+cc);
                                     $('#estado').val(response);
                                 }
                                 else if(response=="2"){
@@ -158,7 +168,7 @@ $(document).ready(function(){
                                     $('#new_coord').show();
                                     $('#coord').hide();
                                     $('#coordinador').val(cc);
-                                    $('#coord1').html(cc);
+                                    $('#coord3').html("Documento: "+cc);
                                     $('#estado').val(response);
                                 }
                                 else if(response=="3"){
@@ -166,7 +176,7 @@ $(document).ready(function(){
                                     $('#coord').hide();
                                     $('#estado').val(response);
                                     $('#coord2').html(cc);
-                                    $('#coord1').html(cc);
+                                    $('#coord3').html("Documento: "+cc);
                                     $('#coordinador').val(cc);
                                 }
                             }
@@ -183,6 +193,7 @@ $(document).ready(function(){
         var estado = $('#estado').val();
         let url = window.location;
         var cc = $('#coordinador').val()
+        console.log(estado)
         if(estado=="1"){
             var joined = $('#joined').val()
             var id_group = $('#id_group').val()
@@ -211,6 +222,24 @@ $(document).ready(function(){
                         closeIcon: true,
                         title: "Registro exitoso",
                         content: "Se ha registrado exitosamente el semillero.",
+                        typeAnimated: true,
+                        buttons: {
+                            ok: {
+                                btnClass: 'btn-warning',
+                                action: function(){
+                                    window.location.reload();
+                                }
+                            }
+                        }
+                    });
+                }
+                if(response=="2"){
+                    $.alert({
+                        boxWidth: '400px',
+                        useBootstrap: false,
+                        closeIcon: true,
+                        title: "Edicion exitosa",
+                        content: "Se ha editado exitosamente el semillero.",
                         typeAnimated: true,
                         buttons: {
                             ok: {
@@ -267,6 +296,9 @@ $(document).ready(function(){
             };
         }
         $.post(url, postData, function(response){
+            var lista = response.split(",")
+            var response = lista[0]
+            var nombre = lista[1]
             if(response=="1"){
                 var title="Nombre de usuario invalido";
                 var content="El nombre de usuario no puede tener espacios";
@@ -277,6 +309,7 @@ $(document).ready(function(){
                 $('#new_coord').hide();
                 $('#campos').show();
                 $('#estado').val("1");
+                $('#coord1').html("Nombre: "+nombre);
             }    
             else if(response=="3"){
                 var title="Contraseñas no coinciden";

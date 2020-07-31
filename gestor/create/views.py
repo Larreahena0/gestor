@@ -33,7 +33,7 @@ def create(request):
                         try:
                             coordinador = coordinadores.objects.get(Integrante=integrante)
                             #Se debe asignar el coordinador y integrante existente al semillero
-                            return HttpResponse("1")
+                            return HttpResponse("1,"+integrante.name+" "+integrante.lastname)
                         except:
                             #Se debe crear el perfil coordinador y se debe asignar el integrante existente al semillero
                             return HttpResponse("2")
@@ -73,7 +73,7 @@ def create(request):
                             user.save()
                             insert = coordinadores(Integrante=integrante,user=user)
                             insert.save()
-                            return HttpResponse("2")
+                            return HttpResponse("2,"+integrante.name+" "+integrante.lastname)
                     else:
                         return HttpResponse("3")
                 #Funcion donde se crea el semillero       
@@ -128,23 +128,100 @@ def semillero_edit(request, id):
             grupos = Grupo.objects.all()
 
             if request.method == "POST":
+                if request.POST['caso'] == "verificar":
+                    cedula = request.POST['cc']
+                    try:
+                        integrante = Integrante.objects.get(document=cedula)
+                        try:
+                            coordinador = coordinadores.objects.get(Integrante=integrante)
+                            #Se debe asignar el coordinador y integrante existente al semillero
+                            return HttpResponse("1,"+integrante.name+" "+integrante.lastname)
+                        except:
+                            #Se debe crear el perfil coordinador y se debe asignar el integrante existente al semillero
+                            return HttpResponse("2")
+                    except:    
+                        #Se debe crear el coordinador y integrante al semillero
+                        return HttpResponse("3")
+                elif request.POST['caso']=="2" or request.POST['caso']=="3":
+                    username = request.POST['user']
+                    password = request.POST['password']
+                    rpassword = request.POST['rpassword']  
+                    grupo = request.POST['group']
+                    cc = request.POST['cc']
+                    if " " in username:
+                        return HttpResponse("1")    
+                    elif rpassword == password:
+                        try:
+                            user=User.objects.get(username=username)
+                            return HttpResponse("4")
+                        except:
+                            user = User.objects.create_user(username,"", password)
+                            group = Group.objects.all().filter(name=grupo)
+                            user=User.objects.get(username=username)
+                            user.groups.set(group)
+                            user.save()
+                            if request.POST['caso']=="3":
+                                name = request.POST['name']
+                                lastname = request.POST['lastname']
+                                email = request.POST['email']
+                                phone = request.POST['phone']
+                                adicional = request.POST['adicional']
+                                insert = Integrante(name=name,lastname=lastname,document=cc,email=email,phone=phone,aditional=adicional)
+                                insert.save()
+                            integrante = Integrante.objects.get(document=cc)
+                            user.first_name = integrante.name
+                            user.last_name = integrante.lastname
+                            user.email = integrante.email
+                            user.save()
+                            insert = coordinadores(Integrante=integrante,user=user)
+                            insert.save()
+                            return HttpResponse("2,"+integrante.name+" "+integrante.lastname)
+                    else:
+                        return HttpResponse("3")
+                elif request.POST["caso"] == "1":
+                    #Edicion del coordinador 
+                    semillero = Semillero.objects.get(id=id)
+                    new_coord = request.POST["cc"]
+                    if(new_coord != semillero.coordinador.document):
+                        #El coordinador cambió por tanto se debe actualizar el coordinador
+                        old_coord = semillero.coordinador.document
+                        rol = Rol.objects.get(name="Coordinador de semillero")
+                        participante = Participante2.objects.get(id_semillero=semillero,rol=rol)
+                        integrante = Integrante.objects.get(document=new_coord)
+                        participante.id_integrante=integrante
+                        participante.save(update_fields=["id_integrante"])
+                        semillero.coordinador=integrante
+                        semillero.save(update_fields=["coordinador"])
+                        #Se debe verificar si el coordinador es coordinador de mas de un semillero
+                        integrante = Integrante.objects.get(document=old_coord)
+                        semilleros = Participante2.objects.filter(id_integrante=integrante,rol=rol)
+                        #Si era unico coordinador no tiene sentido que siga teniendo usuario en la app
+                        if(semilleros.count()==0):
+                            old_c = coordinadores.objects.get(Integrante=integrante)
+                            user = User.objects.get(id=old_c.user.id)
+                            old_c.delete()
+                            user.delete()
+                        else:
+                            print("no eliminar coordinador")
 
-                group = request.POST['id_group']
-                id_group=Grupo.objects.get(id=group)
-                name = request.POST['name']
-                history = request.POST['history']
-                mision = request.POST['mision']
-                vision = request.POST['vision']
-                goals = request.POST['goals']
+                    #Edicion de los campos principales del semillero
+                    group = request.POST['id_group']
+                    id_group=Grupo.objects.get(id=group)
+                    name = request.POST['name']
+                    history = request.POST['history']
+                    mision = request.POST['mision']
+                    vision = request.POST['vision']
+                    goals = request.POST['goals']
+                    insert = Semillero.objects.get(id=id)
+                    insert.id_group=id_group
+                    insert.name=name
+                    insert.history=history
+                    insert.mision=mision
+                    insert.vision=vision
+                    insert.goals=goals
+                    insert.save(update_fields=['id_group','name','history','mision','vision','goals'])
 
-                insert = Semillero.objects.get(id=id)
-                insert.id_group=id_group
-                insert.name=name
-                insert.history=history
-                insert.mision=mision
-                insert.vision=vision
-                insert.goals=goals
-                insert.save(update_fields=['id_group','name','history','mision','vision','goals'])
+                    return HttpResponse("2")
 
                 return redirect('create')
 

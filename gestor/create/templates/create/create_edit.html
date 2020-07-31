@@ -4,13 +4,44 @@
     <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'create' %}"><i class="fas fa-arrow-circle-left"></i></a>
     <hr>
     <br>
-    <form class="add" action="" method="POST">
+    <form action="" method="POST">
         {% csrf_token %}
+        <div class="add">
+            <div id="coord">
+                <label for="coord">Coordinador</label>
+                <input type="text" name="cedula" id="cedula" placeholder="Cedula del coordinador" autocomplete="off" required>
+                <button type="button" name="consult" id="consult">consultar</button>
+            </div>
+            <div id="new_coord">
+                <input type="hidden" name="estado" id="estado" value="1" autocomplete="off">
+                <div id="new_integr" >
+                    <label for="">Información del coordinador</label>
+                    <input type="text" name="name" id="name" placeholder="Nombres" autocomplete="off" required>
+                    <input type="text" name="lastname" id="lastname" placeholder="Apellidos" autocomplete="off" required>
+                    <p>Documento del coordinador</p>
+                    <br>
+                    <p id="coord2" ></p>
+                    <br>
+                    <input type="email" name="email" id="email" placeholder="Correo electrónico" autocomplete="off" required>
+                    <input type="text" name="phone" id="phone" placeholder="Telefono" autocomplete="off" required>
+                    <input type="text" name="adicional" id="adicional" placeholder="Información Adicional" autocomplete="off" required>
+                </div>
+                <div id="new_user" >
+                    <label for="">Información del usuario</label>
+                    <input type="text" name="username" id="username" placeholder="Nombre de usuario" autocomplete="off" required>
+                    <input type="password" name="password" id="password" placeholder="Contraseña" autocomplete="off" required>
+                    <input type="password" name="rpassword" id="rpassword" placeholder="Repetir contraseña" autocomplete="off" required>
+                </div>    
+                <button type="button" name="register" id="register">Registrar Coordinador</button>
+            </div>    
+        </div>
         <div id="campos">
             <label for="coord"><b>Información del coordinador</b></label>
             <p id="coord1"> Nombre: {{semillero.coordinador.name}} {{semillero.coordinador.lastname}}</p>
-            <p id="coord1"> Documento: {{semillero.coordinador.document}} </p>
+            <p id="coord3"> Documento: {{semillero.coordinador.document}} </p>
             <br>
+            <input type="hidden" id="coordinador" name="coordinador" value="{{semillero.coordinador.document}}">
+            <button type="button" name="register_2" id="register_2">Modificar coordinador</button>
             <label for="coord"><b>Información del semillero</b></label>
             <select name="id_group" id="id_group" required>
 				<option disabled>Seleccione un grupo de investigación</option>
@@ -22,17 +53,17 @@
                     {% endif %}
                 {% endfor %}
             </select>
-            <input type="text" name="name" id="name" placeholder="Nombre del semillero" value="{{ semillero.name }}" autocomplete="off" required>
+            <input type="text" name="name_s" id="name_s" placeholder="Nombre del semillero" value="{{ semillero.name }}" autocomplete="off" required>
             <textarea name="history" id="history" cols="30" placeholder="Antecedentes" rows="10" required>{{ semillero.history }}</textarea>
             <textarea name="mision" id="mision" cols="30" placeholder="Misión" rows="10" required>{{ semillero.mision }}</textarea>
             <textarea name="vision" id="vision" cols="30" placeholder="Visión" rows="10" required>{{ semillero.vision }}</textarea>
             <textarea name="goals" id="goals" cols="30" placeholder="Objetivos" rows="10" required>{{ semillero.goals }}</textarea>
+            <button type="button" name="register1" id="register1">Editar semillero</button>
         </div>
-        <input id="enviar" type="submit" value="Editar"/>
     </form>
 
     {% load static %}
-    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/script.js' %}"></script>
     <link rel="stylesheet" href="{% static 'create/css/create_styles.css' %}">
 
 {% endblock %}

@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Usuario
 from .models import Noticia
+from create.models import coordinadores,Integrante,Participante2,Rol
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import login
+from django.contrib.auth import login as do_login
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -28,9 +29,20 @@ def login(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            do_login(request, user)
+            if(request.user.groups.filter(name='Coordinador').exists()):
+                coordinador=coordinadores.objects.get(user=request.user)
+                integrante=Integrante.objects.get(id=coordinador.Integrante.id)
+                rol=Rol.objects.get(name="Coordinador de semillero")
+                participante=Participante2.objects.filter(id_integrante=integrante.id,rol=rol)
+                if(participante.count()>1):
+                    return redirect('/choose')
+                else:
+                    return redirect('/')
+            else:
+                return redirect('/')        
     return render(request, "core/login.html")
 
 def signup(request):
@@ -71,3 +83,17 @@ def add_news(request):
 def news(request, id_item=None):
     item = Noticia.objects.get(id=id_item)
     return render(request, "core/news.html",{'item':item,})
+
+def choose(request):
+    coordinador=coordinadores.objects.get(user=request.user)
+    integrante=Integrante.objects.get(id=coordinador.Integrante.id)
+    rol=Rol.objects.get(name="Coordinador de semillero")
+    semilleros=Participante2.objects.filter(id_integrante=integrante.id,rol=rol)
+    if request.method=="POST":
+        semillero=request.POST["id_semillero"]
+        insert=coordinadores.objects.get(user=request.user)
+        insert.id_semillero=semillero
+        insert.save(update_fields=['id_semillero'])
+        return redirect("/")
+
+    return render(request,"core/choose.html",{'semilleros':semilleros})

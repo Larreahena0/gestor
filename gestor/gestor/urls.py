@@ -27,7 +27,6 @@ urlpatterns = [
     path('', include('create.urls')),
     #Conv paths
     path('', include('conv.urls')),
-    path('login/', views.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('logout/', views.LogoutView.as_view(template_name='core/login.html'), name='logout'),
 ]
 

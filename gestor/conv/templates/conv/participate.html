@@ -33,7 +33,7 @@
                         {% if request.user|is_admin %}
                             <td>
                                 <a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick="delete1('{{convocatoria.id}}','3')" href="#"><i class="fas fa-trash-alt"></i></a>
-                                <a class="config" title="Editar" alt="Editar" id="editar" href="{% url 'convocatoria_edit' id=convocatoria.id %}"><i class="fas fa-pencil-alt"></i></a>
+                                <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'convocatoria_edit' id=convocatoria.id %}"><i class="fas fa-pencil-alt"></i></a>
                             </td>
                         {% endif %}
                     </tr>

@@ -7,6 +7,10 @@ from .models import Career,Rol,Atributos,coordinadores,Participante2
 from core.models import Grupo
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from functools import reduce
+from operator import or_
+from django.db.models import Q
+
 
 # Create your views here.
 
@@ -178,57 +182,88 @@ def register(request):
     if request.user.is_authenticated:
 
         if request.user.groups.filter(name="Coordinador").exists():
-
-            semilleros = Semillero.objects.all()
+            
+            id_semillero=int(coordinadores.objects.get(user=request.user).id_semillero)
+            semillero = Semillero.objects.get(id=id_semillero)
+            integrantes = Participante2.objects.filter(id_semillero=semillero)
             pregrados = Career.objects.filter(tipo="Pregrado")
             postgrados = Career.objects.filter(tipo="Postgrado")
             lineas = Linea.objects.all()
-            roles = Rol.objects.all()
+            query = reduce(or_, (Q(name="Coordinador de grupo"),Q(name="Coordinador de linea"),Q(name="Estudiante lider"),Q(name="Estudiante")))
+            roles = Rol.objects.filter(query)
 
             if request.method == "POST":
-                name = request.POST['name']
-                document = request.POST['document']
-                semillero = request.POST['semillero']
-                rol1 = request.POST['rol']
-                joined = request.POST['joined']
-                email = request.POST['email']
-                phone = request.POST['phone']
-                aditional = request.POST['adicional']
-                #career = request.POST['career']
-                #level = request.POST['level']
-                rol=Rol.objects.get(id=rol1)
-                insert = Integrante(name=name, document=document, semillero=semillero,
-                                    rol=rol, joined=joined, email=email, phone=phone, aditional=aditional)
-                insert.save()
+                if request.POST['caso']=="verificar":
+                    cedula = request.POST['cc']
+                    try:
+                        #Si existe perfil integrante se retorna 1
+                        integrante = Integrante.objects.get(document=cedula)
+                        try:
+                            id_semillero=int(coordinadores.objects.get(user=request.user).id_semillero)
+                            semillero = Semillero.objects.get(id=id_semillero)
+                            participante = Participante2.objects.get(id_integrante=integrante,id_semillero=semillero)
+                            return HttpResponse("3")
+                        except:    
+                            return HttpResponse("1")
+                    except:    
+                        #Si no existe perfil integrante se retorna 2
+                        return HttpResponse("2")
+                
+                elif request.POST["caso"]=="eliminar":
+                    id = request.POST["id"]
+                    insert = Participante2.objects.get(id=id)
+                    insert.delete()
 
-                #Cuando es un coordinador de linea se agregan las lineas asociadas
-                if(int(rol1) == 3):
-                    count = int(request.POST['contador'])
-                    print(count)
-
-                    for i in range(0, count+1):
-                        id_coo = Integrante.objects.latest('id')
-                        id_linea = request.POST['idline_' + str(i)]
-                        linea = Linea.objects.get(id=id_linea)
-
-                        insert = LineaSemillero(
-                            id_coo=id_coo, id_linea=linea)
+                elif request.POST['caso']=="nuevo" or request.POST['caso']=="viejo":
+                    if request.POST['caso']=="nuevo":        
+                        name = request.POST['name']
+                        lastname = request.POST['lastname']
+                        document = request.POST['document']
+                        email = request.POST['email']
+                        phone = request.POST['phone']
+                        aditional = request.POST['adicional']
+                        insert = Integrante(name=name,lastname=lastname, document=document, email=email, phone=phone, aditional=aditional)
                         insert.save()
 
-                #Cuando es estudiante se deben agregar los atributos de los estudiantes (nivel y carrera)        
-                elif(int(rol1) == 4 or int(rol1) == 5):
-                    tipo = request.POST['tipo']
-                    if(int(tipo) == 1):
-                        id_prog = request.POST['pregrado']
-                    elif(int(tipo) == 2):
-                        id_prog = request.POST['postgrado']
-                    programa = Career.objects.get(id=id_prog)
-                    id_est = Integrante.objects.latest('id')
-                    nivel = request.POST['level']
-                    insert = Atributos(id_estudiante=id_est,id_programa=programa,nivel=nivel)
+                    semillero = request.POST['semillero']
+                    document = request.POST['document']
+                    rol1 = request.POST['rol']
+                    joined = request.POST['joined']
+                    rol=Rol.objects.get(id=rol1)
+                    semillero=Semillero.objects.get(id=semillero)
+                    integrante = Integrante.objects.get(document=document)
+                    insert = Participante2(id_integrante=integrante,id_semillero=semillero,rol=rol,joined=joined)
                     insert.save()
 
-            return render(request, "create/register.html", {'semilleros': semilleros, 'pregrados': pregrados, 'postgrados': postgrados, 'lineas': lineas,'roles':roles})
+                    #Cuando es un coordinador de linea se agregan las lineas asociadas
+                    if(int(rol1) == 3):
+                        count = int(request.POST['contador'])
+                        print(count)
+
+                        for i in range(0, count+1):
+                            id_coo = Integrante.objects.get(document=document)
+                            id_linea = request.POST['idline_' + str(i)]
+                            linea = Linea.objects.get(id=id_linea)
+                            participante=Participante2.objects.latest('id')
+                            insert = LineaSemillero(
+                                id_coo=id_coo, id_linea=linea, id_participante=participante)
+                            insert.save()
+
+                    #Cuando es estudiante se deben agregar los atributos de los estudiantes (nivel y carrera)        
+                    elif(int(rol1) == 4 or int(rol1) == 5):
+                        tipo = request.POST['tipo']
+                        if(int(tipo) == 1):
+                            id_prog = request.POST['pregrado']
+                        elif(int(tipo) == 2):
+                            id_prog = request.POST['postgrado']
+                        programa = Career.objects.get(id=id_prog)
+                        id_est = Integrante.objects.get(document=document)
+                        nivel = request.POST['level']
+                        participante=Participante2.objects.latest('id')
+                        insert = Atributos(id_estudiante=id_est,id_programa=programa,id_participante=participante,nivel=nivel)
+                        insert.save()
+
+            return render(request, "create/register.html", {'semillero': semillero, 'pregrados': pregrados, 'postgrados': postgrados, 'lineas': lineas,'roles':roles,'integrantes':integrantes})
 
     return redirect('/')
 
@@ -254,6 +289,173 @@ def semillero_details(request,id):
         return render(request, "create/details.html",{"semillero":semillero,"integrantes":integrantes})
 
     return redirect('/')
+
+def integrante_details(request,id):
+    if request.user.is_authenticated:
+        integrante = Integrante.objects.get(id=id)
+        coordinador = coordinadores.objects.get(user=request.user)
+        semillero = Semillero.objects.get(id=int(coordinador.id_semillero))
+        participante = Participante2.objects.get(id_integrante=integrante,id_semillero=semillero)
+        if(participante.rol.name=="Coordinador de linea"):
+            linea_coordinador = LineaSemillero.objects.filter(id_coo=integrante,id_participante=participante)
+            return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante,"linea_coordinador":linea_coordinador})
+
+        elif(participante.rol.name=="Estudiante" or participante.rol.name=="Estudiante lider"):
+            atributo = Atributos.objects.get(id_estudiante=integrante,id_participante=participante)
+            return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante,"atributo":atributo})
+
+        else:    
+            return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante})
+    return redirect('/')
+
+def integrante_edit(request, id):
+
+    if request.user.is_authenticated:
+
+        if request.user.groups.filter(name="Coordinador").exists():
+
+            integrante = Integrante.objects.get(id=id)
+            coordinador = coordinadores.objects.get(user=request.user)
+            participante = Participante2.objects.get(id_integrante=integrante,id_semillero=int(coordinador.id_semillero))
+            query = reduce(or_, (Q(name="Coordinador de grupo"),Q(name="Coordinador de linea"),Q(name="Estudiante lider"),Q(name="Estudiante")))
+            roles = Rol.objects.filter(query)
+            lineas = Linea.objects.all()
+            pregrados = Career.objects.filter(tipo="Pregrado")
+            postgrados = Career.objects.filter(tipo="Postgrado")
+
+            if request.method == "POST":
+
+                #Edicion de datos principales
+                name = request.POST["name"]
+                lastname = request.POST["lastname"]
+                document = request.POST["document"]
+                email = request.POST["email"]
+                phone = request.POST["phone"]
+                aditional = request.POST["adicional"]
+                integrante=Integrante.objects.get(id=id)
+                integrante.name = name
+                integrante.lastname = lastname
+                integrante.document = document
+                integrante.email = email
+                integrante.phone = phone
+                integrante.aditional = aditional
+                integrante.save(update_fields=["name","lastname","document","phone","email","aditional"])
+                
+                #Edicion del rol en el semillero
+                integrante=Integrante.objects.get(id=id)
+                coordinador = coordinadores.objects.get(user=request.user)
+                participante = Participante2.objects.get(id_integrante=integrante,id_semillero=int(coordinador.id_semillero))
+                rol = request.POST["rol"]
+                if int(rol) != participante.rol.id:
+                    #Cambio de rol, se debe eliminar atributos en caso de ser estudiante y eliminar lineas en caso de ser coordinador de linea
+                    if(participante.rol.name == "Estudiante" or participante.rol.name == "Estudiante lider"):
+                        atributo = Atributos.objects.get(id_participante=participante)
+                        atributo.delete()
+
+                    elif(participante.rol.name == "Coordinador de linea"):
+                        lineas = LineaSemillero.objects.filter(id_participante=participante)
+                        for linea in lineas:
+                            linea.delete()
+
+                    #Actualizacion del rol y de la fecha de ingreso al semillero
+                    rol1 = Rol.objects.get(id=int(rol))
+                    participante.rol=rol1
+                    participante.joined=request.POST["joined"]
+                    participante.save(update_fields=["rol","joined"])
+
+                    #Creacion de los atributos en caso de ser estudiante o ser coordinador de linea
+                    participante = Participante2.objects.get(id_integrante=integrante,id_semillero=int(coordinador.id_semillero))
+                    #Cuando es un coordinador de linea se agregan las lineas asociadas
+                    if(int(rol) == 3):
+                        count = int(request.POST['contador'])
+                        print(count)
+
+                        for i in range(0, count+1):
+                            id_coo = Integrante.objects.get(document=document)
+                            id_linea = request.POST['idline_' + str(i)]
+                            linea = Linea.objects.get(id=id_linea)
+
+                            insert = LineaSemillero(
+                                id_coo=id_coo, id_linea=linea, id_participante=participante)
+                            insert.save()
+
+                    #Cuando es estudiante se deben agregar los atributos de los estudiantes (nivel y carrera)        
+                    elif(int(rol) == 4 or int(rol) == 5):
+                        tipo = request.POST['tipo']
+                        if(int(tipo) == 1):
+                            id_prog = request.POST['pregrado']
+                        elif(int(tipo) == 2):
+                            id_prog = request.POST['postgrado']
+                        programa = Career.objects.get(id=id_prog)
+                        id_est = Integrante.objects.get(document=document)
+                        nivel = request.POST['level']
+                        insert = Atributos(id_estudiante=id_est,id_programa=programa,id_participante=participante,nivel=nivel)
+                        insert.save()
+
+                else:
+                    integrante=Integrante.objects.get(id=id)
+                    coordinador = coordinadores.objects.get(user=request.user)
+                    participante = Participante2.objects.get(id_integrante=integrante,id_semillero=int(coordinador.id_semillero))
+                    
+                    #En caso de ser un estudiante, se debe actualizar la carrera y nivel del integrante
+                    if(participante.rol.name == "Estudiante" or participante.rol.name == "Estudiante lider"):
+                        atributo = Atributos.objects.get(id_participante=participante)
+                        tipo = request.POST['tipo']
+                        if(int(tipo) == 1):
+                            id_prog = request.POST['pregrado']
+                        elif(int(tipo) == 2):
+                            id_prog = request.POST['postgrado']
+                        programa = Career.objects.get(id=id_prog)
+                        atributo.id_programa = programa
+                        atributo.nivel = request.POST["level"]
+                        atributo.save(update_fields=["id_programa","nivel"])
+
+                    #En caso de ser un coordinador de linea se deben eliminar las ultimas n lineas o se deben agregar n lineas.
+                    elif(participante.rol.name == "Coordinador de linea"):
+                        contador=request.POST["contador"]
+
+                        if int(contador)<-1:
+                            count = int(request.POST['contador'])+1
+                            linea_coordinador = LineaSemillero.objects.filter(id_coo=integrante,id_participante=participante)
+                            count = count + linea_coordinador.count()
+                            var = 0
+                            for linea in linea_coordinador:
+                                if(var>=count):
+                                    linea.delete()
+                                else:
+                                    var+=1    
+
+                        elif int(contador)>-1:
+                            count = int(request.POST['contador'])
+                            for i in range(0, count+1):
+                                id_coo = Integrante.objects.get(document=document)
+                                id_linea = request.POST['idline_' + str(i)]
+                                linea = Linea.objects.get(id=id_linea)
+
+                                insert = LineaSemillero(
+                                    id_coo=id_coo, id_linea=linea, id_participante=participante)
+                                insert.save()
+
+                    #Finalmente se actualiza la fecha de ingreso al semillero
+                    participante.joined=request.POST["joined"]
+                    participante.save(update_fields=["joined"])        
+                
+                return redirect("register")
+
+            if(participante.rol.name=="Coordinador de linea"):
+                linea_coordinador = LineaSemillero.objects.filter(id_coo=integrante,id_participante=participante)
+                return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"linea_coordinador":linea_coordinador})
+
+            elif(participante.rol.name=="Estudiante" or participante.rol.name=="Estudiante lider"):
+                atributo = Atributos.objects.get(id_estudiante=integrante,id_participante=participante)
+                if(atributo.id_programa.tipo=="Pregrado"):
+                    return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"pregrado":"pregrado","lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"atributo":atributo})
+                else:
+                    return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"postgrado":"postgrado","lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"atributo":atributo})
+            else:    
+                return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"lineas":lineas,'integrante': integrante, 'participante': participante,'roles':roles})
+
+
 def produccion(request):
 
     return render(request, "create/produccion.html")

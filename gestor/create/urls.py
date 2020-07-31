@@ -8,5 +8,7 @@ urlpatterns = [
     path(r'semillero/remove/<int:id>', views.semillero_delete, name="semillero_delete"),
     path('linea/', views.add_workline, name="workline"),
     path('integrante/', views.register, name="register"),
+    path(r'integrante/details/<int:id>', views.integrante_details, name="integrante_details"),
+    path(r'integrante/edit/<int:id>', views.integrante_edit, name="integrante_edit"),
     path('produccion/', views.produccion, name="produccion")
 ]

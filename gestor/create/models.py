@@ -72,22 +72,6 @@ class Linea(models.Model):
 	def __str__(self):
 		return self.name
 
-class LineaSemillero(models.Model):
-
-	id = models.AutoField(primary_key=True, verbose_name="Id")
-	id_coo = models.ForeignKey(Integrante, verbose_name="Coordinador", null=True, blank=True, on_delete=models.CASCADE)
-	id_linea = models.ForeignKey(Linea,verbose_name="Id de la línea", null=True,on_delete=models.CASCADE)
-	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
-	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
-
-	class Meta():
-		verbose_name = "Línea por coordinador"
-		verbose_name_plural = "Líneas por coordinador"
-		ordering = ["-created"]
-
-	def __str__(self):
-		return self.id_coo.name
-
 class Career(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
 	name = models.CharField(max_length=100, null=True,verbose_name="Nombre")
@@ -103,20 +87,6 @@ class Career(models.Model):
 	def __str__(self):
 		return self.name
 
-class Atributos(models.Model):
-	id = models.AutoField(primary_key=True, verbose_name="Id")
-	id_estudiante = models.ForeignKey(Integrante, verbose_name="Estudiante", null=True, blank=True, on_delete=models.CASCADE)
-	id_programa = models.ForeignKey(Career, verbose_name="Programa", null=True, blank=True, on_delete=models.CASCADE)
-	nivel = models.CharField(max_length=10, null=True,verbose_name="Nivel")
-
-	class Meta():
-		verbose_name = "Atributo"
-		verbose_name_plural = "Atributos"
-		ordering = ["id"]
-
-	def __str__(self):
-		return self.id_estudiante.name
-
 class Participante2(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
 	id_integrante = models.ForeignKey(Integrante, verbose_name="Integrante", null=True, blank=True, on_delete=models.CASCADE)
@@ -131,6 +101,38 @@ class Participante2(models.Model):
 
 	def __str__(self):
 		return self.id_integrante.name
+
+class Atributos(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	id_estudiante = models.ForeignKey(Integrante, verbose_name="Estudiante", null=True, blank=True, on_delete=models.CASCADE)
+	id_programa = models.ForeignKey(Career, verbose_name="Programa", null=True, blank=True, on_delete=models.CASCADE)
+	id_participante = models.ForeignKey(Participante2, verbose_name="Participante", null=True, blank=True, on_delete=models.CASCADE)
+	nivel = models.CharField(max_length=10, null=True,verbose_name="Nivel")
+
+	class Meta():
+		verbose_name = "Atributo"
+		verbose_name_plural = "Atributos"
+		ordering = ["id"]
+
+	def __str__(self):
+		return self.id_estudiante.name
+
+class LineaSemillero(models.Model):
+
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	id_coo = models.ForeignKey(Integrante, verbose_name="Coordinador", null=True, blank=True, on_delete=models.CASCADE)
+	id_linea = models.ForeignKey(Linea,verbose_name="Id de la línea", null=True,on_delete=models.CASCADE)
+	id_participante = models.ForeignKey(Participante2, verbose_name="Participante", null=True, blank=True, on_delete=models.CASCADE)
+	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
+	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
+
+	class Meta():
+		verbose_name = "Línea por coordinador"
+		verbose_name_plural = "Líneas por coordinador"
+		ordering = ["-created"]
+
+	def __str__(self):
+		return self.id_coo.name
 
 class coordinadores(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")

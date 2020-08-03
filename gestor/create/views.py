@@ -106,12 +106,34 @@ def create(request):
                     rol=Rol.objects.get(name="Coordinador de semillero")
                     insert=Participante2(id_integrante=integrante,id_semillero=semillero,rol=rol,joined=joined)
                     insert.save()
+
+                    coordinador = coordinadores.objects.get(Integrante=integrante)
+                    coordinador.id_semillero = semillero.id
+                    coordinador.save(update_fields=["id_semillero"])
+
                     return HttpResponse("1")
 
                 elif request.POST['caso']=="eliminar":
                     id_s=request.POST['id']
                     semillero=Semillero.objects.get(id=id_s)
+                    #Se debe verificar si el coordinador es coordinador de mas de un semillero
+                    rol = Rol.objects.get(name="Coordinador de semillero")
+                    integrante = Integrante.objects.get(id=int(semillero.coordinador.id))
                     semillero.delete()
+                    semilleros = Participante2.objects.filter(id_integrante=integrante,rol=rol)
+                    #Si era unico coordinador no tiene sentido que siga teniendo usuario en la app
+                    if(semilleros.count()==0):
+                        old_c = coordinadores.objects.get(Integrante=integrante)
+                        user = User.objects.get(id=old_c.user.id)
+                        old_c.delete()
+                        user.delete()
+                    #En caso de ser coordiandor se modifica el campo id_semilero por si fue el ultimo seleccionado por el coordinador                   
+                    else:
+                        coordinador = coordinadores.objects.get(Integrante=integrante)
+                        for semillero in semilleros:
+                            coordinador.id_semillero = semillero.id_semillero.id
+                            coordinador.save(update_fields=["id_semillero"])
+
             return render(request, "create/create.html", {'grupos': grupos, 'lineas': lineas, 'Semilleros': semilleros})
 
     return redirect('/')
@@ -173,7 +195,7 @@ def semillero_edit(request, id):
                             user.last_name = integrante.lastname
                             user.email = integrante.email
                             user.save()
-                            insert = coordinadores(Integrante=integrante,user=user)
+                            insert = coordinadores(Integrante=integrante,user=user,id_semillero=id)
                             insert.save()
                             return HttpResponse("2,"+integrante.name+" "+integrante.lastname)
                     else:

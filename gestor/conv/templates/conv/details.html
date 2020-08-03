@@ -112,19 +112,12 @@
 
     <div id="dparticipar">
         <form action="" method="POST">
-            <label for="grupo">Seleccione un grupo de investigación:</label>
-            <select name="grupo" id="grupo" required>
-                {% for grupo in grupos %}
-                    <option value="{{grupo.id}}">{{grupo.name}}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <br>
+            <label for="grupo">Para participar debe adjuntar los siguientes documentos:</label>
             {% csrf_token %}
             <table>
                 <tr>
                     <th>Nombre</th>
-                    <th>Subir</th>
+                    <th>Adjuntar</th>
                     <th>Obligatorio</th>
                 </tr>
                 {% for document in opc_documents %}
@@ -146,6 +139,28 @@
             <input type="submit" value="Enviar">
         </form>
     </div>
+    {% if mensaje %}
+        <script lenguague="JavaScript">
+            $.alert({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: '{{mensaje1}}',
+                content: '{{mensaje}}',
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Seguro',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                            window.location = "{% url 'participar' %}";
+                        }
+                    },
+                }
+                
+            });
+        </script>
+    {% endif %}
 
     {% load static %}
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Convocatoria
-from .models import Documento,Participante
+from .models import Documento,Participante,Documento_Adjunto
+from create.models import coordinadores,Semillero
 from core.models import Grupo
 from django.conf import settings
 import datetime
@@ -82,6 +83,41 @@ def conv_details(request, id_item=None):
     opc_documents = Documento.objects.filter(id_conv=id_item,tipo=2)
     obl_documents = Documento.objects.filter(id_conv=id_item,tipo=3)
     participantes = Participante.objects.filter(id_convocatoria=id_item)
+
+    if request.method == "POST":
+        #Insert de la participacion del semilero escogido por el usuario
+        id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+        semillero = Semillero.objects.get(id=int(id_semillero))
+
+        try:
+            participante = Participante.objects.get(id_convocatoria=item,id_semillero=semillero)
+            mensaje = "El semillero ya está participando en la convocatoria."
+            mensaje1 = "Error"
+            return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1})
+        except:
+            insert = Participante(id_convocatoria=item,id_semillero=semillero)
+            insert.save()
+            #Insert de los documentos obligatorios adjuntos por el coordinador de semillero
+            participante = Participante.objects.latest("id")
+            for obl_document in obl_documents:
+                document = request.POST[str(obl_document.id)]
+                if(document != ""):  
+                    insert = Documento_Adjunto(id_participante=participante,id_documento=obl_document,documento=document,estado="Sin revisar")
+                    insert.save()
+                else:
+                    print("no se adjuntó")
+
+            for opc_document in opc_documents:
+                document = request.POST[str(opc_document.id)]
+                if(document != ""):  
+                    insert = Documento_Adjunto(id_participante=participante,id_documento=opc_document,documento=document,estado="Sin revisar")
+                    insert.save()
+                else:
+                    print("no se adjuntó")
+            mensaje = "El semillero fue registrado en la convocatoria."
+            mensaje1 = "Exito"
+            return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1})
+
     return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
         'obl_documents':obl_documents,'today':today,})
 

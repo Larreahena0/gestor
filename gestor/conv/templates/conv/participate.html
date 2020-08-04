@@ -7,6 +7,9 @@
         {% if request.user|is_admin %}
             <a class="config" title="Agregar" alt="Agregar" id="add" href="#"><i class="fas fa-plus"></i></a>
             <a class="config" title="Ver" alt="Ver" id="see" href="#"><i class="fas fa-eye"></i></a>
+        {% elif request.user|is_coord %}
+            <a class="config" title="Visualizar convocatorias abiertas" alt="Visualizar convocatorias abiertas" id="see1" href="#"><i class="fas fa-eye"></i></a>
+            <a class="config" title="Visualizar mis convocatorias" alt="Visualizar mis convocatorias" id="see2" href="#"><i class="far fa-handshake"></i></a>
         {% endif %}
     {% endif %}
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
@@ -45,6 +48,34 @@
             </div>
         {% endif %}  
     </div>
+    {%if request.user|is_coord %}
+        <div id="mis_convocatorias">
+            {% if participaciones.count != 0%}
+                <table id="tableConv" style="overflow-x:auto;">
+                    <tr>
+                        <th>Número</th>
+                        <th>Título</th>
+                        <th>Fecha de apertura</th>
+                        <th>Fecha de cierre</th>
+                        <th>Acciones</th>
+                    </tr>
+                    {% for participacion in participaciones %}
+                        <tr class="info">
+                            <td>{{participacion.id_convocatoria.id}}</td>
+                            <td><a href="{% url 'details' id_item=participacion.id_convocatoria.id %}">{{participacion.id_convocatoria.name}}</a></td>
+                            <td>{{participacion.id_convocatoria.opened}}</td>
+                            <td>{{participacion.id_convocatoria.closed}}</td>
+                            <td><a class="config2" title="Visualizar estado" alt="Visualizar estado" id="see1" href="{% url 'adjuntos' id=participacion.id_semillero.id id_conv=participacion.id_convocatoria.id%}"><i class="fas fa-eye"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <div class="message in-info">
+                    <p>En este momento el semillero no está participando en alguna convocatoria.</p>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}  
     <form action="" method="POST" enctype="multipart/form-data">
   		{% csrf_token %}
         <input type="hidden" name="contador" id="contador" value="0">

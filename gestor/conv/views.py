@@ -4,6 +4,8 @@ from .models import Documento,Participante,Documento_Adjunto
 from create.models import coordinadores,Semillero
 from core.models import Grupo
 from django.conf import settings
+from django.contrib.auth.models import User
+
 import datetime
 
 # Create your views here.
@@ -102,7 +104,7 @@ def conv_details(request, id_item=None):
             for obl_document in obl_documents:
                 document = request.POST[str(obl_document.id)]
                 if(document != ""):  
-                    insert = Documento_Adjunto(id_participante=participante,id_documento=obl_document,documento=document,estado="Sin revisar")
+                    insert = Documento_Adjunto(id_participante=participante,id_documento=obl_document,documento=document,estado="0")
                     insert.save()
                 else:
                     print("no se adjuntó")
@@ -110,7 +112,7 @@ def conv_details(request, id_item=None):
             for opc_document in opc_documents:
                 document = request.POST[str(opc_document.id)]
                 if(document != ""):  
-                    insert = Documento_Adjunto(id_participante=participante,id_documento=opc_document,documento=document,estado="Sin revisar")
+                    insert = Documento_Adjunto(id_participante=participante,id_documento=opc_document,documento=document,estado="0")
                     insert.save()
                 else:
                     print("no se adjuntó")
@@ -150,7 +152,13 @@ def participar(request):
 
     today = datetime.datetime.now()
     convocatorias = Convocatoria.objects.all()
-    return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})
+    if request.user.groups.filter(name="Coordinador").exists():
+        id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+        semillero = Semillero.objects.get(id=int(id_semillero))
+        participaciones = Participante.objects.filter(id_semillero=semillero)
+        return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today,'participaciones':participaciones})    
+    else:
+        return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})
 
 def convocatoria_edit(request, id=None):
 
@@ -190,4 +198,23 @@ def convocatoria_edit(request, id=None):
 
             return render(request, "conv/convocatoria_edit.html",{'convocatoria': convocatoria,'documentos':documentos})
 
+    return redirect('/')
+
+def adjuntos(request, id, id_conv):
+    if request.user.groups.filter(name="Administrador").exists() or request.user.groups.filter(name="Coordinador").exists():
+        convocatoria = Convocatoria.objects.get(id=id_conv)
+        semillero = Semillero.objects.get(id=id)
+        participante = Participante.objects.get(id_convocatoria=convocatoria,id_semillero=semillero)
+        documentos = Documento_Adjunto.objects.filter(id_participante=participante)
+        if request.method == "POST":
+            comentarios = request.POST["comentarios"]
+            estado = request.POST["estado"]
+            id= request.POST["id"]
+            documento = Documento_Adjunto.objects.get(id=id)
+            documento.comentarios=comentarios
+            documento.estado=estado
+            documento.id_usuario=request.user
+            documento.save(update_fields=["comentarios","estado","id_usuario"])
+
+        return render(request, "conv/adjuntos.html",{'documentos':documentos})
     return redirect('/')

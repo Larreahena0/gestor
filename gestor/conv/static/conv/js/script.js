@@ -13,6 +13,69 @@ function texto(elem, id_text) {
     }
 }
 
+function send(id){
+    window.event.preventDefault();
+    comentarios = $('#comment_'+id).val();
+    estado = $('#state_'+id).val();
+    if(comentarios && estado){
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: 'Está seguro',
+            content: '¿Esta seguro de la revision realizada al documento?.',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        let url = window.location;
+                        const postData={
+                            'id': id,
+                            'comentarios':comentarios,
+                            'estado':estado,
+                            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                        };
+                        $.post(url, postData, function(response){
+                            window.location.reload()
+                        });
+                    }
+                },
+                cancel: function () {
+                }
+            }
+        });
+    }
+    else{
+        if(comentarios){
+            var title1="Estado incompleto";
+            var content1="Porfavor seleccione el estado del documento.";
+        }
+        else{
+            var title1="Sin comentarios";
+            var content1="Porfavor digite los comentarios realizados al documento.";
+        }
+        $.alert({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: title1,
+            content: content1,
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                    }
+                }
+            }
+        });
+    }
+
+}
+
 function delete1(id, caso) {
     window.event.preventDefault();
     if(caso == "1"){
@@ -87,6 +150,23 @@ $(document).ready(function(){
     $('#contador').val(count-1);
 
     $('.Crear').hide();
+    $('#mis_convocatorias').hide();
+
+    
+    $('#see1').click(function(e){
+        e.preventDefault();
+        $('h1').html('Convocatorias');
+        $('.Mostrar').show();
+        $('#mis_convocatorias').hide();
+    });
+
+    $('#see2').click(function(e){
+        e.preventDefault();
+        $('h1').html('Mis convocatorias');
+        $('.Mostrar').hide();
+        $('#mis_convocatorias').show();
+    });
+
     $('#see').click(function(e){
         e.preventDefault();
         $('h1').html('Convocatorias');

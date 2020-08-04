@@ -70,6 +70,12 @@ div a {
     color: blue;
 }
 
+#a1{
+    text-decoration: none;
+    font-weight: bold;
+    color: #274712;
+}
+
 input[type=button] {
     background-color: #396534; /* Green */
     border: none;
@@ -104,4 +110,28 @@ input[type=submit]:hover {
 
 input[type=file] {
     text-transform: uppercase;
+}
+div #see1, div #see4 {
+    padding: 4px 10px;
+    background: #2b49c0;
+}
+
+div #see1,div #see4:hover {
+    background: #183194;
+}
+div #send {
+    padding: 4px 10px;
+    background: #396534;
+}
+
+div #send:hover {
+    background: #274712;
+}
+div #edit {
+    padding: 4px 10px;
+    background: #396534;
+}
+
+div #edit:hover {
+    background: #274712;
 }

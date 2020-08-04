@@ -5,7 +5,7 @@
 {% block cuerpo %}
 
     <h1>{{item.name}}</h1>
-    <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'participar' %}"><i class="fas fa-arrow-circle-left"></i></a>
+    <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'participar' %}"><i class="fas fa-reply"></i></a>
     {% if request.user|is_admin %}
         <a class="config" title="Editar" alt="Editar" id="editar" href="{% url 'convocatoria_edit' id=item.id %}"><i class="fas fa-pencil-alt"></i></a>
     {% endif %}
@@ -83,13 +83,14 @@
                         <th>Semillero</th>
                         <th>Coordinador</th>
                         <th>Fecha de <br> inscripción</th>
+                        <th>Acciones</th>
                     </tr>    
-                
                     {% for participante in participantes %}
                         <tr>
-                            <td>{{participante.id_semillero}}</td>
+                            <td><a id="a1" href="{% url 'semillero_details' id=participante.id_semillero.id %}">{{participante.id_semillero.name}}</a></td>
                             <td>{{participante.id_semillero.coordinador.name}} {{participante.id_semillero.coordinador.lastname}}</td>
                             <td>{{participante.created|date:"SHORT_DATE_FORMAT" }}</td>
+                            <td><a class="config2" title="Visualizar documentos adjuntos" alt="Visualizar documentos adjuntos" id="see4" href="{% url 'adjuntos' id=participante.id_semillero.id id_conv=item.id%}"><i class="fas fa-eye"></i></a></td>
                         </tr>
                     {% endfor %}      
                 </table>
@@ -157,7 +158,6 @@
                         }
                     },
                 }
-                
             });
         </script>
     {% endif %}

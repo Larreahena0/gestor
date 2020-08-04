@@ -8,5 +8,6 @@ urlpatterns = [
     path(r'participar/edit/<int:id>', views.convocatoria_edit, name="convocatoria_edit"),
     # Enlace dinamico para ver la información de la convocatoria,
     # Es posible acceder definiendo el id de la convocatoria
+    path(r'details/<int:id_conv>/<int:id>', views.adjuntos, name="adjuntos"),
     path(r'details/<int:id_item>', views.conv_details, name="details")
 ]

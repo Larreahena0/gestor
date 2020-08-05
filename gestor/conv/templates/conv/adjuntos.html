@@ -13,21 +13,22 @@
         {% if documentos.count != 0%}
             <table>
                 <tr>
-                {% if request.user|is_admin %}
                     <th>Documento de <br> la convocatoria </th>
+                    <th>Documento <br> adjunto</th>
+                {% if request.user|is_admin %}
                     <th>Tipo</th>
                 {% elif request.user|is_coord %}
                     <th>Administrador <br> que revisó la peticion </th>
                 {% endif %}
-                    <th>Documento <br> adjunto</th>
                     <th>Comentarios</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
                 {% for documento in documentos %}
                     <tr>
+                        <td id="documento_{{documento.id}}"><a href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
+                        <td><a id="a1" href="{{documento.documento.url}}" download>{{documento.documento}}</a></td>
                         {% if request.user|is_admin %}    
-                            <td><a href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
                             {% if documento.id_documento.tipo == 1 %}
                                 <td>Informativo</td>
                             {% elif documento.id_documento.tipo == 2 %}   
@@ -42,7 +43,6 @@
                                 <td>Ningun administrador<br>ha revisado el documento</td>
                             {% endif %}        
                         {% endif %}
-                        <td><a id="a1" href="{{documento.documento.url}}" download>{{documento.documento}}</a></td>
                         <td>
                             {% if request.user|is_admin %}
                                 {% if documento.comentarios%}
@@ -88,7 +88,7 @@
                                 <a class="config2" title="Enviar" alt="Enviar" id="send" href="#" onclick="send({{documento.id}})"><i class="fab fa-telegram-plane"></i></a> 
                             {% elif request.user|is_coord %}
                                 {% if documento.estado == "2" %}
-                                    <a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick=""> <i class="fas fa-wrench"></i></a> 
+                                    <a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick="modify({{documento.id}})"> <i class="fas fa-wrench"></i></a> 
                                 {%else%}
                                     Sin Acciones
                                 {% endif %}        
@@ -102,6 +102,31 @@
                 <p>En este momento no hay participantes.</p>
             </div>
         {% endif %}          
+    </div>
+    <br>
+    <div class="modificar">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="">Adjunte el siguiente documento:</label>
+            <table id="tabla" >
+                <input type="hidden" name="id_d" id="id_d" value="">
+                <input type="hidden" name="caso" id="caso" value="0">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Adjuntar</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr>
+                    <td id="nombre"></td>
+                    <td>
+                        <button type="button" onclick="abrir('doc')" id="boton">Examinar</button>
+                        <input type="file" name="doc" id="doc" style="display:none;" onchange="texto(this,'span')">
+                        <span id="span">Subir archivo</span>
+                    </td>
+                    <td><a class="config2" title="Editar" alt="Editar" id="edit1" href="#" onclick=""><i class="fab fa-telegram-plane"></i></a> </td>
+                </tr>
+            </table>
+        </form>    
     </div>
     <br>
 

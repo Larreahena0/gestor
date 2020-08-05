@@ -207,14 +207,23 @@ def adjuntos(request, id, id_conv):
         participante = Participante.objects.get(id_convocatoria=convocatoria,id_semillero=semillero)
         documentos = Documento_Adjunto.objects.filter(id_participante=participante)
         if request.method == "POST":
-            comentarios = request.POST["comentarios"]
-            estado = request.POST["estado"]
-            id= request.POST["id"]
-            documento = Documento_Adjunto.objects.get(id=id)
-            documento.comentarios=comentarios
-            documento.estado=estado
-            documento.id_usuario=request.user
-            documento.save(update_fields=["comentarios","estado","id_usuario"])
+            if request.POST["caso"]=="1":
+                id = request.POST["id_d"]
+                original = Documento_Adjunto.objects.get(id=id)
+                documento = request.FILES["doc"]
+                original.estado=0
+                original.documento=documento
+                original.save(update_fields=["estado","documento"])
+
+            elif request.POST["caso"]=="0":    
+                comentarios = request.POST["comentarios"]
+                estado = request.POST["estado"]
+                id= request.POST["id"]
+                documento = Documento_Adjunto.objects.get(id=id)
+                documento.comentarios=comentarios
+                documento.estado=estado
+                documento.id_usuario=request.user
+                documento.save(update_fields=["comentarios","estado","id_usuario"])
 
         return render(request, "conv/adjuntos.html",{'documentos':documentos})
     return redirect('/')

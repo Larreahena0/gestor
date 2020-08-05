@@ -87,3 +87,7 @@ div #see2 {
 div #see2:hover {
     background: #274712;
 }
+.tabla{
+    border-collapse: collapse;
+    width: 40%;
+}

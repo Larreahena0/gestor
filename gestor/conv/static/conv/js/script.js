@@ -13,6 +13,16 @@ function texto(elem, id_text) {
     }
 }
 
+function modify(id){
+    window.event.preventDefault();
+    $(".modificar").show();
+    elemento = $("#documento_"+id).html();
+    $("#nombre").children().last().remove()
+    $("#nombre").append(elemento);
+    $("#id_d").val(id);
+    $("#caso").val("1");
+}
+
 function send(id){
     window.event.preventDefault();
     comentarios = $('#comment_'+id).val();
@@ -33,6 +43,7 @@ function send(id){
                         let url = window.location;
                         const postData={
                             'id': id,
+                            'caso': "0",
                             'comentarios':comentarios,
                             'estado':estado,
                             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
@@ -149,9 +160,9 @@ $(document).ready(function(){
     var count = 1;
     $('#contador').val(count-1);
 
+    $(".modificar").hide();
     $('.Crear').hide();
     $('#mis_convocatorias').hide();
-
     
     $('#see1').click(function(e){
         e.preventDefault();
@@ -209,6 +220,31 @@ $(document).ready(function(){
                 }
             });
         }
+    });
+
+    $('#edit1').click(function(e){
+        e.preventDefault();
+        id=$('#id_d').val();
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'El documento será modificado',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        $('form').submit();
+                    }
+                },
+                cancel: function () {
+
+                }
+            }
+        });
     });
 
     $("#bparticipar").click(function(e){

@@ -127,11 +127,30 @@ div #send {
 div #send:hover {
     background: #274712;
 }
-div #edit {
+div #edit,div #edit1 {
     padding: 4px 10px;
     background: #396534;
 }
 
 div #edit:hover {
     background: #274712;
+}
+
+div #edit1:hover {
+    background: #274712;
+}
+
+#tabla button{
+    background-color: #396534;
+    padding: 8px;
+    color: #fff;
+    border: none;
+}
+
+#tabla{
+    border-collapse: collapse;
+    text-align: center;
+    width: 40%;
+    position: relative;
+    left: 20%;
 }

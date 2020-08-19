@@ -15,6 +15,7 @@
         <input type="email" name="email" id="email" placeholder="Correo electrónico" autocomplete="off" value="{{integrante.email}}" required>
         <input type="text" name="phone" id="phone" placeholder="Telefono" autocomplete="off" value="{{integrante.phone}}" required>
         <input type="text" name="adicional" id="adicional" placeholder="Información Adicional" autocomplete="off" value="{{integrante.aditional}}" required>
+        <label for=""><b>Rol</b></label>
         <select name="rol" id="rol">
             <option disabled selected>Seleccione el rol</option>
             <option value="{{participante.rol.id}}" selected>{{participante.rol}}</option>
@@ -24,11 +25,11 @@
                 {% endif %}    
             {% endfor %}
         </select>
-        <label for="">Fecha de ingreso:</label>
+        <label for=""><b>Fecha de ingreso</b></label>
         <input type="date" name="joined" id="joined" value='{{ participante.joined|date:"Y-m-d" }}' required>
         
         <div class="lineas">
-            <label id="tline" for="lines">Lineas de investigación:</label>
+            <label id="tline" for="lines"><b>Lineas de investigación</b></label>
             <select name="lineas" id="lineas">
                 {% for linea in lineas %}
                     <option value="{{linea.id}}">{{linea.name}}</option>
@@ -52,8 +53,10 @@
         </div>
 
         <div class="estudiante">
+            <label for=""><b>Informacion del estudiante</b></label>
+            <label for=""><b>Tipo de estudiante</b></label>
             <select name="tipo" id="tipo">
-                <option disabled selected>Tipo de estudiante</option>
+                <option disabled selected>Seleccione un tipo</option>
                 {% if pregrado %}
                     <option value="1" selected>Pregrado</option>
                     <option value="2">Postgrado</option>
@@ -66,6 +69,7 @@
                 {% endif %}    
             </select>
             <div class="pre">
+                <label for=""><b>Programas de pregrado</b></label>
                 <select name="pregrado" id="pregrado">
                     <option disabled selected>Seleccione un programa de pregrado</option>  
                     {% if pregrado %}
@@ -85,6 +89,7 @@
                 </select>
             </div>
             <div class="post">
+                <label for=""><b>Programas de postgrado</b></label>
                 <select name="postgrado" id="postgrado">
                     <option disabled selected>Seleccione un programa de postgrado</option>
                     {% if postgrado %}
@@ -102,6 +107,7 @@
                     {% endif %}
                 </select>
             </div>    
+            <label for=""><b>Nivel</b></label>
             <select name="level" id="level">
                 <option disabled selected>Seleccione un nivel en el programa</option>
                 {% if postgrado or pregrado %}

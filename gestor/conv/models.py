@@ -50,6 +50,7 @@ class Participante(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="Id")
     id_convocatoria = models.ForeignKey(Convocatoria, null=True, blank=True, on_delete=models.CASCADE,verbose_name="Convocatoria")
     id_semillero = models.ForeignKey(Semillero, null=True, blank=True, on_delete=models.CASCADE,verbose_name="Semillero Participante")
+    estado = models.CharField(max_length=10, verbose_name="Estado", null=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 

@@ -53,7 +53,7 @@ function send(id){
                         });
                     }
                 },
-                cancel: function () {
+                cancelar: function () {
                 }
             }
         });
@@ -76,7 +76,7 @@ function send(id){
             typeAnimated: true,
             buttons: {
                 somethingElse: {
-                    text: 'Seguro',
+                    text: 'Ok',
                     btnClass: 'btn-warning',
                     action: function(){
                     }
@@ -120,7 +120,7 @@ function delete1(id, caso) {
                         });
                     }
                 },
-                cancel: function () {
+                cancelar: function () {
                 }
             }
         });
@@ -149,7 +149,7 @@ function delete1(id, caso) {
                         });
                     }
                 },
-                cancel: function () {
+                cancelar: function () {
                 }
             }
         });
@@ -197,9 +197,38 @@ $(document).ready(function(){
     });
     
     $('#enviar').click(function(e){
-        if($('#estado').val() == 1){
-            e.preventDefault();
-            $.confirm({
+        e.preventDefault();
+        var obligatorios = $('.obligatorio');
+        var enviar=1;
+        obligatorios.each(function(){
+            if($(this).val()==""){
+                enviar=0;
+            }
+        });
+
+        if(enviar==1){
+            $('form').submit();
+        }
+        else{
+            $.alert({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: 'Error',
+                content: 'Debe adjuntar todos los archivos obligatorios.',
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Ok',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                        }
+                    },
+                }
+            });
+        }
+        //console.log($('.obligatorio'));
+            /*$.confirm({
                 boxWidth: '400px',
                 useBootstrap: false,
                 closeIcon: true,
@@ -214,12 +243,11 @@ $(document).ready(function(){
                             $('form').submit();
                         }
                     },
-                    cancel: function () {
+                    cancelar: function () {
 
                     }
                 }
-            });
-        }
+            });*/
     });
 
     $('#edit1').click(function(e){
@@ -240,7 +268,7 @@ $(document).ready(function(){
                         $('form').submit();
                     }
                 },
-                cancel: function () {
+                cancelar: function () {
 
                 }
             }

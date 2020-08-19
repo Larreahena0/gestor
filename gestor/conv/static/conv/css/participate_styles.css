@@ -91,3 +91,39 @@ div #see2:hover {
     border-collapse: collapse;
     width: 40%;
 }
+
+#new{
+    color:red;
+}
+
+#new svg,#pen_r svg,#pen_c svg,#ready svg{
+    height: 20px;
+    width: 20px;
+}
+
+#pen_r{
+    color:#ff8000;
+}
+
+#pen_c{
+    color:blue;
+}
+
+#ready{
+    color:green;
+}
+
+#tabla_status{
+    border-collapse: collapse;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
+
+.row p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #274712;
+    font-weight: 700;
+    font-size: 20px;
+    font-style: oblique
+}

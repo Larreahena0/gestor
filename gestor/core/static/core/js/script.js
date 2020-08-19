@@ -39,7 +39,7 @@ function delete1(id) {
                     });
                 }
             },
-            cancel: function () {
+            cancelar: function () {
             }
         }
     });
@@ -114,7 +114,7 @@ $(document).ready(function(){
                 content: 'Porfavor digite el numero de cedula del coordinador.',
                 typeAnimated: true,
                 buttons: {
-                    ok: {
+                    Ok: {
                         btnClass: 'btn-warning',
                     }
                 }
@@ -133,11 +133,11 @@ $(document).ready(function(){
                 var nombre = lista[1]
                 if(response == "1"){
                     var title='Coordinador existente';
-                    var content='¿Desea asignar este usuario al semillero como coordinador?';
+                    var content='¿Desea asignar a '+ nombre +' al semillero como coordinador?';
                 }
                 else if(response == "2"){
                     var title='Integrante existente';
-                    var content='El usuario ingresado es integrante de otro semillero pero no tiene perfil como  coordinador ¿Desea crearlo?';
+                    var content='El usuario '+ nombre +' es integrante de otro semillero pero no tiene perfil como  coordinador ¿Desea crearlo?';
                 }
                 else if(response == "3"){
                     var title='No existe el usuario';

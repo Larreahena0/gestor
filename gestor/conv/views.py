@@ -97,7 +97,7 @@ def conv_details(request, id_item=None):
             mensaje1 = "Error"
             return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1})
         except:
-            insert = Participante(id_convocatoria=item,id_semillero=semillero)
+            insert = Participante(id_convocatoria=item,id_semillero=semillero,estado="0")
             insert.save()
             #Insert de los documentos obligatorios adjuntos por el coordinador de semillero
             participante = Participante.objects.latest("id")
@@ -156,7 +156,7 @@ def participar(request):
         id_semillero = coordinadores.objects.get(user=request.user).id_semillero
         semillero = Semillero.objects.get(id=int(id_semillero))
         participaciones = Participante.objects.filter(id_semillero=semillero)
-        return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today,'participaciones':participaciones})    
+        return render(request, "conv/participate.html",{'semillero':semillero,'convocatorias':convocatorias,'today':today,'participaciones':participaciones})    
     else:
         return render(request, "conv/participate.html",{'convocatorias':convocatorias,'today':today})
 
@@ -224,6 +224,24 @@ def adjuntos(request, id, id_conv):
                 documento.estado=estado
                 documento.id_usuario=request.user
                 documento.save(update_fields=["comentarios","estado","id_usuario"])
+
+            documentos = Documento_Adjunto.objects.filter(id_participante=participante)
+            var = 0
+            for documento in documentos:
+                if(documento.estado=="0" or documento.estado=="2"):
+                    var = 1
+            participante = Participante.objects.get(id_convocatoria=convocatoria,id_semillero=semillero)
+            
+            if var == 0:
+                participante.estado="1"
+            else:
+                if request.POST["caso"]=="1":
+                    print("hola")
+                    participante.estado="2"
+                elif request.POST["caso"]=="0":    
+                    participante.estado="3"
+
+            participante.save(update_fields=["estado"])
 
         return render(request, "conv/adjuntos.html",{'documentos':documentos})
     return redirect('/')

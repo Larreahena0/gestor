@@ -36,7 +36,7 @@ def create(request):
                             return HttpResponse("1,"+integrante.name+" "+integrante.lastname)
                         except:
                             #Se debe crear el perfil coordinador y se debe asignar el integrante existente al semillero
-                            return HttpResponse("2")
+                            return HttpResponse("2,"+integrante.name+" "+integrante.lastname)
                     except:    
                         #Se debe crear el coordinador y integrante al semillero
                         return HttpResponse("3")
@@ -160,7 +160,7 @@ def semillero_edit(request, id):
                             return HttpResponse("1,"+integrante.name+" "+integrante.lastname)
                         except:
                             #Se debe crear el perfil coordinador y se debe asignar el integrante existente al semillero
-                            return HttpResponse("2")
+                            return HttpResponse("2,"+integrante.name+" "+integrante.lastname)
                     except:    
                         #Se debe crear el coordinador y integrante al semillero
                         return HttpResponse("3")
@@ -301,9 +301,9 @@ def register(request):
                             id_semillero=int(coordinadores.objects.get(user=request.user).id_semillero)
                             semillero = Semillero.objects.get(id=id_semillero)
                             participante = Participante2.objects.get(id_integrante=integrante,id_semillero=semillero)
-                            return HttpResponse("3")
+                            return HttpResponse("3,"+integrante.name+" "+integrante.lastname)
                         except:    
-                            return HttpResponse("1")
+                            return HttpResponse("1,"+integrante.name+" "+integrante.lastname)
                     except:    
                         #Si no existe perfil integrante se retorna 2
                         return HttpResponse("2")

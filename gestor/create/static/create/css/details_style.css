@@ -13,11 +13,11 @@
     text-align: justify;
 }
 
-p{
+.row p{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #274712;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 20px;
     font-style: oblique
 }
 

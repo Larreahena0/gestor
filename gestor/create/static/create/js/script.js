@@ -24,7 +24,7 @@ function delete1(id) {
 					});
 				}
 			},
-			cancel: function () {
+			cancelar: function () {
 			}
 		}
 	});
@@ -99,10 +99,13 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
             };
             $.post(url, postData, function(response){
-                console.log(response)
+				console.log(response)
+				var lista = response.split(",")
+                var response = lista[0]
+                var nombre = lista[1]
                 if(response == "1"){
                     var title='Integrante existente';
-                    var content='¿Desea asignar este integrante al semillero?';
+                    var content='¿Desea asignar a '+ nombre +' como integrante al semillero?';
                 }
                 else if(response == "2"){
                     var title='No existe el integrante';
@@ -110,7 +113,7 @@ $(document).ready(function(){
 				}
 				else if(response == "3"){
                     var title='Integrante registrado';
-                    var content='El integrante ingresado ya forma parte del semillero';
+                    var content=nombre+' ya forma parte del semillero';
 				}
                 $.confirm({
                     boxWidth: '400px',
@@ -129,9 +132,10 @@ $(document).ready(function(){
 									$('#inte').hide();
 									$('#campos').show();
 									$('#documento').show();
-									$('#inte2').html(cc);
+									$('#integrante2').html("Documento: "+cc);
 									if(response=="1"){
 										$('#caso').val("viejo");
+										$('#integrante1').html("Nombre: "+nombre);
 									}
 									else if(response=="2"){
 										$('#nuevo').show();

@@ -13,12 +13,11 @@
         {% if documentos.count != 0%}
             <table>
                 <tr>
-                    <th>Documento de <br> la convocatoria </th>
-                    <th>Documento <br> adjunto</th>
-                {% if request.user|is_admin %}
+                    <th>Documento de la convocatoria </th>
+                    <th>Documento adjunto</th>               
                     <th>Tipo</th>
-                {% elif request.user|is_coord %}
-                    <th>Administrador <br> que revisó la peticion </th>
+                {%  if request.user|is_coord %}
+                    <th>Administrador que revisó la peticion </th>
                 {% endif %}
                     <th>Comentarios</th>
                     <th>Estado</th>
@@ -27,16 +26,17 @@
                 {% for documento in documentos %}
                     <tr>
                         <td id="documento_{{documento.id}}"><a href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
-                        <td><a id="a1" href="{{documento.documento.url}}" download>{{documento.documento}}</a></td>
-                        {% if request.user|is_admin %}    
-                            {% if documento.id_documento.tipo == 1 %}
-                                <td>Informativo</td>
-                            {% elif documento.id_documento.tipo == 2 %}   
-                                <td>Opcional</td>
-                            {% elif documento.id_documento.tipo == 3 %}   
-                                <td>Obligatorio</td>    
-                            {% endif %} 
-                        {% elif request.user|is_coord %}
+                        <td><a id="a1" href="{{documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
+        
+                        {% if documento.id_documento.tipo == 1 %}
+                            <td>Informativo</td>
+                        {% elif documento.id_documento.tipo == 2 %}   
+                            <td>Opcional</td>
+                        {% elif documento.id_documento.tipo == 3 %}   
+                            <td>Obligatorio</td>    
+                        {% endif %} 
+        
+                        {% if request.user|is_coord %}
                             {% if documento.id_usuario %}
                                 <td>{{documento.id_usuario.first_name}}<br>{{documento.id_usuario.last_name}}</td>
                             {% else %}    

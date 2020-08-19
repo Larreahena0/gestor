@@ -15,6 +15,11 @@
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
+    {% if request.user|is_coord %}
+        <label for=""><b>Informacion del semillero</b></label>
+        <p>{{semillero.name}}</p>
+        <br>
+    {% endif %}
     <div class="Mostrar">
         {% if convocatorias.count != 0%}
             <table id="tableConv" style="overflow-x:auto;">
@@ -53,6 +58,7 @@
             {% if participaciones.count != 0%}
                 <table id="tableConv" style="overflow-x:auto;">
                     <tr>
+                        <th>Estado</th>
                         <th>Número</th>
                         <th>Título</th>
                         <th>Fecha de apertura</th>
@@ -61,6 +67,15 @@
                     </tr>
                     {% for participacion in participaciones %}
                         <tr class="info">
+                            {% if participacion.estado == "0" %}
+                                <td id="new"><i class="fas fa-thermometer-empty"></i></td>
+                            {% elif participacion.estado == "2" %}
+                                <td id="pen_r"><i class="fas fa-thermometer-quarter"></i></td>
+                            {% elif participacion.estado == "3" %}
+                                <td id="pen_c"><i class="fas fa-thermometer-half"></i></td>
+                            {% elif participacion.estado == "1" %}    
+                                <td id="ready"><i class="fas fa-thermometer-full"></i></td>
+                            {% endif %}
                             <td>{{participacion.id_convocatoria.id}}</td>
                             <td><a href="{% url 'details' id_item=participacion.id_convocatoria.id %}">{{participacion.id_convocatoria.name}}</a></td>
                             <td>{{participacion.id_convocatoria.opened}}</td>
@@ -69,6 +84,35 @@
                         </tr>
                     {% endfor %}
                 </table>
+                <br>
+                <div class="row">
+                    <p>Estado de las convocatorias</p>
+                    <hr>
+                </div>
+                <br>
+                <table id="tabla_status">
+                    <tr>
+                        <th>Icono</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td id="new"><i class="fas fa-thermometer-empty"></i></td>
+                        <td>Nuevo participante</td>
+                    </tr>
+                    <tr>
+                        <td id="pen_r"><i class="fas fa-thermometer-quarter"></i></td>
+                        <td>Pendiente de revision del administrador</td>
+                    </tr>
+                    <tr>
+                        <td id="pen_c"><i class="fas fa-thermometer-half"></i></td>
+                        <td>Pendiente de correccion del coordinador</td>
+                    </tr>
+                    <tr>
+                        <td id="ready"><i class="fas fa-thermometer-full"></i></td>
+                        <td>Listo</td>
+                    </tr>
+                </table>
+                <br>
             {% else %}
                 <div class="message in-info">
                     <p>En este momento el semillero no está participando en alguna convocatoria.</p>

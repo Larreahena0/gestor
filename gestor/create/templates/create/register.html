@@ -8,6 +8,9 @@
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
+    <label for=""><b>Informacion del semillero</b></label>
+    <p>{{semillero.name}}</p>
+    <br>
     <div id="ver">
         <table id="tableConv" style="overflow-x:auto;">
             <tr>
@@ -35,17 +38,14 @@
             {% csrf_token %}
             <input type="hidden" name="contador" id="contador" value="0">
             <input type="hidden" name="caso" id="caso" value="">
-            <label for=""><b>Informacion del semillero</b></label>
-            <p>{{semillero.name}}</p>
-            <br>
             <label for=""><b>Informacion del integrante</b></label>
             <div id="inte">
                 <input type="text" name="cedula" id="cedula" placeholder="Cedula del integrante" autocomplete="off" required>
                 <button type="button" name="consult" id="consult">consultar</button>
             </div>
             <div id="documento">
-                <label for="">Documento del integrante</label>
-                <p id="inte2"></p>
+                <p id="integrante1" ></p>
+                <p id="integrante2" ></p> 
                 <br>
             </div>
             <div id="nuevo">
@@ -58,16 +58,17 @@
                 <input type="text" name="adicional" id="adicional" placeholder="Información Adicional" required>
             </div>
             <div id="campos">
+                <label for=""><b>Rol</b></label>
                 <select name="rol" id="rol">
                     <option disabled selected>Seleccione un rol</option>
                     {% for rol in roles %}
                         <option value="{{rol.id}}">{{rol.name}}</option>
                     {% endfor %}
                 </select>
-                <label for="">Fecha de ingreso:</label>
+                <label for=""><b>Fecha de ingreso</b></label>
                 <input type="date" name="joined" id="joined" required>
                 <div class="lineas">
-                    <label id="tline" for="lines">Lineas de investigación:</label>
+                    <label id="tline" for="lines"><b>Lineas de investigación</b></label>
                     <select name="lineas" id="lineas">
                         {% for linea in lineas %}
                             <option value="{{linea.id}}">{{linea.name}}</option>
@@ -83,12 +84,14 @@
                 </div>
                 <div class="estudiante">
                     <label for=""><b>Informacion del estudiante</b></label>
+                    <label for=""><b>Tipo de programa</b></label>
                     <select name="tipo" id="tipo">
-                        <option disabled selected>Tipo de estudiante</option>
+                        <option disabled selected>Seleccione un tipo de programa</option>
                         <option value="1">Pregrado</option>
                         <option value="2">Postgrado</option>
                     </select>
                     <div class="pre">
+                        <label for=""><b>Programas de pregrado</b></label>
                         <select name="pregrado" id="pregrado">
                             <option disabled selected>Seleccione un programa de pregrado</option>
                             {% for pregrado in pregrados %}
@@ -97,6 +100,7 @@
                         </select>
                     </div>
                     <div class="post">
+                        <label for=""><b>Programas de postgrado</b></label>
                         <select name="postgrado" id="postgrado">
                             <option disabled selected>Seleccione un programa de postgrado</option>
                             {% for postgrado in postgrados %}
@@ -104,6 +108,7 @@
                             {% endfor %}
                         </select>
                     </div>    
+                    <label for=""><b>Nivel</b></label>
                     <select name="level" id="level">
                         <option disabled selected>Seleccione un nivel en el programa</option>
                         <option value="1">1</option>

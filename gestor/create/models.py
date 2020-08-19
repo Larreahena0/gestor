@@ -33,6 +33,8 @@ class Semillero(models.Model):
 	vision = models.TextField(verbose_name="Visión", null=True)
 	goals = models.TextField(verbose_name="Objetivos", null=True)
 	coordinador = models.ForeignKey(Integrante, verbose_name="coordinador", null=True, blank=True, on_delete=models.CASCADE)
+	mail = models.TextField(verbose_name="Correo de contacto", null=True)
+	image = models.FileField(verbose_name="Imagen del semillero", null=True)
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 

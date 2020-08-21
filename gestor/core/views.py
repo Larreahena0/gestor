@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Usuario
 from .models import Noticia
-from create.models import coordinadores,Integrante,Participante2,Rol
+from create.models import coordinadores,Integrante,Participante2,Rol,Semillero
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login as do_login
 from django.contrib.auth import authenticate
@@ -97,3 +97,7 @@ def choose(request):
         return redirect("/")
 
     return render(request,"core/choose.html",{'semilleros':semilleros})
+
+def semilleros(request):
+    semilleros = Semillero.objects.all()
+    return render(request, "core/semilleros.html",{'semilleros':semilleros})

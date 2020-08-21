@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% load auth_extras %}
+{% block cuerpo %}
+
+    <h1>Editar Semillero</h1>
+    <hr>
+    <br>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Correo de contacto</label>
+        <input type="text" name="mail" id="mail" placeholder="Correo de contacto" value="{{semillero.mail}}" autocomplete="off" required>
+        <label>Imagen del semillero</label>
+        <a id="image1" href="{{semillero.image.url}}" download>{{semillero.image}}</a>
+        <input type="file" name="image" id="image" required>
+        <input type="submit" id="enviar" value="Registrar Semillero"/>  
+    </form>
+    <br>
+
+{% load static %}
+    <script src="{% static 'core/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'create/css/create_styles.css' %}">
+{% endblock %}

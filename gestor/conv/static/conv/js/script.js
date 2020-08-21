@@ -25,9 +25,14 @@ function modify(id){
 
 function send(id){
     window.event.preventDefault();
-    comentarios = $('#comment_'+id).val();
+    if($('#comment_'+id).val()===""){
+        var comentarios = "";
+    }
+    else{
+        var comentarios = $('#comment_'+id).prop("files")[0].name;
+    }
     estado = $('#state_'+id).val();
-    if(comentarios && estado){
+    if((comentarios!="" && estado)||(estado==1)){
         $.confirm({
             boxWidth: '400px',
             useBootstrap: false,
@@ -59,13 +64,13 @@ function send(id){
         });
     }
     else{
-        if(comentarios){
+        if(comentarios!=""){
             var title1="Estado incompleto";
             var content1="Porfavor seleccione el estado del documento.";
         }
         else{
             var title1="Sin comentarios";
-            var content1="Porfavor digite los comentarios realizados al documento.";
+            var content1="Porfavor adjunte los comentarios realizados al documento.";
         }
         $.alert({
             boxWidth: '400px',

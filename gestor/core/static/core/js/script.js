@@ -193,7 +193,6 @@ $(document).ready(function(){
         var estado = $('#estado').val();
         let url = window.location;
         var cc = $('#coordinador').val()
-        console.log(estado)
         if(estado=="1"){
             var joined = $('#joined').val()
             var id_group = $('#id_group').val()
@@ -202,6 +201,14 @@ $(document).ready(function(){
             var mision = $('#mision').val()
             var vision = $('#vision').val()
             var goals = $('#goals').val()
+            var mail = $('#mail').val()
+            if($('#image').length>0){
+                console.log("hola")
+                var image = $('#image').prop("files")[0].name
+            }
+            else{
+                var image = ""
+            }
             var postData={
                 'cc': cc,
                 'joined': joined,
@@ -211,6 +218,8 @@ $(document).ready(function(){
                 'mision': mision,
                 'vision': vision,
                 'goals': goals,
+                'mail': mail,
+                'image': image,
                 'caso': estado,
                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
             };
@@ -253,7 +262,51 @@ $(document).ready(function(){
                 }
             });    
         }
-    });    
+    });
+
+    $('#enviar').click(function(e){
+        e.preventDefault();
+        console.log("hello")
+        var mail = $('#mail').val();
+        var image = $('#image').val();
+        if( mail == "" || image == ""){
+            $.alert({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: "Error",
+                content: "Porfavor adjunte el correo o la imagen",
+                typeAnimated: true,
+                buttons: {
+                    ok: {
+                        btnClass: 'btn-warning',
+                    }
+                }
+            });
+        }
+        else{
+            $.confirm({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: "¿Esta seguro?",
+                content: "Esta seguro de los cambios realizados",
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Si',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                            $('form').submit();
+                        }
+                    },
+                    No: function () {
+                    }
+                }
+            });
+        }
+
+    });
     $('#register').click(function(e){
         e.preventDefault();
         var estado = $('#estado').val();

@@ -43,7 +43,7 @@
         {% endif %}  
     </div>
     <div class="add">    
-        <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div id="coord">
                 <label for="coord">Coordinador</label>
@@ -92,6 +92,9 @@
                 <textarea name="mision" id="mision" cols="30" placeholder="Misión" rows="10" required></textarea>
                 <textarea name="vision" id="vision" cols="30" placeholder="Visión" rows="10" required></textarea>
                 <textarea name="goals" id="goals" cols="30" placeholder="Objetivos" rows="10" required></textarea>
+                <input type="text" name="mail" id="mail" placeholder="Correo de contacto" autocomplete="off" required>
+                <label>Imagen del semillero</label>
+                <input type="file" name="image" id="image" required>
                 <button type="button" name="register1" id="register1">Registrar semillero</button>
             </div>
         </form>

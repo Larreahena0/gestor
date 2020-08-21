@@ -46,13 +46,16 @@
                         <td>
                             {% if request.user|is_admin %}
                                 {% if documento.comentarios%}
-                                    <input type="text" name="comment_{{documento.id}}" id="comment_{{documento.id}}" placeholder="Comentarios del documento" autocomplete="off" value="{{documento.comentarios}}" required>
-                                {% else %}
-                                    <input type="text" name="comment_{{documento.id}}" id="comment_{{documento.id}}" placeholder="Comentarios del documento" autocomplete="off" required>
-                                {% endif %}
+                                    <a id="a1" href="{{documento.comentarios.url}}" download>{{documento.comentarios}}</a>
+                                    <br>
+                                {% endif %}        
+                                <span id="span_{{documento.id}}">Subir Comentarios</span>
+                                <br>
+                                <input type="file" name="comment_{{documento.id}}" id="comment_{{documento.id}}" value="" style="display:none;" onchange="texto(this,'span_{{documento.id}}')">
+                                <button type="button" onclick="abrir('comment_{{documento.id}}')" id="boton">Examinar</button>
                             {% elif request.user|is_coord %}
                                 {% if documento.comentarios%}
-                                    {{documento.comentarios}}
+                                    <a id="a1" href="{{documento.comentarios.url}}" download>{{documento.comentarios}}</a>
                                 {% else %}    
                                     Sin comentarios
                                 {% endif %}        

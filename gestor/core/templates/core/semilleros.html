@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% block cuerpo %}
+
+    {% load static %}
+
+<h1>Nuestros Semilleros</h1>
+<hr>
+
+    {% for semillero in semilleros %}
+        <div class="project">
+            <div class="prj_img">
+                <img src="{{semillero.image.url}}">
+            </div>
+            <div class="prj_content">
+                <h2>{{semillero.name}}</h2>
+                <hr>
+                <br>
+                <p><b>Coordinador:</b> {{semillero.coordinador}} {{semillero.coordinador.lastname}}</p>
+                <p><b>Correo de contacto:</b> {{semillero.mail}}</p>
+
+                <br>
+                <a class="prj_boton" href="{% url 'semillero_details' id=semillero.id %}">Ver más</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    <link rel="stylesheet" href="{% static 'core/css/home_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/semilleros_styles.css' %}">
+{% endblock %}

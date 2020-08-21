@@ -18,6 +18,8 @@
     {% if request.user|is_coord %}
         <label for=""><b>Informacion del semillero</b></label>
         <p>{{semillero.name}}</p>
+        <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'editar' %}">Editar </a>
+        <br>
         <br>
     {% endif %}
     <div class="Mostrar">

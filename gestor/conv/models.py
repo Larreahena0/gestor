@@ -68,7 +68,7 @@ class Documento_Adjunto(models.Model):
     id_documento = models.ForeignKey(Documento, null=True, blank=True, on_delete=models.CASCADE,verbose_name="Documento del semillero")
     id_usuario = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE,verbose_name="Usuario")
     documento = models.FileField(verbose_name="Documento", null=True)
-    comentarios = models.TextField(max_length=400, verbose_name="Comentarios", null=True)
+    comentarios = models.FileField(verbose_name="Comentarios", null=True)
     estado = models.CharField(max_length=100, verbose_name="Estado", null=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)

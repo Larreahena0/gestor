@@ -94,11 +94,13 @@ def create(request):
                     mision = request.POST['mision']
                     vision = request.POST['vision']
                     goals = request.POST['goals']
+                    image = request.POST['image']
+                    mail = request.POST['mail']
                     document=request.POST['cc']
                     integrante=Integrante.objects.get(document=document)
 
                     insert = Semillero(
-                        id_group=id_group, name=name, history=history, mision=mision, vision=vision, goals=goals,coordinador=integrante)
+                        id_group=id_group, name=name, history=history, mision=mision, vision=vision, goals=goals,coordinador=integrante,mail=mail,image=image)
                     insert.save()
 
                     joined=request.POST['joined']
@@ -382,12 +384,9 @@ def add_workline(request):
     return redirect('/')
 
 def semillero_details(request,id):
-    if request.user.is_authenticated:
-        semillero=Semillero.objects.get(id=id)
-        integrantes = Participante2.objects.filter(id_semillero=semillero)
-        return render(request, "create/details.html",{"semillero":semillero,"integrantes":integrantes})
-
-    return redirect('/')
+    semillero=Semillero.objects.get(id=id)
+    integrantes = Participante2.objects.filter(id_semillero=semillero)
+    return render(request, "create/details.html",{"semillero":semillero,"integrantes":integrantes})
 
 def integrante_details(request,id):
     if request.user.is_authenticated:
@@ -556,5 +555,18 @@ def integrante_edit(request, id):
 
 
 def produccion(request):
-
+    
     return render(request, "create/produccion.html")
+
+def editar(request):
+    id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+    semillero = Semillero.objects.get(id=int(id_semillero))
+    if request.method == "POST":
+        mail = request.POST["mail"]
+        image = request.FILES["image"]
+        
+        semillero.mail = mail
+        semillero.image = image
+        semillero.save(update_fields=["mail","image"])
+
+    return render(request, "create/edit.html",{'semillero':semillero})

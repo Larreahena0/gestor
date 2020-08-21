@@ -35,6 +35,8 @@
                         <li><a href="{% url 'choose' %}" id="semillero1">Cambiar Semillero</a></li>
                         {% endif %}
                     {% endif %}
+                {%else%}
+                    <li><a href="{% url 'semilleros' %}" id="semillero2">Nuestros Semilleros</a></li>
                 {% endif %}
                 <li><a href="{% url 'participar' %}" id="participar">Convocatorias</a></li>
             </ul>

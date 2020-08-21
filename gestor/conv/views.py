@@ -215,7 +215,7 @@ def adjuntos(request, id, id_conv):
                 original.documento=documento
                 original.save(update_fields=["estado","documento"])
 
-            elif request.POST["caso"]=="0":    
+            elif request.POST["caso"]=="0":
                 comentarios = request.POST["comentarios"]
                 estado = request.POST["estado"]
                 id= request.POST["id"]
@@ -223,7 +223,10 @@ def adjuntos(request, id, id_conv):
                 documento.comentarios=comentarios
                 documento.estado=estado
                 documento.id_usuario=request.user
-                documento.save(update_fields=["comentarios","estado","id_usuario"])
+                if(comentarios==""):
+                    documento.save(update_fields=["estado","id_usuario"])
+                else:    
+                    documento.save(update_fields=["comentarios","estado","id_usuario"])
 
             documentos = Documento_Adjunto.objects.filter(id_participante=participante)
             var = 0

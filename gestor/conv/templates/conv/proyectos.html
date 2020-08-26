@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% load auth_extras %}
+
+{% block cuerpo %}
+
+    <h1>Proyectos</h1>
+    <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
+    <hr>
+    <br>
+    {% if request.user|is_coord %}
+        <label for=""><b>Informacion del semillero</b></label>
+        <p>{{semillero.name}}</p>
+        <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'editar' %}">Editar </a>
+        <br>
+        <br>
+    {% endif %}
+    {% if proyectos.count != 0%}
+        <table id="tableConv" style="overflow-x:auto;">
+            <tr>
+                <th>Codigo</th>
+                <th>Convocatoria</th>
+                <th>Semillero a cargo</th>
+                <th>Porcentaje de avance</th>
+                <th>Acciones</th>
+            </tr>
+            {% for proyecto in proyectos %}
+                <tr class="info">
+                    <td>{{proyecto.codigo}}</td>
+                    <td><a href="{% url 'details' id_item=proyecto.convocatoria.id %}">{{proyecto.convocatoria}}</a></td>
+                    <td><a id="a1" href="{% url 'semillero_details' id=proyecto.semillero.id %}">{{proyecto.semillero}}</a></td>
+                    <td>{{proyecto.porcentaje}}</td>
+                    <td>
+                        <a class="config2" title="Visualizar reportes" alt="Visualizar reportes" id="see4" href="{% url 'reportes' id=proyecto.id %}"><i class="fas fa-eye"></i></a>
+                        {% if request.user|is_coord %}
+                            <a class="config2" title="Adjuntar reporte" alt="Adjuntar reporte" id="asignar" href="{% url 'reportar' id=proyecto.id %}"><i class="fas fa-plus-circle"></i></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="message in-info">
+            <p>En este momento no hay proyectos</p>
+        </div>
+    {% endif %}
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'conv/css/proyectos_styles.css' %}">
+{% endblock %}

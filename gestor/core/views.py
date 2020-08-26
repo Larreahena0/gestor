@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Usuario
 from .models import Noticia
 from create.models import coordinadores,Integrante,Participante2,Rol,Semillero
+from conv.models import Proyectos
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login as do_login
 from django.contrib.auth import authenticate
@@ -101,3 +102,4 @@ def choose(request):
 def semilleros(request):
     semilleros = Semillero.objects.all()
     return render(request, "core/semilleros.html",{'semilleros':semilleros})
+

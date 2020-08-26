@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% load auth_extras %}
+
+{% block cuerpo %}
+
+    <h1>Agregar reporte al proyecto</h1>
+    <hr>
+    <form action="" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+        <br>
+        <p><b>Proyecto: </b>{{proyecto.codigo}}</p>
+        <br>
+        <label for=""><b>Tipo de reporte: </b></label>
+        <select class="" name="tipo" id="tipo">
+            <option disabled selected>Seleccione un tipo</option>
+            <option value="0">Propuesta</option>
+            <option value="1">Avance</option>
+            <option value="2">Final</option>
+        </select>
+        <label for=""><b>Documento: </b></label>
+        <input class="obligatorio" type="file" name="documento" id="documento">
+        <label for=""><b>Progreso del proyecto: </b></label>
+        <input type="text" name="progreso" id="progreso" value="{{proyecto.porcentaje}}" placeholder="ingrese el progreso del proyecto">
+        <input id="enviar" type="submit" value="Enviar"/>
+    </form>
+    
+    {% if mensaje %}
+        <script lenguague="JavaScript">
+            $.alert({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: '{{mensaje1}}',
+                content: '{{mensaje}}',
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Ok',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                            window.location = "{% url 'proyectos' %}";
+                        }
+                    },
+                }
+            });
+        </script>
+    {% endif %}
+
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'conv/css/proyectos_styles.css' %}">
+
+{% endblock %}

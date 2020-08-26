@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse
 from .models import Convocatoria
-from .models import Documento,Participante,Documento_Adjunto
+from .models import Documento,Participante,Documento_Adjunto,Proyectos,Documentos_proyecto
 from create.models import coordinadores,Semillero
 from core.models import Grupo
 from django.conf import settings
@@ -248,3 +248,81 @@ def adjuntos(request, id, id_conv):
 
         return render(request, "conv/adjuntos.html",{'documentos':documentos})
     return redirect('/')
+
+def reportar(request,id):
+    if request.user.groups.filter(name="Coordinador").exists():
+        id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+        semillero = Semillero.objects.get(id=int(id_semillero))
+        try:
+            proyecto = Proyectos.objects.get(id=id,semillero=semillero)
+            if request.method == "POST":
+                tipo = request.POST["tipo"]
+                documento = request.FILES["documento"]
+                progreso = request.POST["progreso"]
+                insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
+                insert.save()
+                proyecto.porcentaje=progreso
+                proyecto.save(update_fields=['porcentaje'])
+                mensaje = "Se ha agregado el reporte exitosamente."
+                mensaje1 = "Exito"
+                return render(request, "conv/reporte.html",{'mensaje':mensaje,'mensaje1':mensaje1})    
+
+            return render(request, "conv/reporte.html",{'proyecto':proyecto})
+        except:
+            return redirect('/')
+    else:
+        return redirect('/')
+
+def proyectos(request):
+    if request.user.groups.filter(name="Administrador").exists():
+        proyectos = Proyectos.objects.all()
+        return render(request, "conv/proyectos.html",{'proyectos':proyectos})
+
+    elif request.user.groups.filter(name="Coordinador").exists():
+        id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+        semillero = Semillero.objects.get(id=int(id_semillero))
+        proyectos = Proyectos.objects.filter(semillero=semillero)
+        return render(request, "conv/proyectos.html",{'proyectos':proyectos,'semillero':semillero})
+    else:
+        return redirect('/')
+
+def asignar_proyecto(request,id,id_conv):
+    if request.user.groups.filter(name="Administrador").exists():
+        convocatoria = Convocatoria.objects.get(id=id_conv)
+        semillero = Semillero.objects.get(id=id)
+        if request.method == "POST":
+            try:
+                proyecto = Proyectos.objects.get(convocatoria=convocatoria)
+                mensaje = "Ya existe un proyecto en curso asociado a la convocatoria."
+                mensaje1 = "Error"
+                return render(request, "conv/asignar_proyecto.html",{'mensaje':mensaje,'mensaje1':mensaje1})
+            except:    
+                codigo = request.POST["codigo"]
+                porcentaje = request.POST["porcentaje"]
+                descripcion = request.POST["description"]
+                insert = Proyectos(codigo=codigo,convocatoria=convocatoria,semillero=semillero,porcentaje=porcentaje,description=descripcion)
+                insert.save()
+                mensaje1 = "Exito"
+                mensaje = "Proyecto creado exitosamente."
+                return render(request, "conv/asignar_proyecto.html",{'mensaje':mensaje,'mensaje1':mensaje1})
+
+        return render(request, "conv/asignar_proyecto.html",{'convocatoria':convocatoria,'semillero':semillero})     
+
+    return redirect('/')
+
+def reportes(request,id):
+    if request.user.groups.filter(name="Administrador").exists():
+        proyecto = Proyectos.objects.get(id=id)
+        reportes = Documentos_proyecto.objects.filter(proyecto=proyecto)
+        return render(request, "conv/reportes.html",{'reportes':reportes})     
+    elif request.user.groups.filter(name="Coordinador").exists():
+        id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+        semillero = Semillero.objects.get(id=int(id_semillero))
+        try:
+            proyecto = Proyectos.objects.get(id=id,semillero=semillero)
+            reportes = Documentos_proyecto.objects.filter(proyecto=proyecto)
+            return render(request, "conv/reportes.html",{'reportes':reportes})     
+        except:
+            return redirect('/')
+    else:
+        return redirect('/')

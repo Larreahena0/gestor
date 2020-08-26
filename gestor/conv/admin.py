@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Convocatoria
-from .models import Documento,Documento_Adjunto,Participante
+from .models import Documento,Documento_Adjunto,Participante,Proyectos,Documentos_proyecto
 
 
 # Registro de los modelos convocatoria y documento, definimos también que
@@ -16,3 +16,5 @@ admin.site.register(Convocatoria, ConvocatoriaAdmin)
 admin.site.register(Documento, DocumentoAdmin)
 admin.site.register(Documento_Adjunto)
 admin.site.register(Participante)
+admin.site.register(Proyectos)
+admin.site.register(Documentos_proyecto)

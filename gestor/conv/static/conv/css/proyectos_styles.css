@@ -1,0 +1,22 @@
+#participar {
+    color: white;
+    background: #274712;
+}
+
+#participar:hover {
+    color: #000;
+    background: #fff;
+}
+
+#proyectos {
+    color: #000;
+    background: #fff;
+}
+div #see4 {
+    padding: 4px 10px;
+    background: #2b49c0;
+}
+
+div #see4:hover {
+    background: #183194;
+}

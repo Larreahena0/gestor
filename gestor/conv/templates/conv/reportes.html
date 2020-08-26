@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% load auth_extras %}
+
+{% block cuerpo %}
+
+    <h1>Reportes realizados al proyecto </h1>
+    <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
+    <hr>
+    <br>
+    {% if reportes.count != 0%}
+        <table id="tableConv" style="overflow-x:auto;">
+            <tr>
+                <th>Tipo</th>
+                <th>Documento</th>
+            </tr>
+            {% for reporte in reportes %}
+                <tr class="info">
+                    <td>
+                        {% if reporte.tipo == "0" %}
+                            Propuesta
+                        {% elif reporte.tipo == "1" %}
+                            Avance
+                        {% elif reporte.tipo == "2" %}                            
+                            Final
+                        {% endif %}                
+                    </td>
+                    <td><a href="{{reporte.documento.url}}" download>{{reporte.documento}}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="message in-info">
+            <p>En este momento no se han realizado reportes</p>
+        </div>
+    {% endif %}
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'conv/css/proyectos_styles.css' %}">
+{% endblock %}

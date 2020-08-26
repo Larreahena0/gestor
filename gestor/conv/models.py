@@ -80,3 +80,33 @@ class Documento_Adjunto(models.Model):
 
     def __str__(self):
         return self.id_documento.description
+
+class Proyectos(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Id")
+    codigo = models.CharField(max_length=100, verbose_name="Codigo", null=True)
+    convocatoria = models.ForeignKey(Convocatoria, null=True, blank=True, on_delete=models.CASCADE)
+    semillero = models.ForeignKey(Semillero, null=True, blank=True, on_delete=models.CASCADE)
+    porcentaje = models.CharField(max_length=20, verbose_name="Porcentaje de avance", null=True)
+    description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
+
+    class Meta():
+        verbose_name = "Proyecto"
+        verbose_name_plural = "Proyectos"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.codigo
+
+class Documentos_proyecto(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Id")
+    tipo = models.CharField(max_length=10, verbose_name="Tipo", null=True)
+    proyecto = models.ForeignKey(Proyectos, null=True, blank=True, on_delete=models.CASCADE)
+    documento = models.FileField(verbose_name="Documento", null=True)
+
+    class Meta():
+        verbose_name = "Documento"
+        verbose_name_plural = "Documentos de proyecto"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.proyecto.codigo

@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% load auth_extras %}
+
+{% block cuerpo %}
+
+    <h1>Asignar proyecto a un semillero</h1>
+    <hr>
+    <form action="" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+        <br>
+        <p><b>Convocatoria: </b>{{convocatoria.name}}</p>
+        <br>
+        <p><b>Semillero a cargo: </b>{{semillero.name}}</p>
+        <br>
+        <input type="text" name="codigo" id="codigo" placeholder="Codigo del proyecto" autocomplete="off" required>
+        <input type="text" name="porcentaje" id="porcentaje" placeholder="Porcentaje de avance del proyecto" autocomplete="off" required>
+        <textarea name="description" id="description" cols="30" rows="10" placeholder="Descripción del proyecto" equired></textarea>
+        <input type="submit" value="Enviar"/>
+        </div>
+    </form>
+    
+    {% if mensaje %}
+        <script lenguague="JavaScript">
+            $.alert({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: '{{mensaje1}}',
+                content: '{{mensaje}}',
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Ok',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                            window.location = "{% url 'participar' %}";
+                        }
+                    },
+                }
+            });
+        </script>
+    {% endif %}
+
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
+{% endblock %}

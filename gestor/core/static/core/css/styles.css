@@ -205,6 +205,15 @@ div #editar:hover, div #add:hover {
     background: #274712;
 }
 
+div #asignar {
+    padding: 4px 10px;
+    background: #ff8000;
+}
+
+div #asignar:hover {
+    background: #b65c02;
+}
+
 div #delete {
     padding: 4px 12px;
     background: #b41818;

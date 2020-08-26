@@ -200,7 +200,8 @@ $(document).ready(function(){
         $('.Crear').show();
         $('#estado').val(0)
     });
-    
+	
+
     $('#enviar').click(function(e){
         e.preventDefault();
         var obligatorios = $('.obligatorio');

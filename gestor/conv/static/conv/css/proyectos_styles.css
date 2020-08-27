@@ -20,3 +20,21 @@ div #see4 {
 div #see4:hover {
     background: #183194;
 }
+
+div #edit, div #edit1 {
+    padding: 4px 10px;
+    background: #396534;
+}
+
+div #edit:hover {
+    background: #274712;
+}
+
+div #edit1:hover {
+    background: #274712;
+}
+
+#boton {
+	display: inherit;
+	margin-bottom: 15px;
+}

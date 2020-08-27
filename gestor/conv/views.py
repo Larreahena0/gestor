@@ -319,6 +319,13 @@ def reportes(request,id):
         id_semillero = coordinadores.objects.get(user=request.user).id_semillero
         semillero = Semillero.objects.get(id=int(id_semillero))
         try:
+            if request.method == "POST":
+                id = request.POST["id_d"]
+                reporte = Documentos_proyecto.objects.get(id=id)
+                reporte.documento = request.FILES["doc"]
+                reporte.save(update_fields=["documento"])
+                return redirect("/proyectos")
+
             proyecto = Proyectos.objects.get(id=id,semillero=semillero)
             reportes = Documentos_proyecto.objects.filter(proyecto=proyecto)
             return render(request, "conv/reportes.html",{'reportes':reportes})     

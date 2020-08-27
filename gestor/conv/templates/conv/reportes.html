@@ -4,7 +4,7 @@
 
 {% block cuerpo %}
 
-    <h1>Reportes realizados al proyecto </h1>
+    <h1>Reportes realizados al proyecto</h1>
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
@@ -13,6 +13,9 @@
             <tr>
                 <th>Tipo</th>
                 <th>Documento</th>
+                {% if request.user|is_coord %}
+                    <th>Acciones</th>
+                {% endif %}                    
             </tr>
             {% for reporte in reportes %}
                 <tr class="info">
@@ -25,7 +28,10 @@
                             Final
                         {% endif %}                
                     </td>
-                    <td><a href="{{reporte.documento.url}}" download>{{reporte.documento}}</a></td>
+                    <td id="documento_{{reporte.id}}"><a href="{{reporte.documento.url}}" download>{{reporte.documento}}</a></td>
+                    {% if request.user|is_coord %}
+                        <td><a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick="modify({{reporte.id}})"> <i class="fas fa-wrench"></i></a> </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
@@ -34,9 +40,37 @@
             <p>En este momento no se han realizado reportes</p>
         </div>
     {% endif %}
+    <br>
+    <div class="modificar">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="">Adjunte el siguiente documento:</label>
+            <table id="tabla" >
+                <input type="hidden" name="id_d" id="id_d" value="">
+                <input type="hidden" name="caso" id="caso" value="0">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Adjuntar</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr>
+                    <td id="nombre"></td>
+                    <td>
+                        <button id="boton" type="button" onclick="abrir('doc')" id="boton">Examinar</button>
+                        <br>
+                        <input type="file" name="doc" id="doc" style="display:none;" onchange="texto(this,'span')">
+                        <span id="span">Subir archivo</span>
+                    </td>
+                    <td><a class="config2" title="Editar" alt="Editar" id="edit1" href="#" onclick=""><i class="fab fa-telegram-plane"></i></a> </td>
+                </tr>
+            </table>
+        </form>    
+    </div>
+    <br>
 
     {% load static %}
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
     <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
     <link rel="stylesheet" href="{% static 'conv/css/proyectos_styles.css' %}">
+
 {% endblock %}

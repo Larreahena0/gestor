@@ -12,10 +12,7 @@
         <table id="tableConv" style="overflow-x:auto;">
             <tr>
                 <th>Tipo</th>
-                <th>Documento</th>
-                {% if request.user|is_coord %}
-                    <th>Acciones</th>
-                {% endif %}                    
+                <th>Documento</th> 
             </tr>
             {% for reporte in reportes %}
                 <tr class="info">
@@ -29,9 +26,6 @@
                         {% endif %}                
                     </td>
                     <td id="documento_{{reporte.id}}"><a href="{{reporte.documento.url}}" download>{{reporte.documento}}</a></td>
-                    {% if request.user|is_coord %}
-                        <td><a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick="modify({{reporte.id}})"> <i class="fas fa-wrench"></i></a> </td>
-                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

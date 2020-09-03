@@ -23,7 +23,6 @@
         </header>
         <nav>
             <ul>
-                <li><a href="{% url 'home' %}" id="home">Inicio</a></li>
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'proyectos' %}" id="proyectos">Proyectos</a></li>
                     {% if request.user|is_admin %}
@@ -37,6 +36,7 @@
                         {% endif %}
                     {% endif %}
                 {%else%}
+                    <li><a href="{% url 'home' %}" id="home">Inicio</a></li>
                     <li><a href="{% url 'semilleros' %}" id="semillero2">Nuestros Semilleros</a></li>
                 {% endif %}
                 <li><a href="{% url 'participar' %}" id="participar">Convocatorias</a></li>

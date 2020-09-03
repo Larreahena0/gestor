@@ -330,3 +330,9 @@ form textarea {
         display: none;
     }
 }
+
+#edit_sem{
+    background-color: white;
+    color: #274712;
+    padding: 5px;
+}

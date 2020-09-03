@@ -2,16 +2,15 @@
 
 {% block cuerpo %}
 
+    <h1><b>{{semillero.name}}</b></h1>
+    <a class="config2" title="Editar" alt="Editar" id="edit_sem" href="{% url 'editar' %}"><i class="fas fa-edit"></i> </a>
+    <hr>
+    <br>
     <h1>Integrantes del semillero</h1>
     <a class="config" title="Editar" alt="Editar" id="editar" href="#"><i class="fas fa-plus"></i></a>
     <a class="config" title="Ver" alt="Ver" id="see" href="#"><i class="fas fa-eye"></i></a>
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
-    <br>
-    <label for=""><b>Informacion del semillero</b></label>
-    <p>{{semillero.name}}</p>
-    <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'editar' %}">Editar </a>
-    <br>
     <br>
     <div id="ver">
         <table id="tableConv" style="overflow-x:auto;">

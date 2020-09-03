@@ -28,6 +28,7 @@ class Semillero(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
 	id_group = models.ForeignKey(Grupo, verbose_name="Grupo de investigacion", null=True, blank=True, on_delete=models.CASCADE)
 	name = models.CharField(max_length=50, verbose_name="Nombre", null=True)
+	description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
 	history = models.TextField(verbose_name="Antesedentes", null=True)
 	mision = models.TextField(verbose_name="Misión", null=True)
 	vision = models.TextField(verbose_name="Visión", null=True)

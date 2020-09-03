@@ -564,9 +564,11 @@ def editar(request):
     if request.method == "POST":
         mail = request.POST["mail"]
         image = request.FILES["image"]
+        description = request.POST["description"]
         
         semillero.mail = mail
         semillero.image = image
-        semillero.save(update_fields=["mail","image"])
+        semillero.description = description
+        semillero.save(update_fields=["mail","description","image"])
 
     return render(request, "create/edit.html",{'semillero':semillero})

@@ -182,3 +182,20 @@ div #edit1:hover {
 #ready{
     color:green;
 }
+#br{
+    margin-bottom: 10px
+}
+
+.formulario {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.formulario select,.formulario a,.formulario button{
+    display: initial;
+}
+
+.formulario select{
+    width: auto;
+    font-size: 13px;
+}

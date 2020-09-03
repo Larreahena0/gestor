@@ -4,24 +4,25 @@
 
 {% block cuerpo %}
 
+    {% if request.user|is_coord %}
+        <h1><b>{{semillero.name}}</b></h1>
+        <a class="config2" title="Editar" alt="Editar" id="edit_sem" href="{% url 'editar' %}"><i class="fas fa-edit"></i> </a>
+        <hr>
+        <br>
+    {% endif %}
     <h1>Proyectos</h1>
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
-    {% if request.user|is_coord %}
-        <label for=""><b>Informacion del semillero</b></label>
-        <p>{{semillero.name}}</p>
-        <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'editar' %}">Editar </a>
-        <br>
-        <br>
-    {% endif %}
     {% if proyectos.count != 0%}
         <table id="tableConv" style="overflow-x:auto;">
+            {% csrf_token %}
             <tr>
                 <th>Codigo</th>
                 <th>Convocatoria</th>
                 <th>Semillero a cargo</th>
                 <th>Porcentaje de avance</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
             {% for proyecto in proyectos %}
@@ -31,9 +32,24 @@
                     <td><a id="a1" href="{% url 'semillero_details' id=proyecto.semillero.id %}">{{proyecto.semillero}}</a></td>
                     <td>{{proyecto.porcentaje}}</td>
                     <td>
+                        {% if proyecto.estado == '0' %}
+                            Cerrado
+                        {% elif proyecto.estado == '1' %}
+                            Abierto
+                        {% endif %}
+                    </td>
+                    <td>
                         <a class="config2" title="Visualizar reportes" alt="Visualizar reportes" id="see4" href="{% url 'reportes' id=proyecto.id %}"><i class="fas fa-eye"></i></a>
                         {% if request.user|is_coord %}
-                            <a class="config2" title="Adjuntar reporte" alt="Adjuntar reporte" id="asignar" href="{% url 'reportar' id=proyecto.id %}"><i class="fas fa-plus-circle"></i></a>
+                            {% if proyecto.estado == '1' %}
+                                <a class="config2" title="Adjuntar reporte" alt="Adjuntar reporte" id="asignar" href="{% url 'reportar' id=proyecto.id %}"><i class="fas fa-plus-circle"></i></a>
+                            {% endif %}
+                        {% elif request.user|is_admin %}    
+                            {% if proyecto.estado == '0' %}
+                                <a class="config2" title="Reabrir Proyecto" alt="Reabrir proyecto" id="asignar" onclick="reabrir('{{proyecto.id}}')"><i class="fas fa-lock-open"></i></a>
+                            {% elif proyecto.estado == '1' %}    
+                                <a class="config2" title="Cerrar Proyecto" alt="Cerrar proyecto" id="asignar" onclick="cerrar('{{proyecto.id}}')" ><i class="fas fa-lock"></i></i></a>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>

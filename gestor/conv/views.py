@@ -207,6 +207,7 @@ def adjuntos(request, id, id_conv):
         participante = Participante.objects.get(id_convocatoria=convocatoria,id_semillero=semillero)
         documentos = Documento_Adjunto.objects.filter(id_participante=participante)
         if request.method == "POST":
+            print(request.POST["caso"])
             if request.POST["caso"]=="1":
                 id = request.POST["id_d"]
                 original = Documento_Adjunto.objects.get(id=id)
@@ -216,9 +217,12 @@ def adjuntos(request, id, id_conv):
                 original.save(update_fields=["estado","documento"])
 
             elif request.POST["caso"]=="0":
-                comentarios = request.POST["comentarios"]
-                estado = request.POST["estado"]
-                id= request.POST["id"]
+                id= request.POST["id_c"]
+                estado = request.POST["state_"+str(id)]
+                if(estado=="1"):
+                    comentarios=""
+                elif(estado=="2"):
+                    comentarios = request.FILES["comment_"+str(id)]
                 documento = Documento_Adjunto.objects.get(id=id)
                 documento.comentarios=comentarios
                 documento.estado=estado
@@ -255,26 +259,42 @@ def reportar(request,id):
         semillero = Semillero.objects.get(id=int(id_semillero))
         try:
             proyecto = Proyectos.objects.get(id=id,semillero=semillero)
-            if request.method == "POST":
-                tipo = request.POST["tipo"]
-                documento = request.FILES["documento"]
-                progreso = request.POST["progreso"]
-                insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
-                insert.save()
-                proyecto.porcentaje=progreso
-                proyecto.save(update_fields=['porcentaje'])
-                mensaje = "Se ha agregado el reporte exitosamente."
-                mensaje1 = "Exito"
-                return render(request, "conv/reporte.html",{'mensaje':mensaje,'mensaje1':mensaje1})    
+            if(proyecto.estado == '1'):
+                if request.method == "POST":
+                    tipo = request.POST["tipo"]
+                    documento = request.FILES["documento"]
+                    progreso = request.POST["progreso"]
+                    insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
+                    insert.save()
+                    proyecto.porcentaje=progreso
+                    proyecto.save(update_fields=['porcentaje'])
+                    mensaje = "Se ha agregado el reporte exitosamente."
+                    mensaje1 = "Exito"
+                    return render(request, "conv/reporte.html",{'mensaje':mensaje,'mensaje1':mensaje1})    
 
-            return render(request, "conv/reporte.html",{'proyecto':proyecto})
+                return render(request, "conv/reporte.html",{'proyecto':proyecto})
+            elif(proyecto.estado == '0'):
+                return redirect('/proyectos')        
         except:
-            return redirect('/')
+            return redirect('/proyectos')
     else:
-        return redirect('/')
+        return redirect('/proyectos')
 
 def proyectos(request):
     if request.user.groups.filter(name="Administrador").exists():
+        if request.method == 'POST':
+            if request.POST['caso']=="cerrar":
+                id=request.POST['id']
+                proyecto = Proyectos.objects.get(id=id)
+                proyecto.estado=0
+                proyecto.save(update_fields=['estado'])
+            
+            elif request.POST["caso"]=="reabrir":
+                id=request.POST['id']
+                proyecto = Proyectos.objects.get(id=id)
+                proyecto.estado=1
+                proyecto.save(update_fields=['estado'])
+                
         proyectos = Proyectos.objects.all()
         return render(request, "conv/proyectos.html",{'proyectos':proyectos})
 
@@ -292,8 +312,9 @@ def asignar_proyecto(request,id,id_conv):
         semillero = Semillero.objects.get(id=id)
         if request.method == "POST":
             try:
-                proyecto = Proyectos.objects.get(convocatoria=convocatoria)
-                mensaje = "Ya existe un proyecto en curso asociado a la convocatoria."
+                codigo = request.POST["codigo"]
+                proyecto = Proyectos.objects.get(codigo=codigo)
+                mensaje = "Ya existe un proyecto con el codigo ingresado."
                 mensaje1 = "Error"
                 return render(request, "conv/asignar_proyecto.html",{'mensaje':mensaje,'mensaje1':mensaje1})
             except:    

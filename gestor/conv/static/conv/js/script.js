@@ -13,6 +13,70 @@ function texto(elem, id_text) {
     }
 }
 
+function cerrar(id){
+    caso="cerrar"
+    $.confirm({
+        boxWidth: '400px',
+        useBootstrap: false,
+        closeIcon: true,
+        title: '¿Está seguro?',
+        content: 'Esta tratando de cerrar el proyecto, el coordinador a cargo no podrá realizar mas reportes.',
+        typeAnimated: true,
+        buttons: {
+            somethingElse: {
+                text: 'Seguro',
+                btnClass: 'btn-warning',
+                action: function(){
+                    var caso = "cerrar"
+                    let url = window.location;
+                    const postData={
+                        'id': id,
+                        'caso': caso,
+                        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                    };
+                    $.post(url, postData, function(response){
+                        window.location.reload()
+                    });
+                }
+            },
+            cancelar: function () {
+            }
+        }
+    });
+}
+
+function reabrir(id){
+    $.confirm({
+        boxWidth: '400px',
+        useBootstrap: false,
+        closeIcon: true,
+        title: '¿Está seguro?',
+        content: 'Esta tratando de abrir de nuevo el proyecto, el coordinador a cargo podrá realizar reportes.',
+        typeAnimated: true,
+        buttons: {
+            somethingElse: {
+                text: 'Seguro',
+                btnClass: 'btn-warning',
+                action: function(){
+                    var caso = "reabrir"
+                    let url = window.location;
+                    const postData={
+                        'id': id,
+                        'caso': caso,
+                        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                    };
+                    $.post(url, postData, function(response){
+                        window.location.reload()
+                    });
+                }
+            },
+            cancelar: function () {
+            }
+        }
+    });
+}
+
+
 function modify(id){
     window.event.preventDefault();
     $(".modificar").show();
@@ -20,7 +84,7 @@ function modify(id){
     $("#nombre").children().last().remove()
     $("#nombre").append(elemento);
     $("#id_d").val(id);
-    $("#caso").val("1");
+    $("#f2 #caso").val("1");
 }
 
 function send(id){
@@ -45,17 +109,9 @@ function send(id){
                     text: 'Seguro',
                     btnClass: 'btn-warning',
                     action: function(){
-                        let url = window.location;
-                        const postData={
-                            'id': id,
-                            'caso': "0",
-                            'comentarios':comentarios,
-                            'estado':estado,
-                            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-                        };
-                        $.post(url, postData, function(response){
-                            window.location.reload()
-                        });
+                        $("#id_c").val(id);
+                        $("#caso").val("0");
+                        $("#f1").submit();
                     }
                 },
                 cancelar: function () {
@@ -171,21 +227,21 @@ $(document).ready(function(){
     
     $('#see1').click(function(e){
         e.preventDefault();
-        $('h1').html('Convocatorias');
+        $('.h1').html('Convocatorias');
         $('.Mostrar').show();
         $('#mis_convocatorias').hide();
     });
 
     $('#see2').click(function(e){
         e.preventDefault();
-        $('h1').html('Mis convocatorias');
+        $('.h1').html('Mis convocatorias');
         $('.Mostrar').hide();
         $('#mis_convocatorias').show();
     });
 
     $('#see').click(function(e){
         e.preventDefault();
-        $('h1').html('Convocatorias');
+        $('.h1').html('Convocatorias');
         $('.Mostrar').show();
         $('#textSearch').show();
         $('.Crear').hide();
@@ -194,7 +250,7 @@ $(document).ready(function(){
     
     $('#add').click(function(e){
         e.preventDefault();
-        $('h1').html('Crear una convocatoria');
+        $('.h1').html('Crear una convocatoria');
         $('#textSearch').hide();
         $('.Mostrar').hide();
         $('.Crear').show();
@@ -213,7 +269,26 @@ $(document).ready(function(){
         });
 
         if(enviar==1){
-            $('form').submit();
+            $.confirm({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: '¿Está seguro?',
+                content: 'El reporte no podrá ser modificado.',
+                typeAnimated: true,
+                buttons: {
+                    somethingElse: {
+                        text: 'Seguro',
+                        btnClass: 'btn-warning',
+                        action: function(){
+                            $('form').submit();
+                        }
+                    },
+                    cancelar: function () {
+
+                    }
+                }
+            });
         }
         else{
             $.alert({
@@ -271,7 +346,7 @@ $(document).ready(function(){
                     text: 'Seguro',
                     btnClass: 'btn-warning',
                     action: function(){
-                        $('form').submit();
+                        $('#f2').submit();
                     }
                 },
                 cancelar: function () {

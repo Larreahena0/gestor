@@ -41,9 +41,9 @@ def login(request):
                 if(participante.count()>1):
                     return redirect('/choose')
                 else:
-                    return redirect('/')
+                    return redirect('/integrante')
             else:
-                return redirect('/')        
+                return redirect('/proyectos')        
     return render(request, "core/login.html")
 
 def signup(request):
@@ -95,7 +95,7 @@ def choose(request):
         insert=coordinadores.objects.get(user=request.user)
         insert.id_semillero=semillero
         insert.save(update_fields=['id_semillero'])
-        return redirect("/")
+        return redirect("/integrante")
 
     return render(request,"core/choose.html",{'semilleros':semilleros})
 

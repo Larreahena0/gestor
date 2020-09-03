@@ -2,7 +2,13 @@
 {% load auth_extras %}
 {% block cuerpo %}
 
-    <h1>Convocatorias</h1>
+    {% if request.user|is_coord %}
+        <h1><b>{{semillero.name}}</b></h1>
+        <a class="config2" title="Editar" alt="Editar" id="edit_sem" href="{% url 'editar' %}"><i class="fas fa-edit"></i> </a>
+        <hr>
+        <br>
+    {% endif %}
+    <h1 class="h1">Convocatorias</h1>
     {% if request.user.is_authenticated %}
         {% if request.user|is_admin %}
             <a class="config" title="Agregar" alt="Agregar" id="add" href="#"><i class="fas fa-plus"></i></a>
@@ -15,13 +21,7 @@
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
-    {% if request.user|is_coord %}
-        <label for=""><b>Informacion del semillero</b></label>
-        <p>{{semillero.name}}</p>
-        <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'editar' %}">Editar </a>
-        <br>
-        <br>
-    {% endif %}
+    
     <div class="Mostrar">
         {% if convocatorias.count != 0%}
             <table id="tableConv" style="overflow-x:auto;">

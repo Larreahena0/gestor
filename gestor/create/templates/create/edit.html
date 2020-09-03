@@ -7,12 +7,17 @@
     <br>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <label>Correo de contacto</label>
+        <label><b>Correo de contacto</b></label>
         <input type="text" name="mail" id="mail" placeholder="Correo de contacto" value="{{semillero.mail}}" autocomplete="off" required>
-        <label>Imagen del semillero</label>
+        
+        <label><b>Descripcion del semillero</b></label>
+        <textarea name="description" id="description" cols="30" placeholder="Descripcion" rows="10" required>{{ semillero.description }}</textarea>
+
+        <label><b>Imagen del semillero</b></label>
         <a id="image1" href="{{semillero.image.url}}" download>{{semillero.image}}</a>
         <input type="file" name="image" id="image" required>
-        <input type="submit" id="enviar" value="Registrar Semillero"/>  
+
+        <input type="submit" id="enviar" value="Editar información"/>  
     </form>
     <br>
 

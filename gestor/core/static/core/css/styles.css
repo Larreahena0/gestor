@@ -75,24 +75,19 @@ aside {
     background-color: #274712;
     margin: 30px 0 0 30px;
     width: 180px;
-    height: 200px;
 }
 
 aside div {
-    height: 200px;
     background: #274712;
     float: left;
 }
 
-aside p {
+aside div p {
     display: inline-block;
-    text-decoration: underline;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
-    font-style: italic;
-    padding:10px;
-    text-align: center;
+    padding: 5px 10px 5px 10px;
     color: #ffffff;
+    font-size: 14px;
 }
 
 aside a {
@@ -107,7 +102,7 @@ aside a {
     text-align: center;
     margin: 0 auto;
     margin-top: 10px;
-    margin-left: 40px;
+    margin-left: 30px;
 }
 
 h1 {

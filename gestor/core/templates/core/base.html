@@ -49,12 +49,19 @@
             <aside>
                 {% if request.user.is_authenticated %}
                     <div>
-                        <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
+                        <p><i class="fas fa-user"></i> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                        <p><i class="fas fa-id-card"></i> 
+                            {% if request.user|is_coord %}
+                                Coordinador de semillero
+                            {% elif request.user|is_admin %}
+                                Administrador
+                            {% endif %}    
+                        </p>
                     </div>
                     <a href="{% url 'logout' %}">Cerrar sesión</a>
                 {% else %}
                     <div>
-                        <p>No ha iniciado sesión actualmente.</p>
+                        <p><i class="fas fa-users"></i> No ha iniciado sesión actualmente.</p>
                     </div>
                     <a href="{% url 'login' %}">Iniciar sesión</a>
                 {% endif %}

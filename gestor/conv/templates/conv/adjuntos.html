@@ -28,7 +28,7 @@
                     </tr>
                     {% for documento in documentos %}
                         <tr>
-                            <td id="documento_{{documento.id}}"><a href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
+                            <td id="documento_{{documento.id}}"><a id="a1" href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
                             <td><a id="a1" href="{{documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
             
                             {% if documento.id_documento.tipo == 1 %}
@@ -49,10 +49,10 @@
                             <td>
                                 {% if request.user|is_admin %}
                                     {% if documento.comentarios%}
-                                        <a id="a1" href="{{documento.comentarios.url}}" download>Comentarios</a>
+                                        <a id="a1" href="{{documento.comentarios.url}}" download>Ver comentarios</a>
                                         <br id="br">
                                     {% endif %}        
-                                    <span id="span_{{documento.id}}">Adjuntar Comentarios</span>
+                                    <span id="span_{{documento.id}}"></span>
                                     <br id="br">
                                     <input type="file" name="comment_{{documento.id}}" id="comment_{{documento.id}}" value="" style="display:none;" onchange="texto(this,'span_{{documento.id}}')">
                                     <button type="button" onclick="abrir('comment_{{documento.id}}')" id="boton">Adjuntar</button>

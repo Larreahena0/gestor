@@ -20,7 +20,9 @@
 .prj_img {
     float: left;
     width: 170px;
-	height: auto;
+    height: auto;
+    position: relative;
+    top: 30px;
 }
 
 .prj_img img {

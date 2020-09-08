@@ -70,13 +70,13 @@
                     {% for participacion in participaciones %}
                         <tr class="info">
                             {% if participacion.estado == "0" %}
-                                <td id="new"><i class="fas fa-thermometer-empty"></i></td>
+                                <td id="new"><i class="fas fa-battery-empty"></i></td>
                             {% elif participacion.estado == "2" %}
-                                <td id="pen_r"><i class="fas fa-thermometer-quarter"></i></td>
+                                <td id="pen_r"><i class="fas fa-battery-quarter"></i></td>
                             {% elif participacion.estado == "3" %}
-                                <td id="pen_c"><i class="fas fa-thermometer-half"></i></td>
+                                <td id="pen_c"><i class="fas fa-battery-three-quarters"></i></td>
                             {% elif participacion.estado == "1" %}    
-                                <td id="ready"><i class="fas fa-thermometer-full"></i></td>
+                                <td id="ready"><i class="fas fa-battery-full"></i></td>
                             {% endif %}
                             <td>{{participacion.id_convocatoria.id}}</td>
                             <td><a href="{% url 'details' id_item=participacion.id_convocatoria.id %}">{{participacion.id_convocatoria.name}}</a></td>
@@ -98,19 +98,19 @@
                         <th>Descripción</th>
                     </tr>
                     <tr>
-                        <td id="new"><i class="fas fa-thermometer-empty"></i></td>
+                        <td id="new"><i class="fas fa-battery-empty"></i></td>
                         <td>Nuevo participante</td>
                     </tr>
                     <tr>
-                        <td id="pen_r"><i class="fas fa-thermometer-quarter"></i></td>
+                        <td id="pen_r"><i class="fas fa-battery-quarter"></i></td>
                         <td>Pendiente de revision del administrador</td>
                     </tr>
                     <tr>
-                        <td id="pen_c"><i class="fas fa-thermometer-half"></i></td>
+                        <td id="pen_c"><i class="fas fa-battery-three-quarters"></i></td>
                         <td>Pendiente de correccion del coordinador</td>
                     </tr>
                     <tr>
-                        <td id="ready"><i class="fas fa-thermometer-full"></i></td>
+                        <td id="ready"><i class="fas fa-battery-full"></i></td>
                         <td>Listo</td>
                     </tr>
                 </table>

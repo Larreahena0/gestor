@@ -188,6 +188,12 @@ $(document).ready(function(){
             });
         }
     });
+    $('#register11').click(function(e){
+        e.preventDefault();
+        $('#caso').val($('#estado').val());
+        $('form').submit();
+    }); 
+
     $('#register1').click(function(e){
         e.preventDefault();
         var estado = $('#estado').val();
@@ -197,115 +203,60 @@ $(document).ready(function(){
             var joined = $('#joined').val()
             var id_group = $('#id_group').val()
             var name = $('#name_s').val()
-            var history = $('#history').val()
-            var mision = $('#mision').val()
-            var vision = $('#vision').val()
-            var goals = $('#goals').val()
+            var description = $('#description').val()
             var mail = $('#mail').val()
-            if($('#image').length>0){
-                console.log("hola")
-                var image = $('#image').prop("files")[0].name
-            }
-            else{
-                var image = ""
-            }
             var postData={
                 'cc': cc,
                 'joined': joined,
                 'id_group': id_group,
                 'name': name,
-                'history': history,
-                'mision': mision,
-                'vision': vision,
-                'goals': goals,
+                'description':description,
                 'mail': mail,
-                'image': image,
                 'caso': estado,
                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
             };
             $.post(url, postData, function(response){
-                if(response=="1"){
-                    $.alert({
-                        boxWidth: '400px',
-                        useBootstrap: false,
-                        closeIcon: true,
-                        title: "Registro exitoso",
-                        content: "Se ha registrado exitosamente el semillero.",
-                        typeAnimated: true,
-                        buttons: {
-                            ok: {
-                                btnClass: 'btn-warning',
-                                action: function(){
-                                    window.location.reload();
-                                }
+                $.alert({
+                    boxWidth: '400px',
+                    useBootstrap: false,
+                    closeIcon: true,
+                    title: "Edicion exitosa",
+                    content: "Se ha editado exitosamente el semillero.",
+                    typeAnimated: true,
+                    buttons: {
+                        ok: {
+                            btnClass: 'btn-warning',
+                            action: function(){
+                                window.location.reload();
                             }
                         }
-                    });
-                }
-                if(response=="2"){
-                    $.alert({
-                        boxWidth: '400px',
-                        useBootstrap: false,
-                        closeIcon: true,
-                        title: "Edicion exitosa",
-                        content: "Se ha editado exitosamente el semillero.",
-                        typeAnimated: true,
-                        buttons: {
-                            ok: {
-                                btnClass: 'btn-warning',
-                                action: function(){
-                                    window.location.reload();
-                                }
-                            }
-                        }
-                    });
-                }
+                    }
+                });
             });    
         }
     });
 
     $('#enviar').click(function(e){
         e.preventDefault();
-        console.log("hello")
-        var mail = $('#mail').val();
-        var image = $('#image').val();
-        if( mail == "" || image == ""){
-            $.alert({
-                boxWidth: '400px',
-                useBootstrap: false,
-                closeIcon: true,
-                title: "Error",
-                content: "Porfavor adjunte el correo o la imagen",
-                typeAnimated: true,
-                buttons: {
-                    ok: {
-                        btnClass: 'btn-warning',
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: "¿Esta seguro?",
+            content: "Esta seguro de los cambios realizados",
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Si',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        $('form').submit();
                     }
+                },
+                No: function () {
                 }
-            });
-        }
-        else{
-            $.confirm({
-                boxWidth: '400px',
-                useBootstrap: false,
-                closeIcon: true,
-                title: "¿Esta seguro?",
-                content: "Esta seguro de los cambios realizados",
-                typeAnimated: true,
-                buttons: {
-                    somethingElse: {
-                        text: 'Si',
-                        btnClass: 'btn-warning',
-                        action: function(){
-                            $('form').submit();
-                        }
-                    },
-                    No: function () {
-                    }
-                }
-            });
-        }
-
+            }
+        });
     });
     $('#register').click(function(e){
         e.preventDefault();

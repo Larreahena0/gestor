@@ -78,29 +78,17 @@ def create(request):
                         return HttpResponse("3")
                 #Funcion donde se crea el semillero       
                 elif request.POST['caso']=="1":
-                    '''
-                    if 'lista' in request.POST:
-
-                        id = request.POST['lista']
-
-                        instance = Semillero.objects.get(id=id)
-                        instance.delete()
-
-                    elif 'id_group' in request.POST:'''
                     group = request.POST['id_group']
                     id_group=Grupo.objects.get(id=group)
-                    name = request.POST['name']
-                    history = request.POST['history']
-                    mision = request.POST['mision']
-                    vision = request.POST['vision']
-                    goals = request.POST['goals']
-                    image = request.POST['image']
+                    name = request.POST['name_s']
+                    image = request.FILES['image']
                     mail = request.POST['mail']
-                    document=request.POST['cc']
+                    description = request.POST['description']
+                    document=request.POST['coordinador']
                     integrante=Integrante.objects.get(document=document)
 
                     insert = Semillero(
-                        id_group=id_group, name=name, history=history, mision=mision, vision=vision, goals=goals,coordinador=integrante,mail=mail,image=image)
+                        id_group=id_group, name=name, description=description,coordinador=integrante,mail=mail,image=image)
                     insert.save()
 
                     joined=request.POST['joined']
@@ -112,8 +100,6 @@ def create(request):
                     coordinador = coordinadores.objects.get(Integrante=integrante)
                     coordinador.id_semillero = semillero.id
                     coordinador.save(update_fields=["id_semillero"])
-
-                    return HttpResponse("1")
 
                 elif request.POST['caso']=="eliminar":
                     id_s=request.POST['id']
@@ -232,18 +218,14 @@ def semillero_edit(request, id):
                     group = request.POST['id_group']
                     id_group=Grupo.objects.get(id=group)
                     name = request.POST['name']
-                    history = request.POST['history']
-                    mision = request.POST['mision']
-                    vision = request.POST['vision']
-                    goals = request.POST['goals']
+                    description = request.POST['description']
+                    mail = request.POST['mail']
                     insert = Semillero.objects.get(id=id)
                     insert.id_group=id_group
                     insert.name=name
-                    insert.history=history
-                    insert.mision=mision
-                    insert.vision=vision
-                    insert.goals=goals
-                    insert.save(update_fields=['id_group','name','history','mision','vision','goals'])
+                    insert.description=description
+                    insert.mail=mail
+                    insert.save(update_fields=['id_group','name','description','mail'])
 
                     return HttpResponse("2")
 
@@ -563,12 +545,26 @@ def editar(request):
     semillero = Semillero.objects.get(id=int(id_semillero))
     if request.method == "POST":
         mail = request.POST["mail"]
-        image = request.FILES["image"]
+        history = request.POST['history']
+        mision = request.POST['mision']
+        vision = request.POST['vision']
+        goals = request.POST['goals']
         description = request.POST["description"]
-        
+        try:
+            image = request.FILES["image"]
+        except:
+            image = ""
+
+        semillero.history=history
+        semillero.mision=mision
+        semillero.goals=goals
+        semillero.vision=vision
         semillero.mail = mail
-        semillero.image = image
         semillero.description = description
-        semillero.save(update_fields=["mail","description","image"])
+        if(image!=""):
+            semillero.image = image
+            semillero.save(update_fields=["history","vision","goals","mision","mail","description","image"])
+        else:
+            semillero.save(update_fields=["history","vision","goals","mision","mail","description"])
 
     return render(request, "create/edit.html",{'semillero':semillero})

@@ -321,7 +321,7 @@ def asignar_proyecto(request,id,id_conv):
                 codigo = request.POST["codigo"]
                 porcentaje = request.POST["porcentaje"]
                 descripcion = request.POST["description"]
-                insert = Proyectos(codigo=codigo,convocatoria=convocatoria,semillero=semillero,porcentaje=porcentaje,description=descripcion)
+                insert = Proyectos(codigo=codigo,convocatoria=convocatoria,semillero=semillero,porcentaje=porcentaje,description=descripcion,estado="1")
                 insert.save()
                 mensaje1 = "Exito"
                 mensaje = "Proyecto creado exitosamente."

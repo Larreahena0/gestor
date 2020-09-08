@@ -29,13 +29,13 @@
                         <td>{{semillero.created|date:"SHORT_DATE_FORMAT"}}</td>
                         {% if request.user|is_admin %}
                             <td>
-                                <a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick="delete1('{{semillero.id}}')" href=""><i class="fas fa-trash-alt"></i></a>
                                 <a class="config2" title="Editar" alt="Editar" id="editar" href="{% url 'semillero_edit' id=semillero.id %}"><i class="fas fa-pencil-alt"></i></a>                         
                             </td>
                         {% endif %}
                     </tr>
                 {% endfor %}
             </table>
+            <br>
         {% else %}
              <div class="message in-info">
                 <p>En este momento no hay semilleros registrados.</p>
@@ -43,7 +43,7 @@
         {% endif %}  
     </div>
     <div class="add">    
-    <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div id="coord">
                 <label for="coord">Coordinador</label>
@@ -74,6 +74,7 @@
                 <button type="button" name="register" id="register">Registrar Coordinador</button>
             </div>
             <div id="campos">
+                <input type="hidden" name="caso" id="caso" value="" autocomplete="off">
                 <label for="coord"><b>Información del coordinador</b></label>
                 <p id="coord1" ></p>
                 <p id="coord3" ></p> 
@@ -81,6 +82,8 @@
                 <input type="hidden" id="coordinador" name="coordinador">
                 <label for="">Fecha de ingreso:</label>
                 <input type="date" name="joined" id="joined" required>
+
+                <label><b>Información del semillero</b></label>
                 <select name="id_group" id="id_group" required>
                     <<option disabled selected>Seleccione un grupo de investigación</option>
                     {% for grupo in grupos %}
@@ -88,14 +91,13 @@
                     {% endfor %}
                 </select>
                 <input type="text" name="name_s" id="name_s" placeholder="Nombre del semillero" autocomplete="off" required>
-                <textarea name="history" id="history" cols="30" placeholder="Antecedentes" rows="10" required></textarea>
-                <textarea name="mision" id="mision" cols="30" placeholder="Misión" rows="10" required></textarea>
-                <textarea name="vision" id="vision" cols="30" placeholder="Visión" rows="10" required></textarea>
-                <textarea name="goals" id="goals" cols="30" placeholder="Objetivos" rows="10" required></textarea>
+                <label><b>Descripcion del semillero</b></label>
+                <textarea name="description" id="description" cols="30" placeholder="Descripcion" rows="10" required>{{ semillero.description }}</textarea>
+                <label><b>Correo de contacto</b></label>
                 <input type="text" name="mail" id="mail" placeholder="Correo de contacto" autocomplete="off" required>
-                <label>Imagen del semillero</label>
+                <label><b>Imagen del semillero</b></label>
                 <input type="file" name="image" id="image" required>
-                <button type="button" name="register1" id="register1">Registrar semillero</button>
+                <input type="submit" name="register11" id="register11" value="Registrar Semillero">
             </div>
         </form>
     </div>

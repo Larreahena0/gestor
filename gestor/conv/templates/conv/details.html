@@ -14,28 +14,21 @@
     <div class="container">
         <div class="row" >
             <p>Descripción</p>
-            <hr>
-            <br>
             {{item.description}}
         </div>
         <br>
         <div class="row" >
             <p>Fecha de Apertura</p>
-            <hr>
-            <br>
             {{item.opened}}
         </div>
         <br>
         <div class="row" >
             <p>Fecha de cierre</p>
-            <hr>
-            <br>
             {{item.closed}}
         </div>
         <br>
         <div class="row" >
             <p>Documentos Asociados</p>
-            <hr>
             <br>
             {% if inf_documents.count != 0%}
                 <div class="document">
@@ -48,10 +41,10 @@
                 </div>
                 <br>
             {% endif %}
-            {% if opc_documents.count != 0%}
+            {% if obl_documents.count != 0%}
                 <div class="document">
-                    <p>Opcionales</p>
-                    {% for document in opc_documents %}
+                    <p>Obligatorios</p>
+                    {% for document in obl_documents %}
                         <ul>
                             <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
                         </ul>
@@ -59,10 +52,10 @@
                 </div>
                 <br>
             {% endif %}  
-            {% if obl_documents.count != 0%}
+            {% if opc_documents.count != 0%}
                 <div class="document">
-                    <p>Obligatorios</p>
-                    {% for document in obl_documents %}
+                    <p>Opcionales</p>
+                    {% for document in opc_documents %}
                         <ul>
                             <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
                         </ul>
@@ -92,13 +85,13 @@
                     {% for participante in participantes %}
                         <tr>
                             {% if participante.estado == "0" %}
-                                <td id="new"><i class="fas fa-thermometer-empty"></i></td>
+                                <td id="new"><i class="fas fa-battery-empty"></i></td>
                             {% elif participante.estado == "2" %}
-                                <td id="pen_r"><i class="fas fa-thermometer-quarter"></i></td>
+                                <td id="pen_r"><i class="fas fa-battery-quarter"></i></td>
                             {% elif participante.estado == "3" %}
-                                <td id="pen_c"><i class="fas fa-thermometer-half"></i></td>
+                                <td id="pen_c"><i class="fas fa-battery-three-quarters"></i></td>
                             {% elif participante.estado == "1" %}    
-                                <td id="ready"><i class="fas fa-thermometer-full"></i></td>
+                                <td id="ready"><i class="fas fa-battery-full"></i></td>
                             {% endif %}
                             <td><a id="a1" href="{% url 'semillero_details' id=participante.id_semillero.id %}">{{participante.id_semillero.name}}</a></td>
                             <td>{{participante.id_semillero.coordinador.name}} {{participante.id_semillero.coordinador.lastname}}</td>
@@ -122,19 +115,19 @@
                         <th>Descripción</th>
                     </tr>
                     <tr>
-                        <td id="new"><i class="fas fa-thermometer-empty"></i></td>
+                        <td id="new"><i class="fas fa-battery-empty"></i></td>
                         <td>Nuevo participante</td>
                     </tr>
                     <tr>
-                        <td id="pen_r"><i class="fas fa-thermometer-quarter"></i></td>
+                        <td id="pen_r"><i class="fas fa-battery-quarter"></i></td>
                         <td>Pendiente de revision del administrador</td>
                     </tr>
                     <tr>
-                        <td id="pen_c"><i class="fas fa-thermometer-half"></i></td>
+                        <td id="pen_c"><i class="fas fa-battery-three-quarters"></i></td>
                         <td>Pendiente de correccion del coordinador</td>
                     </tr>
                     <tr>
-                        <td id="ready"><i class="fas fa-thermometer-full"></i></td>
+                        <td id="ready"><i class="fas fa-battery-full"></i></td>
                         <td>Listo</td>
                     </tr>
                 </table>
@@ -166,18 +159,18 @@
                     <th>Adjuntar</th>
                     <th>Obligatorio</th>
                 </tr>
+                {% for document in obl_documents %}
+                <tr>
+                    <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
+                    <td><input class="obligatorio" type="file" name="{{document.id}}" id="{{document.id}}" required></td>
+                    <td id="ready"><i class="fas fa-clipboard-check"></i></td>
+                </tr>
+                {% endfor %}
                 {% for document in opc_documents %}
                 <tr>
                     <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
                     <td><input type="file" name="{{document.id}}" id="{{document.id}}"></td>
                     <td><input type="checkbox" name="" id="" onclick="return false;"></td>
-                </tr>
-                {% endfor %}
-                {% for document in obl_documents %}
-                <tr>
-                    <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
-                    <td><input class="obligatorio" type="file" name="{{document.id}}" id="{{document.id}}" required></td>
-                    <td><input type="checkbox" name="" id="" onclick="return false;" checked></td>
                 </tr>
                 {% endfor %}
             </table>

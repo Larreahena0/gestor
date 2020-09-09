@@ -28,7 +28,13 @@
                     </tr>
                     {% for documento in documentos %}
                         <tr>
-                            <td id="documento_{{documento.id}}"><a id="a1" href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
+                            <td id="documento_{{documento.id}}">
+                                {% if documento.id_documento.documento %}
+                                    <a id="a1" href="{{documento.id_documento.documento.url}}" download>{{documento.id_documento.description}}</a>
+                                {% else %} 
+                                    {{documento.id_documento.description}}
+                                {% endif %}
+                            </td>
                             <td><a id="a1" href="{{documento.documento.url}}" download>{{documento.id_documento.description}}</a></td>
             
                             {% if documento.id_documento.tipo == 1 %}

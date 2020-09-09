@@ -102,19 +102,19 @@ def conv_details(request, id_item=None):
             #Insert de los documentos obligatorios adjuntos por el coordinador de semillero
             participante = Participante.objects.latest("id")
             for obl_document in obl_documents:
-                document = request.POST[str(obl_document.id)]
-                if(document != ""):  
+                try:
+                    document = request.FILES[str(obl_document.id)]
                     insert = Documento_Adjunto(id_participante=participante,id_documento=obl_document,documento=document,estado="0")
                     insert.save()
-                else:
+                except:
                     print("no se adjuntó")
 
             for opc_document in opc_documents:
-                document = request.POST[str(opc_document.id)]
-                if(document != ""):  
+                try:
+                    document = request.FILES[str(opc_document.id)]
                     insert = Documento_Adjunto(id_participante=participante,id_documento=opc_document,documento=document,estado="0")
                     insert.save()
-                else:
+                except:
                     print("no se adjuntó")
             mensaje = "El semillero fue registrado en la convocatoria."
             mensaje1 = "Exito"
@@ -138,11 +138,16 @@ def participar(request):
             for i in range(1,count+1):
                 try:
                     convocatoria=Convocatoria.objects.latest('id')
-                    documento = request.FILES['doc_' + str(i)]
                     tipo = request.POST['sel_' + str(i)]
                     description = request.POST['text_' + str(i)]
-                    insert = Documento(id_conv=convocatoria, tipo=tipo, description=description, documento=documento)
-                    insert.save()
+                    try:
+                        documento = request.FILES['doc_' + str(i)]
+                        insert = Documento(id_conv=convocatoria, tipo=tipo, description=description, documento=documento)
+                        insert.save()
+                    except:
+                        insert = Documento(id_conv=convocatoria, tipo=tipo, description=description)
+                        insert.save()
+                        print("No se adjunto archivo")                  
                 except:
                     print("No se puede agregar el archivo ya que fue eliminado en frontend")
                     
@@ -185,12 +190,17 @@ def convocatoria_edit(request, id=None):
                     count = int(request.POST['contador'])
                     for i in range(1,count+1):
                         try:
-                            convocatoria=Convocatoria.objects.get(id=id)
-                            documento = request.FILES['doc_' + str(i)]
+                            convocatoria=Convocatoria.objects.latest('id')
                             tipo = request.POST['sel_' + str(i)]
                             description = request.POST['text_' + str(i)]
-                            insert = Documento(id_conv=convocatoria, tipo=tipo, description=description, documento=documento)
-                            insert.save()
+                            try:
+                                documento = request.FILES['doc_' + str(i)]
+                                insert = Documento(id_conv=convocatoria, tipo=tipo, description=description, documento=documento)
+                                insert.save()
+                            except:
+                                insert = Documento(id_conv=convocatoria, tipo=tipo, description=description)
+                                insert.save()
+                                print("No se adjunto archivo")        
                         except:
                             print("No se puede agregar el archivo ya que fue eliminado en frontend")
 

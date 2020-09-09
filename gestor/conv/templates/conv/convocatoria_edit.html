@@ -37,7 +37,13 @@
                         {% elif document.tipo == 3 %}   
                             <td>Obligatorio</td>    
                         {% endif %} 
-                        <td><a href="{{document.documento.url}}" download>{{document.description}}</td>
+                        <td>
+                            {% if document.documento %}
+                                <a href="{{document.documento.url}}" download>{{document.description}}</a>
+                            {% else %} 
+                                No tiene
+                            {% endif %} 
+                        </td>
                         <td>
                             <a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick="delete1('{{document.id}}','2')" href="#"><i class="fas fa-trash-alt"></i></a>
                         </td>

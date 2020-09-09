@@ -23,3 +23,11 @@ def have_semilleros(user):
         return True
     else:
         return False 
+
+
+@register.filter(name="have_info")
+def have_info(semillero):
+    if(semillero.mision and semillero.vision and semillero.goals and semillero.history):
+        return True
+    else:
+        return False   

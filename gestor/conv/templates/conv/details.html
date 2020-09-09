@@ -35,7 +35,13 @@
                     <p>Informativos</p>
                     {% for document in inf_documents %}
                         <ul>
-                            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                            <li>
+                                {% if document.documento %}
+                                    <a href="{{document.documento.url}}" download>{{document.description}}</a>
+                                {% else %} 
+                                    {{document.description}}
+                                {% endif %}
+                            </li>
                         </ul>
                     {% endfor %}
                 </div>
@@ -46,7 +52,13 @@
                     <p>Obligatorios</p>
                     {% for document in obl_documents %}
                         <ul>
-                            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                            <li>
+                                {% if document.documento %}
+                                    <a href="{{document.documento.url}}" download>{{document.description}}</a>
+                                {% else %} 
+                                    {{document.description}}
+                                {% endif %}
+                            </li>
                         </ul>
                     {% endfor %}
                 </div>
@@ -57,7 +69,13 @@
                     <p>Opcionales</p>
                     {% for document in opc_documents %}
                         <ul>
-                            <li><a href="{{document.documento.url}}" download>{{document.description}}</a></li>
+                            <li>
+                                {% if document.documento %}
+                                    <a href="{{document.documento.url}}" download>{{document.description}}</a>
+                                {% else %} 
+                                    {{document.description}}
+                                {% endif %}
+                            </li>
                         </ul>
                     {% endfor %}
                 </div>
@@ -150,7 +168,7 @@
     {% endif %}
 
     <div id="dparticipar">
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <label for="grupo">Para participar debe adjuntar los siguientes documentos:</label>
             {% csrf_token %}
             <table>
@@ -161,14 +179,26 @@
                 </tr>
                 {% for document in obl_documents %}
                 <tr>
-                    <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
+                    <td>
+                        {% if document.documento %}
+                            <a href="{{document.documento.url}}" download>{{document.description}}</a>
+                        {% else %} 
+                            {{document.description}}
+                        {% endif %}
+                    </td>
                     <td><input class="obligatorio" type="file" name="{{document.id}}" id="{{document.id}}" required></td>
                     <td id="ready"><i class="fas fa-clipboard-check"></i></td>
                 </tr>
                 {% endfor %}
                 {% for document in opc_documents %}
                 <tr>
-                    <td><a href="{{document.documento.url}}" download>{{document.description}}</a></td>
+                    <td>
+                        {% if document.documento %}
+                            <a href="{{document.documento.url}}" download>{{document.description}}</a>
+                        {% else %} 
+                            {{document.description}}
+                        {% endif %}
+                    </td>
                     <td><input type="file" name="{{document.id}}" id="{{document.id}}"></td>
                     <td><input type="checkbox" name="" id="" onclick="return false;"></td>
                 </tr>

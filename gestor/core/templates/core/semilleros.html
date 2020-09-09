@@ -1,7 +1,8 @@
 {% extends 'core/base.html' %}
 
-{% block cuerpo %}
+{% load auth_extras %}
 
+{% block cuerpo %}
     {% load static %}
 
 <h1>Nuestros Semilleros</h1>
@@ -20,7 +21,9 @@
                 <p><b>Correo de contacto:</b> {{semillero.mail}}</p>
 
                 <br>
-                <a class="prj_boton" href="{% url 'semillero_details' id=semillero.id %}">Ver más</a>
+                {% if semillero|have_info %}
+                    <a class="prj_boton" href="{% url 'semillero_details' id=semillero.id %}">Ver más</a>
+                {% endif %}    
             </div>
         </div>
     {% endfor %}

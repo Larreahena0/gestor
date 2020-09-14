@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,HttpResponse
 from .models import Convocatoria
-from .models import Documento,Participante,Documento_Adjunto,Proyectos,Documentos_proyecto
+from .models import Documento,Participante,Documento_Adjunto,Proyectos,Documentos_proyecto,Documentos_proyecto_2
 from create.models import coordinadores,Semillero
 from core.models import Grupo
 from django.conf import settings
@@ -329,10 +329,28 @@ def asignar_proyecto(request,id,id_conv):
                 return render(request, "conv/asignar_proyecto.html",{'mensaje':mensaje,'mensaje1':mensaje1})
             except:    
                 codigo = request.POST["codigo"]
-                porcentaje = request.POST["porcentaje"]
+                porcentaje = 0
                 descripcion = request.POST["description"]
-                insert = Proyectos(codigo=codigo,convocatoria=convocatoria,semillero=semillero,porcentaje=porcentaje,description=descripcion,estado="1")
+                start = request.POST["start"]
+                closed = request.POST["closed"]
+                insert = Proyectos(codigo=codigo,convocatoria=convocatoria,semillero=semillero,porcentaje=porcentaje,description=descripcion,estado="1",start=start,closed=closed)
                 insert.save()
+                count = int(request.POST['contador'])
+                for i in range(1,count+1):
+                    try:
+                        proyecto=Proyectos.objects.latest('id')
+                        description = request.POST['text_' + str(i)]
+                        try:
+                            documento = request.FILES['doc_' + str(i)]
+                            insert = Documentos_proyecto_2(proyecto=proyecto, documento=documento, description=description)
+                            insert.save()
+                        except:
+                            insert = Documentos_proyecto_2(proyecto=proyecto, description=description)
+                            insert.save()
+                            print("No se adjunto archivo")        
+                    except:
+                        print("No se puede agregar el archivo ya que fue eliminado en frontend")
+
                 mensaje1 = "Exito"
                 mensaje = "Proyecto creado exitosamente."
                 return render(request, "conv/asignar_proyecto.html",{'mensaje':mensaje,'mensaje1':mensaje1})
@@ -364,3 +382,57 @@ def reportes(request,id):
             return redirect('/')
     else:
         return redirect('/')
+
+def proyecto_details(request, id_item=None):
+    if request.user.is_authenticated:
+        item = Proyectos.objects.get(id=id_item)
+        documentos = Documentos_proyecto_2.objects.filter(proyecto=id_item)
+        return render(request, "conv/proyectos_details.html",{'item':item,'documentos':documentos})
+    else:
+        return redirect('/')
+
+def proyecto_edit(request, id):
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name="Administrador").exists():
+            proyecto = Proyectos.objects.get(id=id)
+            documentos = Documentos_proyecto_2.objects.filter(proyecto=proyecto)
+            if request.method=="POST":
+                if request.POST['caso'] == "eliminar":
+                    id = request.POST['id']
+                    documento = Documentos_proyecto_2.objects.get(id=id)
+                    documento.delete()
+                elif request.POST['caso'] == "editar":   
+                    codigo = request.POST['codigo']
+                    description = request.POST['description']
+                    start = request.POST['start']
+                    closed = request.POST['closed']
+                    proyecto=Proyectos.objects.get(id=id)
+                    proyecto.codigo=codigo
+                    proyecto.description=description
+                    proyecto.start=start
+                    proyecto.closed=closed
+                    proyecto.save(update_fields=["codigo","description","start","closed"])
+
+                    count = int(request.POST['contador'])
+                    for i in range(1,count+1):
+                        try:
+                            convocatoria=Convocatoria.objects.latest('id')
+                            description = request.POST['text_' + str(i)]
+                            try:
+                                documento = request.FILES['doc_' + str(i)]
+                                insert = Documentos_proyecto_2(proyecto=proyecto, description=description, documento=documento)
+                                insert.save()
+                            except:
+                                insert = Documentos_proyecto_2(proyecto=proyecto, description=description)
+                                insert.save()
+                                print("No se adjunto archivo")        
+                        except:
+                            print("No se puede agregar el archivo ya que fue eliminado en frontend")  
+
+                    return redirect('proyectos')         
+
+            return render(request, "conv/proyecto_edit.html",{'proyecto':proyecto,'documentos':documentos})
+        else:
+            return redirect('/')                
+    else:
+        return redirect('/')        

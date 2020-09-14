@@ -13,9 +13,21 @@
         <br>
         <p><b>Semillero a cargo: </b>{{semillero.name}}</p>
         <br>
+        <input type="hidden" name="contador" id="contador" value="0">
         <input type="text" name="codigo" id="codigo" placeholder="Codigo del proyecto" autocomplete="off" required>
-        <input type="text" name="porcentaje" id="porcentaje" placeholder="Porcentaje de avance del proyecto" autocomplete="off" required>
         <textarea name="description" id="description" cols="30" rows="10" placeholder="Descripción del proyecto" equired></textarea>
+        <label for="closed">Fecha de inicio</label>
+        <input type="date" min="{{today}}" name="start" id="start" required>
+        <label for="closed">Fecha de cierre</label>
+        <input type="date" min="{{today}}" name="closed" id="closed" required>
+        <table id="tabla">
+            <tr>
+                <th>Descripción</th>
+                <th>Documentos</th>
+                <th>Acciones</th>
+            </tr>
+        </table>
+        <button type="button" name="add_doc2" id="add_doc2">Añadir documento</button>
         <input type="submit" value="Enviar"/>
         </div>
     </form>
@@ -46,4 +58,5 @@
     {% load static %}
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
     <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'conv/css/asignar_proyecto.css' %}">
 {% endblock %}

@@ -89,6 +89,8 @@ class Proyectos(models.Model):
     semillero = models.ForeignKey(Semillero, null=True, blank=True, on_delete=models.CASCADE)
     porcentaje = models.CharField(max_length=20, verbose_name="Porcentaje de avance", null=True)
     description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
+    start = models.DateField(verbose_name="Fecha de inicio", null=True)
+    closed = models.DateField(verbose_name="Fecha de cierre", null=True)
 
     class Meta():
         verbose_name = "Proyecto"
@@ -98,12 +100,28 @@ class Proyectos(models.Model):
     def __str__(self):
         return self.codigo
 
+#tabla para los reportes hechos por el usuario
 class Documentos_proyecto(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="Id")
     tipo = models.CharField(max_length=10, verbose_name="Tipo", null=True)
     proyecto = models.ForeignKey(Proyectos, null=True, blank=True, on_delete=models.CASCADE)
     documento = models.FileField(verbose_name="Documento", null=True)
 
+    class Meta():
+        verbose_name = "Reporte"
+        verbose_name_plural = "Reportes de proyecto"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.proyecto.codigo
+
+#tabla para los documentos del proyecto
+class Documentos_proyecto_2(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Id")
+    proyecto = models.ForeignKey(Proyectos, null=True, blank=True, on_delete=models.CASCADE)
+    description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
+    documento = models.FileField(verbose_name="Documento", null=True)
+    
     class Meta():
         verbose_name = "Documento"
         verbose_name_plural = "Documentos de proyecto"

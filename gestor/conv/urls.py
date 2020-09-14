@@ -13,5 +13,7 @@ urlpatterns = [
     path(r'details/<int:id_item>', views.conv_details, name="details"),
     path('proyectos', views.proyectos, name="proyectos"),
     path(r'proyectos/<int:id>', views.reportar, name="reportar"),
+    path(r'proyectos/details/<int:id_item>', views.proyecto_details, name="proyecto_details"),
+    path(r'proyectos/edit/<int:id>', views.proyecto_edit, name="proyecto_edit"),
     path(r'proyectos/reportes/<int:id>', views.reportes, name="reportes"),
 ]

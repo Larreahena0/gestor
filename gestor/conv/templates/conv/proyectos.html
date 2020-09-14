@@ -21,15 +21,19 @@
                 <th>Codigo</th>
                 <th>Convocatoria</th>
                 <th>Semillero a cargo</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de cierre</th>
                 <th>Porcentaje de avance</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
             {% for proyecto in proyectos %}
                 <tr class="info">
-                    <td>{{proyecto.codigo}}</td>
+                    <td><a href="{% url 'proyecto_details' id_item=proyecto.id %}">{{proyecto.codigo}}</a></td>
                     <td><a href="{% url 'details' id_item=proyecto.convocatoria.id %}">{{proyecto.convocatoria}}</a></td>
                     <td><a id="a1" href="{% url 'semillero_details' id=proyecto.semillero.id %}">{{proyecto.semillero}}</a></td>
+                    <td>{{proyecto.start}}</td>
+                    <td>{{proyecto.closed}}</td>
                     <td>{{proyecto.porcentaje}}</td>
                     <td>
                         {% if proyecto.estado == '0' %}

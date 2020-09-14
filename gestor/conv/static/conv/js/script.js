@@ -379,6 +379,22 @@ $(document).ready(function(){
         count += 1;
     });
 
+    $('#add_doc2').click(function(e){
+
+        e.preventDefault();
+        var formulario = $('#tabla');
+        
+        formulario.append('<tr id="tr_'+ count.toString() +'"></tr>')
+
+        var fila = $('#tr_'+count.toString());
+        fila.append("<td><textarea name='text_" + count.toString() + "' id='text_" + count.toString() + "' placeholder='Descripcion' required/></textarea></td>")
+        fila.append('<td><span id="span_'+count.toString()+'"></span><br><br><button type="button" onclick=abrir("doc_'+count.toString()+'") id="boton_'+count.toString()+'">Adjuntar</button>  <input type="file" name="doc_' + count.toString() + '" id="doc_' + count.toString() + '" style="display:none;" onchange=texto(this,"span_'+count.toString()+'")></td>')
+        fila.append('<td><a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick=delete1("'+count.toString()+'","1") href="#"><i class="fas fa-trash-alt"></i></a></td>');
+        $("#sel_" + count.toString()).append("<option disabled selected>Seleccione</option><option value='1'>Informativo</option><option value='2'>Opcional</option><option value='3'>Obligatorio</option>");        
+        $('#contador').val(count);
+        count += 1;
+    });
+
 	$('#textSearch').keyup(function(e){
 		e.preventDefault();
 		texto = $(this).val().toLowerCase();

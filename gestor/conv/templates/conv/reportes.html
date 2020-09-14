@@ -5,6 +5,7 @@
 {% block cuerpo %}
 
     <h1>Reportes realizados al proyecto</h1>
+    <a class="config" title="Volver" alt="Volver" id="delete" href="{% url 'proyectos' %}"><i class="fas fa-reply"></i></a>
     <input type="text" id="textSearch" name="search" value="" placeholder="Búsqueda...">
     <hr>
     <br>
@@ -25,7 +26,13 @@
                             Final
                         {% endif %}                
                     </td>
-                    <td id="documento_{{reporte.id}}"><a href="{{reporte.documento.url}}" download>{{reporte.documento}}</a></td>
+                    <td id="documento_{{reporte.id}}">
+                        {% if reporte.documento %}
+                            <a href="{{reporte.documento.url}}" download>{{reporte.documento}}</a>
+                        {% else %}
+                            {{reporte.description}}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

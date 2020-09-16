@@ -331,6 +331,7 @@ $(document).ready(function(){
             });*/
     });
 
+
     $('#edit1').click(function(e){
         e.preventDefault();
         id=$('#id_d').val();
@@ -340,6 +341,30 @@ $(document).ready(function(){
             closeIcon: true,
             title: '¿Está seguro?',
             content: 'El documento será modificado',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        $('#f2').submit();
+                    }
+                },
+                cancelar: function () {
+
+                }
+            }
+        });
+    });
+
+    $('#edit11').click(function(e){
+        e.preventDefault();
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'No se podrán modificar las observaciones',
             typeAnimated: true,
             buttons: {
                 somethingElse: {

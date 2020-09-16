@@ -14,13 +14,14 @@
             <tr>
                 <th>Tipo</th>
                 <th>Documento</th> 
+                {% if request.user|is_admin %}
+                    <th>Acciones</th>
+                {% endif %}
             </tr>
             {% for reporte in reportes %}
                 <tr class="info">
                     <td>
-                        {% if reporte.tipo == "0" %}
-                            Propuesta
-                        {% elif reporte.tipo == "1" %}
+                        {% if reporte.tipo == "1" %}
                             Avance
                         {% elif reporte.tipo == "2" %}                            
                             Final
@@ -33,6 +34,11 @@
                             {{reporte.description}}
                         {% endif %}
                     </td>
+                    {% if request.user|is_admin %}
+                        <td>
+                            <a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick="modify({{reporte.id}})"> <i class="fas fa-wrench"></i></a> 
+                        </td>
+                    {% endif %}    
                 </tr>
             {% endfor %}
         </table>
@@ -43,26 +49,31 @@
     {% endif %}
     <br>
     <div class="modificar">
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form id="f2" action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for="">Adjunte el siguiente documento:</label>
+            <label for="">Adjunte los siguientes campos:</label>
             <table id="tabla" >
                 <input type="hidden" name="id_d" id="id_d" value="">
                 <input type="hidden" name="caso" id="caso" value="0">
                 <tr>
                     <th>Nombre</th>
-                    <th>Adjuntar</th>
+                    <th>Descripcion</th>
+                    <th>Documento Adjunto</th>
                     <th>Acciones</th>
                 </tr>
                 <tr>
                     <td id="nombre"></td>
                     <td>
+                        <textarea name="descripcion" id="descripcion" cols="30" rows="10" placeholder="Ingrese una descripcion" required></textarea>
+                    </td>
+                    <td>
+                        <span id="span"></span>
+                        <br id="br">
                         <button id="boton" type="button" onclick="abrir('doc')" id="boton">Examinar</button>
                         <br>
                         <input type="file" name="doc" id="doc" style="display:none;" onchange="texto(this,'span')">
-                        <span id="span">Subir archivo</span>
                     </td>
-                    <td><a class="config2" title="Editar" alt="Editar" id="edit1" href="#" onclick=""><i class="fab fa-telegram-plane"></i></a> </td>
+                    <td><a class="config2" title="Editar" alt="Editar" id="edit11" href="#" onclick=""><i class="fab fa-telegram-plane"></i></a> </td>
                 </tr>
             </table>
         </form>    
@@ -72,6 +83,6 @@
     {% load static %}
     <script type="text/javascript" src="{% static 'conv/js/script.js' %}"></script>
     <link rel="stylesheet" href="{% static 'conv/css/participate_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'conv/css/asignar_proyecto.css' %}">
     <link rel="stylesheet" href="{% static 'conv/css/proyectos_styles.css' %}">
-
 {% endblock %}

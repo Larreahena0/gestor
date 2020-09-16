@@ -21,7 +21,7 @@ div #see4:hover {
     background: #183194;
 }
 
-div #edit, div #edit1 {
+div #edit, div #edit1,div #edit11 {
     padding: 4px 10px;
     background: #396534;
 }
@@ -34,7 +34,16 @@ div #edit1:hover {
     background: #274712;
 }
 
+div #edit11:hover {
+    background: #274712;
+}
+
 #boton {
 	display: inherit;
 	margin-bottom: 15px;
+}
+
+#tabla textarea{
+    width: 140px;
+    height: 50px;
 }

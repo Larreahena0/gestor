@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,HttpResponse
 from .models import Convocatoria
-from .models import Documento,Participante,Documento_Adjunto,Proyectos,Documentos_proyecto,Documentos_proyecto_2
+from .models import Documento,Participante,Documento_Adjunto,Proyectos,Documentos_proyecto,Documentos_proyecto_2,observaciones
 from create.models import coordinadores,Semillero
 from core.models import Grupo
 from django.conf import settings
@@ -272,8 +272,11 @@ def reportar(request,id):
             if(proyecto.estado == '1'):
                 if request.method == "POST":
                     tipo = request.POST["tipo"]
-                    documento = request.FILES["documento"]
+                    actividades = request.POST["actividades"]
+                    comprom_cump = request.POST["compro_cum"]
+                    comprom_pend = request.POST["compro_pen"]
                     progreso = request.POST["progreso"]
+                    #aquí se genera PDF y se guarda en documento
                     insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
                     insert.save()
                     proyecto.porcentaje=progreso
@@ -363,6 +366,18 @@ def reportes(request,id):
     if request.user.groups.filter(name="Administrador").exists():
         proyecto = Proyectos.objects.get(id=id)
         reportes = Documentos_proyecto.objects.filter(proyecto=proyecto)
+        if request.method=="POST":
+            id_d=request.POST["id_d"]
+            reporte=Documentos_proyecto.objects.get(id=id_d)
+            descripcion = request.POST["descripcion"]
+            try:
+                documento=request.FILES["doc"]
+                insert = observaciones(reporte=reporte,documento=documento,description=descripcion)
+                insert.save()
+            except:
+                insert = observaciones(reporte=reporte,description=descripcion)
+                insert.save()
+
         return render(request, "conv/reportes.html",{'reportes':reportes})     
     elif request.user.groups.filter(name="Coordinador").exists():
         id_semillero = coordinadores.objects.get(user=request.user).id_semillero

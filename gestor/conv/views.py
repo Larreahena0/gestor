@@ -367,16 +367,20 @@ def reportes(request,id):
         proyecto = Proyectos.objects.get(id=id)
         reportes = Documentos_proyecto.objects.filter(proyecto=proyecto)
         if request.method=="POST":
-            id_d=request.POST["id_d"]
-            reporte=Documentos_proyecto.objects.get(id=id_d)
+            id_d = request.POST["id_d"]
+            reporte = Documentos_proyecto.objects.get(id=id_d)
             descripcion = request.POST["descripcion"]
             try:
                 documento=request.FILES["doc"]
-                insert = observaciones(reporte=reporte,documento=documento,description=descripcion)
+                insert = observaciones(documento=documento,description=descripcion)
                 insert.save()
             except:
-                insert = observaciones(reporte=reporte,description=descripcion)
+                insert = observaciones(description=descripcion)
                 insert.save()
+
+            observacion = observaciones.objects.latest('id')
+            reporte.observaciones = observacion
+            reporte.save(update_fields=["observaciones"])
 
         return render(request, "conv/reportes.html",{'reportes':reportes})     
     elif request.user.groups.filter(name="Coordinador").exists():

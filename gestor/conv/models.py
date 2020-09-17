@@ -100,12 +100,28 @@ class Proyectos(models.Model):
     def __str__(self):
         return self.codigo
 
+
+#Tabla para los documentos o observaciones que el administrador adjunta al coordinador por sus reportes a un proyecto
+class observaciones(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Id")
+    description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
+    documento = models.FileField(verbose_name="Documento", null=True)
+
+    class Meta():
+        verbose_name = "Observacion"
+        verbose_name_plural = "Observaciones a reporte"
+        ordering = ["id"]
+
+    def __str__(self):
+        return str(self.id)        
+
 #tabla para los reportes hechos por el usuario
 class Documentos_proyecto(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="Id")
     tipo = models.CharField(max_length=10, verbose_name="Tipo", null=True)
     proyecto = models.ForeignKey(Proyectos, null=True, blank=True, on_delete=models.CASCADE)
     documento = models.FileField(verbose_name="Documento", null=True)
+    observaciones = models.ForeignKey(observaciones, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta():
         verbose_name = "Reporte"
@@ -129,18 +145,3 @@ class Documentos_proyecto_2(models.Model):
 
     def __str__(self):
         return self.proyecto.codigo
-
-#Tabla para los documentos o observaciones que el administrador adjunta al coordinador por sus reportes a un proyecto
-class observaciones(models.Model):
-    id = models.AutoField(primary_key=True, verbose_name="Id")
-    reporte = models.ForeignKey(Documentos_proyecto, null=True, blank=True, on_delete=models.CASCADE)
-    description = models.TextField(max_length=400, verbose_name="Descripción", null=True)
-    documento = models.FileField(verbose_name="Documento", null=True)
-
-    class Meta():
-        verbose_name = "Observacion"
-        verbose_name_plural = "Observaciones a reporte"
-        ordering = ["id"]
-
-    def __str__(self):
-        return str(self.reporte.id)

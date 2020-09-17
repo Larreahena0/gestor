@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from core.models import Grupo
 
@@ -35,7 +36,7 @@ class Semillero(models.Model):
 	goals = models.TextField(verbose_name="Objetivos", null=True)
 	coordinador = models.ForeignKey(Integrante, verbose_name="coordinador", null=True, blank=True, on_delete=models.CASCADE)
 	mail = models.TextField(verbose_name="Correo de contacto", null=True)
-	image = models.FileField(verbose_name="Imagen del semillero", null=True)
+	image = models.FileField(verbose_name="Imagen del semillero", null=True, default='/logo_udea.png')
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", null=True)
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", null=True)
 

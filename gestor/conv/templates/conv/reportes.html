@@ -14,6 +14,7 @@
             <tr>
                 <th>Tipo</th>
                 <th>Documento</th> 
+                <th>Observaciones</th>
                 {% if request.user|is_admin %}
                     <th>Acciones</th>
                 {% endif %}
@@ -34,6 +35,17 @@
                             {{reporte.description}}
                         {% endif %}
                     </td>
+                    <td>
+                        {% if reporte.observaciones %}
+                            {% if reporte.observaciones.documento %}
+                                <a href="{{reporte.observaciones.documento.url}}" download>{{reporte.observaciones.description}}</a>
+                            {% else %}
+                                {{reporte.observaciones.description}}
+                            {% endif %}
+                        {% else %}
+                            Aun no hay observaciones
+                        {% endif %}
+                    </td>    
                     {% if request.user|is_admin %}
                         <td>
                             <a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick="modify({{reporte.id}})"> <i class="fas fa-wrench"></i></a> 

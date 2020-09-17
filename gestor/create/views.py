@@ -81,15 +81,18 @@ def create(request):
                     group = request.POST['id_group']
                     id_group=Grupo.objects.get(id=group)
                     name = request.POST['name_s']
-                    image = request.FILES['image']
                     mail = request.POST['mail']
                     description = request.POST['description']
                     document=request.POST['coordinador']
                     integrante=Integrante.objects.get(document=document)
 
-                    insert = Semillero(
-                        id_group=id_group, name=name, description=description,coordinador=integrante,mail=mail,image=image)
-                    insert.save()
+                    try:
+                        image = request.FILES['image']
+                        insert = Semillero(id_group=id_group, name=name, description=description,coordinador=integrante,mail=mail,image=image)
+                        insert.save()
+                    except:
+                        insert = Semillero(id_group=id_group, name=name, description=description,coordinador=integrante,mail=mail)
+                        insert.save()
 
                     joined=request.POST['joined']
                     semillero=Semillero.objects.latest('id')
@@ -541,30 +544,36 @@ def produccion(request):
     return render(request, "create/produccion.html")
 
 def editar(request):
-    id_semillero = coordinadores.objects.get(user=request.user).id_semillero
-    semillero = Semillero.objects.get(id=int(id_semillero))
-    if request.method == "POST":
-        mail = request.POST["mail"]
-        history = request.POST['history']
-        mision = request.POST['mision']
-        vision = request.POST['vision']
-        goals = request.POST['goals']
-        description = request.POST["description"]
-        try:
-            image = request.FILES["image"]
-        except:
-            image = ""
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name="Coordinador").exists():
+            id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+            semillero = Semillero.objects.get(id=int(id_semillero))
+            if request.method == "POST":
+                mail = request.POST["mail"]
+                history = request.POST['history']
+                mision = request.POST['mision']
+                vision = request.POST['vision']
+                goals = request.POST['goals']
+                description = request.POST["description"]
+                try:
+                    image = request.FILES["image"]
+                except:
+                    image = ""
 
-        semillero.history=history
-        semillero.mision=mision
-        semillero.goals=goals
-        semillero.vision=vision
-        semillero.mail = mail
-        semillero.description = description
-        if(image!=""):
-            semillero.image = image
-            semillero.save(update_fields=["history","vision","goals","mision","mail","description","image"])
+                semillero.history=history
+                semillero.mision=mision
+                semillero.goals=goals
+                semillero.vision=vision
+                semillero.mail = mail
+                semillero.description = description
+                if(image!=""):
+                    semillero.image = image
+                    semillero.save(update_fields=["history","vision","goals","mision","mail","description","image"])
+                else:
+                    semillero.save(update_fields=["history","vision","goals","mision","mail","description"])
         else:
-            semillero.save(update_fields=["history","vision","goals","mision","mail","description"])
+            return redirect("create")
+    else:
+        return redirect("/")
 
     return render(request, "create/edit.html",{'semillero':semillero})

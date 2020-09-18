@@ -190,7 +190,7 @@ def convocatoria_edit(request, id=None):
                     count = int(request.POST['contador'])
                     for i in range(1,count+1):
                         try:
-                            convocatoria=Convocatoria.objects.latest('id')
+                            convocatoria=Convocatoria.objects.get(id=id)
                             tipo = request.POST['sel_' + str(i)]
                             description = request.POST['text_' + str(i)]
                             try:

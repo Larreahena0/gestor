@@ -1,0 +1,265 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plantilla formato de informe de avance/final proyecto semillero de 
+% investigación UdeA                                 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-------------------------------------------------------------------------------
+% Configuración del documento
+%-------------------------------------------------------------------------------
+\documentclass[12pt]{report}
+%\setlength{\columnsep}{0.7cm}
+\usepackage[letterpaper,margin=0.5in]{geometry}
+
+%-------------------------------------------------------------------------------
+% Paquetes
+%-------------------------------------------------------------------------------
+\input{packages}
+
+%-------------------------------------------------------------------------------
+% Configuraciones adicionales
+%-------------------------------------------------------------------------------
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+\graphicspath{{./Imagenes/}}
+\fboxsep0pt %Eliminar las líneas de las minipages de la portada
+\fboxrule0pt %Eliminar las líneas de las minipages de la portada
+
+%-------------------------------------------------------------------------------
+% Encabezado y pie de pagina
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\newsavebox{\CARD}
+\fancyhead[L]{\usebox{\CARD}}
+\fancyhead[R]{Informe de tipo-proy - Proyecto codi-proy}
+\fancyfoot[R]{Pag. \thepage\ $/$ \pageref{LastPage}}
+
+%Código del encabezado dinámico
+%\sbox{\CARD}{%
+%	\psbarcode{Informe de avance - Proyecto 3210}{parse rows=15 columns=4 width=2 height=0.7}{micropdf417}
+%	%\psbarcode{(01)95012345678903(3103)000123}{height=0.5}{gs1datamatrix}
+%}
+
+\sbox{\CARD}{%
+	\begin{pspicture}(0.5in, 0.3in)
+	\psbarcode{Informe de tipo-proy - Proyecto codi-proy}{parse rows=15 columns=4 width=2 height=0.3}{micropdf417}
+	\end{pspicture}
+}
+%-------------------------------------------------------------------------------
+% Cuerpo del Examen
+%-------------------------------------------------------------------------------
+\begin{document}
+
+%-------------------------
+%Imagen de fondo
+%-------------------------
+\thispagestyle{empty}
+\AddToShipoutPictureBG{
+	\begin{tikzpicture}[remember picture, overlay, shift=(current page.center) ]
+	\node[opacity=1,inner sep=0pt]
+	{\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{escudoB.png}};
+	\end{tikzpicture}}
+
+%-------------------------
+%Cabecera, primera página
+%-------------------------
+\newgeometry{top=0.5in, bottom=0.5in, right=0.9in, left=0.3in}
+
+\fbox{\begin{minipage}{\textwidth}
+		\fbox{\begin{minipage}{0.13\textwidth}
+				\begin{center}
+					\includegraphics[scale = 0.2]{escudo.png}% University Logo
+				\end{center}
+		\end{minipage}}\hspace{0.3cm}% adjust for horizontal spacing
+		\fbox{\begin{minipage}{0.70\textwidth}
+				\begin{center}\large
+					\begin{tabular}{c}
+						\begin{minipage}[t]{0.95\columnwidth}%
+							\centering
+							\textsc{\textbf{FORMULARIO DE INFORME tipo-proy PARA conv-proy }}
+						\end{minipage}
+						\vspace{0.2cm}\\
+						\begin{minipage}[t]{0.95\columnwidth}%
+							\centering
+							\textsc{\textbf{FACULTAD DE INGENIERÍA}}                      
+						\end{minipage}
+						\vspace{0.2cm}\\
+						\begin{minipage}[t]{0.95\columnwidth}%
+							\centering
+							\textsc{\textbf{CENTRO DE INVESTIGACIÓN Y POSTGRADOS}}                      
+						\end{minipage}
+					\end{tabular}
+				\end{center}
+		\end{minipage}}\hspace{0.3cm}% adjust for horizontal spacing
+		\fbox{\begin{minipage}{0.13\textwidth}
+				\begin{flushright}
+					\begin{pspicture}(1.0in, 1.0in)
+					\psbarcode[]{Informe de tipo-proy - Proyecto codi-proy }{height=1.0 width=1.0}{qrcode}
+					%{\color{white}2}
+					\end{pspicture}
+				\end{flushright}
+		\end{minipage}}
+	\end{minipage}
+}
+
+\begin{center}
+	\today
+\end{center}
+
+\vspace{0.1 cm}
+
+%-----------------
+%Tipo de solicitud
+%-----------------
+%Final
+
+%\begin{minipage}{\textwidth}
+%	\begin{tabular}{l}
+%		\begin{minipage}[t]{\textwidth}%
+%			\cellcolor{blue!10}\textsc{\textbf{Tipo de solicitud}}
+%		\end{minipage}
+%		\vspace{0.1cm}\\
+%		\begin{minipage}[t]{\textwidth}%
+%			\textbf{Informe final}
+%		\end{minipage}
+%	\end{tabular}	
+%\end{minipage}
+
+%avance o final
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.55\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Tipo de Solicitud}}
+		\end{minipage}
+	\end{tabular}	
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.43\textwidth}%
+			\centering
+			\cellcolor{blue!10}\textsc{\textbf{Porcentaje de avance técnico del proyecto}}
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.55\textwidth}%
+			\cellcolor{white!10}\textbf{Informe tipo-proy}
+		\end{minipage}
+	\end{tabular}	
+	\begin{tabular}{c}
+		\begin{minipage}[t]{ calc-proy \textwidth}% %*0.43
+			%\centering
+			\cellcolor{porcen-color-proy!60}\textbf{porcen-proy\%} %
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+
+\vspace{0.3 cm}
+
+%------------------------
+%Información del proyecto
+%------------------------
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.5\textwidth}%
+			\cellcolor{blue!70}\textcolor{white}{\textsc{\textbf{Información del proyecto}}}
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.7\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Nombre del semillero}}
+		\end{minipage}
+	\end{tabular}	
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.28\textwidth}%
+			\centering
+			\cellcolor{blue!10}\textsc{\textbf{Código del proyecto}}
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.7\textwidth}%
+			\cellcolor{white!10}{ semi-proy } %Nombre del semillero
+		\end{minipage}
+	\end{tabular}	
+	\begin{tabular}{c}
+		\begin{minipage}[t]{0.28\textwidth}
+			\centering
+			\cellcolor{white!10}\textbf{ codi-proy } %Código del proyecto
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Nombre completo del coordinador del semillero:}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{white!10}{ coord-proy } %Coordinador
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Nombre del grupo de investigación al que se encuentra adscrito el semillero:}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{white!10}{ gru-proy } %Nombre del grupo de investigación
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\vspace{0.3 cm}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Actividades desarrolladas a la fecha:}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{white!10}{ act-des-proy }
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\vspace{0.3 cm}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Compromisos cumplidos a la fecha:}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{white!10}{ act-cum-proy }
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\vspace{0.3 cm}
+
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Compromisos pendientes a la fecha:}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{white!10}{ act-pen-proy }
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+
+\end{document}

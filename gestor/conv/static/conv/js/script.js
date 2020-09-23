@@ -395,7 +395,7 @@ $(document).ready(function(){
         formulario.append('<tr id="tr_'+ count.toString() +'"></tr>')
 
         var fila = $('#tr_'+count.toString());
-        fila.append("<td><input type='text' name='text_" + count.toString() + "' id='text_" + count.toString() + "' placeholder='Descripcion' required/></td>")
+        fila.append("<td><textarea name='text_" + count.toString() + "' id='text_" + count.toString() + "' placeholder='Descripcion' required/></textarea></td>")
         fila.append("<td><select id='sel_"+ count.toString() +"' name='sel_"+ count.toString() +"'></select></td>")
         fila.append('<td><span id="span_'+count.toString()+'"></span><br><br><button type="button" onclick=abrir("doc_'+count.toString()+'") id="boton_'+count.toString()+'">Adjuntar</button>  <input type="file" name="doc_' + count.toString() + '" id="doc_' + count.toString() + '" style="display:none;" onchange=texto(this,"span_'+count.toString()+'")></td>')
         fila.append('<td><a class="config2" title="Eliminar" alt="Eliminar" id="del" onclick=delete1("'+count.toString()+'","1") href="#"><i class="fas fa-trash-alt"></i></a></td>');

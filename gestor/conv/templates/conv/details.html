@@ -222,6 +222,11 @@
                         text: 'Ok',
                         btnClass: 'btn-warning',
                         action: function(){
+                            var mensaje = "{{mensaje1}}";
+                            if( mensaje == "Exito"){
+                                var comprobante = "{{comprobante}}"
+                                window.open("data:application/pdf;base64, " + comprobante);
+                            }
                             window.location = "{% url 'participar' %}";
                         }
                     },

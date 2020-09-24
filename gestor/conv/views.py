@@ -120,9 +120,25 @@ def conv_details(request, id_item=None):
                     insert.save()
                 except:
                     print("no se adjuntó")
+            #Generacion Comprobante
+            retorno=os.getcwd()
+            os.chdir("./pdf_files/inscripcion")
+            nombre = item.name
+            id_par = participante.id
+            semillero = participante.id_semillero.name 
+            coord = participante.id_semillero.coordinador.name + " " + participante.id_semillero.coordinador.lastname
+            grupo = participante.id_semillero.id_group.name
+            generate_comprobante(nombre,id_par,semillero,coord,grupo)
+            with open("plantilla.pdf", "rb") as pdf_file:
+                encoded_string = base64.b64encode(pdf_file.read())
+                comprobante=str(encoded_string)
+                comprobante=comprobante.replace("b'","")
+                comprobante=comprobante.replace("'","")
+            delete_pdf_files("plantilla")
+            os.chdir(retorno)
             mensaje = "El semillero fue registrado en la convocatoria."
             mensaje1 = "Exito"
-            return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1})
+            return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1,"comprobante":comprobante})
 
     return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
         'obl_documents':obl_documents,'today':today,})
@@ -481,9 +497,22 @@ def delete_pdf_files(name):
     os.remove(name+".pdf")
     os.remove("vars.tex")
 
+def generate_comprobante(name,id,semillero,coord,grupo):
+    template="plantilla_vars.tex"
+    with open(template,'r') as f:
+        archivo=f.read()
+    archivo=archivo.replace('conv-name',name)
+    archivo=archivo.replace('id-part-conv',str(id))
+    archivo=archivo.replace('name-part-conv',semillero)
+    archivo=archivo.replace('coord-part-con',coord)
+    archivo=archivo.replace('group-part-conv',grupo)
+
+    with open ("vars.tex",'w') as h:
+        h.write(archivo)
+    d=os.getcwd()
+    call("pdflatex "+d+"/plantilla.tex",shell=1)
 
 def generate_reporte(codigo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
-    #En template se debe poner la url donde se encuentra la plantilla.tex
     template="plantilla_vars.tex"
     with open(template,'r') as f:
         archivo=f.read()

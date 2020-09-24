@@ -11,21 +11,14 @@
         <br>
         <p><b>Proyecto: </b>{{proyecto.codigo}}</p>
         <br>
-        <label for=""><b>Tipo de reporte: </b></label>
-        <select class="" name="tipo" id="tipo">
-            <option disabled selected>Seleccione un tipo</option>
-            <option value="1">Avance</option>
-            <option value="2">Final</option>
-        </select>
+        <label for=""><b>Progreso del proyecto: </b></label>
+        <input type="text" name="progreso" id="progreso" value="{{proyecto.porcentaje}}" placeholder="ingrese el progreso del proyecto">
         <label for=""><b>Actividades desarrolladas a la fecha: </b></label>
         <textarea name="actividades" id="actividades" cols="30" rows="10" placeholder="Ingrese las actividades desarrolladas a la fecha" required></textarea>
         <label for=""><b>Compromisos cumplidos a la fecha: </b></label>
         <textarea name="compro_cum" id="compro_com" cols="30" rows="10" placeholder="Ingrese los compromisos cumplidos a la fecha" required></textarea>
         <label for=""><b>Compromisos pendientes a la fecha: </b></label>
         <textarea name="compro_pen" id="compro_pen" cols="30" rows="10" placeholder="Ingrese los compromisos pendientes a la fecha" required></textarea>
-        
-        <label for=""><b>Progreso del proyecto: </b></label>
-        <input type="text" name="progreso" id="progreso" value="{{proyecto.porcentaje}}" placeholder="ingrese el progreso del proyecto">
         <input id="enviar" type="submit" value="Enviar"/>
     </form>
     

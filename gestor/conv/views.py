@@ -275,29 +275,28 @@ def reportar(request,id):
             proyecto = Proyectos.objects.get(id=id,semillero=semillero)
             if(proyecto.estado == '1'):
                 if request.method == "POST":
-                    tipo = request.POST["tipo"]
                     actividades = request.POST["actividades"].replace('\n','\\\\')
                     comprom_cump = request.POST["compro_cum"].replace('\n','\\\\')
                     comprom_pend = request.POST["compro_pen"].replace('\n','\\\\')
                     progreso = request.POST["progreso"]
                     codigo = proyecto.codigo
-                    if tipo == "1":
-                        tipo = "de avance"
-                    elif tipo == "2":
-                        tipo = "Final"
+                    if int(progreso) == 100:
+                        tipo = "2"
+                    else:
+                        tipo = "1"
                     convocatoria = proyecto.convocatoria.name
                     semillero = proyecto.semillero.name
                     grupo = proyecto.semillero.id_group.name
                     coordinador = proyecto.semillero.coordinador.name + " " +proyecto.semillero.coordinador.lastname 
                     retorno=os.getcwd()
                     os.chdir("./pdf_files/reportes")
-                    generate_reporte(codigo,tipo,convocatoria,semillero,grupo,coordinador,actividades,comprom_cump,comprom_pend,progreso)
-                    with open("reporte.pdf", "rb") as file_encoded:
+                    generate_reporte(codigo,convocatoria,semillero,grupo,coordinador,actividades,comprom_cump,comprom_pend,progreso)
+                    with open("plantilla.pdf", "rb") as file_encoded:
                         encoded_string = base64.b64encode(file_encoded.read())
                     documento = ContentFile(base64.b64decode(encoded_string), name='reporte.pdf')
-                    insert = Documentos_proyecto(tipo=request.POST["tipo"],proyecto=proyecto,documento=documento)
+                    insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
                     insert.save()
-                    delete_pdf_files("reporte")
+                    delete_pdf_files("plantilla")
                     os.chdir(retorno)
                     proyecto.porcentaje=progreso
                     proyecto.save(update_fields=['porcentaje'])
@@ -480,36 +479,26 @@ def delete_pdf_files(name):
     os.remove(name+".aux")
     os.remove(name+".log")
     os.remove(name+".pdf")
-    os.remove(name+".tex")
+    os.remove("vars.tex")
 
 
-def generate_reporte(codigo,tipo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
+def generate_reporte(codigo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
     #En template se debe poner la url donde se encuentra la plantilla.tex
-    template="/home/nicolas/CursoDjango/Gestor/gestor/gestor/pdf_files/reportes/plantilla.tex"
+    template="plantilla_vars.tex"
     with open(template,'r') as f:
         archivo=f.read()
     archivo=archivo.replace('codi-proy',codigo)
-    archivo=archivo.replace('tipo-proy',tipo)
     archivo=archivo.replace('conv-proy',conv)
     archivo=archivo.replace('semi-proy',semi)
     archivo=archivo.replace('gru-proy',gru)
     archivo=archivo.replace('coord-proy',coord)
     archivo=archivo.replace('act-des-proy',act_des)
-    archivo=archivo.replace('act-cum-proy',act_cum)
+    archivo=archivo.replace('act-cump-proy',act_cum)
     archivo=archivo.replace('act-pen-proy',act_pen)
     archivo=archivo.replace('porcen-proy',str(porcen))
-    porcen=float(porcen)
-    if(porcen <= 15 and porcen > 0):
-        archivo=archivo.replace('porcen-color-proy',"red")
-    elif(porcen <= 75 and porcen > 15):
-        archivo=archivo.replace('porcen-color-proy',"orange")
-    elif(porcen <= 100 and porcen > 75):
-        archivo=archivo.replace('porcen-color-proy',"green")
-    porcentaje = str((float(porcen)/100)*0.43)
-    archivo=archivo.replace('calc-proy',porcentaje)
-    
-    with open ("reporte.tex",'w') as h:
+
+    with open ("vars.tex",'w') as h:
         h.write(archivo)
     d=os.getcwd()
-    call("pdflatex "+d+"/reporte.tex",shell=1)
+    call("pdflatex "+d+"/plantilla.tex",shell=1)
     

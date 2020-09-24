@@ -1,0 +1,51 @@
+%----------------
+%Tipo de solicitud
+%-----------------
+\DIVIDE{0.43}{100}{\barlength}
+\MULTIPLY{\advances}{\barlength}{\solution}
+
+\newcommand{\mypageO}{
+%Final
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Tipo de solicitud}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			\textbf{Informe \reportkinds}
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+}
+
+\newcommand{\mypageT}[2]{%<<<<
+%de Avance
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.55\textwidth}%
+			\cellcolor{blue!10}\textsc{\textbf{Tipo de Solicitud}}
+		\end{minipage}
+	\end{tabular}	
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.43\textwidth}%
+			\centering
+			\cellcolor{blue!10}\textsc{\textbf{Porcentaje de avance técnico del proyecto}}
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}	
+	
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{0.55\textwidth}%
+			\cellcolor{white!10}\textbf{Informe \reportkinds}
+		\end{minipage}
+	\end{tabular}	
+	\begin{tabular}{c}
+		\begin{minipage}[t]{#1\textwidth}
+			%\centering
+			\cellcolor{orange!60}\textbf{#2\%} %
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+}

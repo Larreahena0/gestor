@@ -128,7 +128,7 @@ div #send {
 div #send:hover {
     background: #274712;
 }
-div #edit,div #edit1 {
+div #edit,div #edit1,div #mail {
     padding: 4px 10px;
     background: #396534;
 }
@@ -198,4 +198,9 @@ div #edit1:hover {
 .formulario select{
     width: auto;
     font-size: 13px;
+}
+
+div #mail:hover {
+    background: #274712;
+    cursor: pointer;
 }

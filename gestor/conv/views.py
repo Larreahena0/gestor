@@ -4,6 +4,7 @@ from .models import Documento,Participante,Documento_Adjunto,Proyectos,Documento
 from create.models import coordinadores,Semillero
 from core.models import Grupo
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 import os
 import base64
 from subprocess import call
@@ -91,54 +92,66 @@ def conv_details(request, id_item=None):
     participantes = Participante.objects.filter(id_convocatoria=id_item)
 
     if request.method == "POST":
-        #Insert de la participacion del semilero escogido por el usuario
-        id_semillero = coordinadores.objects.get(user=request.user).id_semillero
-        semillero = Semillero.objects.get(id=int(id_semillero))
 
-        try:
-            participante = Participante.objects.get(id_convocatoria=item,id_semillero=semillero)
-            mensaje = "El semillero ya está participando en la convocatoria."
-            mensaje1 = "Error"
-            return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1})
-        except:
-            insert = Participante(id_convocatoria=item,id_semillero=semillero,estado="0")
-            insert.save()
-            #Insert de los documentos obligatorios adjuntos por el coordinador de semillero
-            participante = Participante.objects.latest("id")
-            for obl_document in obl_documents:
-                try:
-                    document = request.FILES[str(obl_document.id)]
-                    insert = Documento_Adjunto(id_participante=participante,id_documento=obl_document,documento=document,estado="0")
-                    insert.save()
-                except:
-                    print("no se adjuntó")
+        if(request.POST["caso"]=="send-email"):
+            id_semillero = request.POST["id"]
+            semillero = Semillero.objects.get(id=id_semillero)
+            email_destino = semillero.coordinador.email
+            menssage = message = EmailMultiAlternatives("Revision Finalizada", #Titulo
+                                    'Sr Coordinador, ya revisé los documentos adjuntos a la convocatoria, favor revisar.',
+                                    settings.EMAIL_HOST_USER, #Remitente
+                                    [email_destino]) #Destinatario
+            menssage.send()
+            return HttpResponse("1")
+        else:    
+            #Insert de la participacion del semilero escogido por el usuario
+            id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+            semillero = Semillero.objects.get(id=int(id_semillero))
 
-            for opc_document in opc_documents:
-                try:
-                    document = request.FILES[str(opc_document.id)]
-                    insert = Documento_Adjunto(id_participante=participante,id_documento=opc_document,documento=document,estado="0")
-                    insert.save()
-                except:
-                    print("no se adjuntó")
-            #Generacion Comprobante
-            retorno=os.getcwd()
-            os.chdir("./pdf_files/inscripcion")
-            nombre = item.name
-            id_par = participante.id
-            semillero = participante.id_semillero.name 
-            coord = participante.id_semillero.coordinador.name + " " + participante.id_semillero.coordinador.lastname
-            grupo = participante.id_semillero.id_group.name
-            generate_comprobante(nombre,id_par,semillero,coord,grupo)
-            with open("plantilla.pdf", "rb") as pdf_file:
-                encoded_string = base64.b64encode(pdf_file.read())
-                comprobante=str(encoded_string)
-                comprobante=comprobante.replace("b'","")
-                comprobante=comprobante.replace("'","")
-            delete_pdf_files("plantilla")
-            os.chdir(retorno)
-            mensaje = "El semillero fue registrado en la convocatoria."
-            mensaje1 = "Exito"
-            return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1,"comprobante":comprobante})
+            try:
+                participante = Participante.objects.get(id_convocatoria=item,id_semillero=semillero)
+                mensaje = "El semillero ya está participando en la convocatoria."
+                mensaje1 = "Error"
+                return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1})
+            except:
+                insert = Participante(id_convocatoria=item,id_semillero=semillero,estado="0")
+                insert.save()
+                #Insert de los documentos obligatorios adjuntos por el coordinador de semillero
+                participante = Participante.objects.latest("id")
+                for obl_document in obl_documents:
+                    try:
+                        document = request.FILES[str(obl_document.id)]
+                        insert = Documento_Adjunto(id_participante=participante,id_documento=obl_document,documento=document,estado="0")
+                        insert.save()
+                    except:
+                        print("no se adjuntó")
+
+                for opc_document in opc_documents:
+                    try:
+                        document = request.FILES[str(opc_document.id)]
+                        insert = Documento_Adjunto(id_participante=participante,id_documento=opc_document,documento=document,estado="0")
+                        insert.save()
+                    except:
+                        print("no se adjuntó")
+                #Generacion Comprobante
+                retorno=os.getcwd()
+                os.chdir("./pdf_files/inscripcion")
+                nombre = item.name
+                id_par = participante.id
+                semillero = participante.id_semillero.name 
+                coord = participante.id_semillero.coordinador.name + " " + participante.id_semillero.coordinador.lastname
+                grupo = participante.id_semillero.id_group.name
+                generate_comprobante(nombre,id_par,semillero,coord,grupo)
+                with open("plantilla.pdf", "rb") as pdf_file:
+                    encoded_string = base64.b64encode(pdf_file.read())
+                    comprobante=str(encoded_string)
+                    comprobante=comprobante.replace("b'","")
+                    comprobante=comprobante.replace("'","")
+                delete_pdf_files("plantilla")
+                os.chdir(retorno)
+                mensaje = "El semillero fue registrado en la convocatoria."
+                mensaje1 = "Exito"
+                return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1,"comprobante":comprobante})
 
     return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
         'obl_documents':obl_documents,'today':today,})

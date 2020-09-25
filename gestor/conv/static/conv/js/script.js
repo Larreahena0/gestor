@@ -217,6 +217,53 @@ function delete1(id, caso) {
     }
 };
 
+function send_mail(id){
+    $.confirm({
+        boxWidth: '400px',
+        useBootstrap: false,
+        closeIcon: true,
+        title: '¿Está seguro?',
+        content: 'Esta tratando de enviar un correo electronico al coordinador notificandole que la revision fue realizada exitosamente.',
+        typeAnimated: true,
+        buttons: {
+            somethingElse: {
+                text: 'Seguro',
+                btnClass: 'btn-warning',
+                action: function(){
+                    var caso = "send-email"
+                    let url = window.location;
+                    const postData={
+                        'id': id,
+                        'caso': caso,
+                        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                    };
+                    $.post(url, postData, function(response){
+                        $.alert({
+                            boxWidth: '400px',
+                            useBootstrap: false,
+                            closeIcon: true,
+                            title: 'Envio exitoso',
+                            content: 'Se ha notificado al coordinador que la revision ha sido finalizada exitosamente.',
+                            typeAnimated: true,
+                            buttons: {
+                                somethingElse: {
+                                    text: 'Ok',
+                                    btnClass: 'btn-warning',
+                                    action: function(){
+                                        window.location.reload()
+                                    }
+                                },
+                            }
+                        });
+                    });
+                }
+            },
+            cancelar: function () {
+            }
+        }
+    });
+}
+
 $(document).ready(function(){
     var count = 1;
     $('#contador').val(count-1);
@@ -256,7 +303,6 @@ $(document).ready(function(){
         $('.Crear').show();
         $('#estado').val(0)
     });
-	
 
     $('#enviar').click(function(e){
         e.preventDefault();

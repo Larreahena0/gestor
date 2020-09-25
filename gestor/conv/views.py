@@ -510,7 +510,7 @@ def generate_comprobante(name,id,semillero,coord,grupo):
     with open ("vars.tex",'w') as h:
         h.write(archivo)
     d=os.getcwd()
-    call("pdflatex "+d+"/plantilla.tex",shell=1)
+    call("xelatex "+d+"/plantilla.tex",shell=1)
 
 def generate_reporte(codigo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
     template="plantilla_vars.tex"

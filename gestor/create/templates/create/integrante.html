@@ -94,7 +94,18 @@
                 {{atributo.nivel}}
             </div>
         {% endif %}
-
+        {% if atributo_otra %}
+            <div class="row" >
+                <p>Tipo de programa</p>
+                <hr>
+                <br>
+                {% if atributo_otra.tipo == '1' %}
+                    Pregrado
+                {% elif atributo_otra.tipo == '2' %}
+                    Postgrado
+                {% endif %}
+            </div>
+        {% endif %}
         <br>
     </div>
     {% load static %}

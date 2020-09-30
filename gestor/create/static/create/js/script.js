@@ -159,6 +159,11 @@ $(document).ready(function(){
 			$(this).hide();
 		});
 	};
+	if($('#rol').val() != 7){
+		$('.estudiante_otra').each(function(){
+			$(this).hide();
+		});
+	};
 	if($('#rol').val() != 4 && $('#rol').val() != 5){
 		$('.estudiante').each(function(){
 			$(this).hide();
@@ -181,6 +186,9 @@ $(document).ready(function(){
 			$('.estudiante').each(function(){
 				$(this).hide();
 			});
+			$('.estudiante_otra').each(function(){
+				$(this).hide();
+			});
 		}
 		else if($('#rol').val() == 4 || $('#rol').val() == 5){
 			$('.lineas').each(function(){
@@ -189,12 +197,29 @@ $(document).ready(function(){
 			$('.estudiante').each(function(){
 				$(this).show();
 			});
+			$('.estudiante_otra').each(function(){
+				$(this).hide();
+			});
+		}
+		else if($('#rol').val() == 7){
+			$('.lineas').each(function(){
+				$(this).hide();
+			});
+			$('.estudiante').each(function(){
+				$(this).hide();
+			});
+			$('.estudiante_otra').each(function(){
+				$(this).show();
+			});
 		}
 		else {
 			$('.lineas').each(function(){
 				$(this).hide();
 			});
 			$('.estudiante').each(function(){
+				$(this).hide();
+			});
+			$('.estudiante_otra').each(function(){
 				$(this).hide();
 			});
 		};

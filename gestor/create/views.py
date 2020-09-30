@@ -3,7 +3,7 @@ from .models import Semillero
 from .models import Linea
 from .models import LineaSemillero
 from .models import Integrante
-from .models import Career,Rol,Atributos,coordinadores,Participante2
+from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra
 from core.models import Grupo
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -275,8 +275,9 @@ def register(request):
             pregrados = Career.objects.filter(tipo="Pregrado")
             postgrados = Career.objects.filter(tipo="Postgrado")
             lineas = Linea.objects.all()
-            query = reduce(or_, (Q(name="Coordinador de grupo"),Q(name="Coordinador de linea"),Q(name="Estudiante lider"),Q(name="Estudiante")))
-            roles = Rol.objects.filter(query)
+            #query = reduce(or_, (Q(name="Coordinador de grupo"),Q(name="Coordinador de linea"),Q(name="Estudiante lider"),Q(name="Estudiante Udea"),Q(name="Estudiante de otra institucion")))
+            #roles = Rol.objects.filter(query)
+            roles = Rol.objects.all().exclude(id=2)
 
             if request.method == "POST":
                 if request.POST['caso']=="verificar":
@@ -335,7 +336,7 @@ def register(request):
                                 id_coo=id_coo, id_linea=linea, id_participante=participante)
                             insert.save()
 
-                    #Cuando es estudiante se deben agregar los atributos de los estudiantes (nivel y carrera)        
+                    #Cuando es estudiante UDEA se deben agregar los atributos de los estudiantes (nivel y carrera)        
                     elif(int(rol1) == 4 or int(rol1) == 5):
                         tipo = request.POST['tipo']
                         if(int(tipo) == 1):
@@ -347,6 +348,14 @@ def register(request):
                         nivel = request.POST['level']
                         participante=Participante2.objects.latest('id')
                         insert = Atributos(id_estudiante=id_est,id_programa=programa,id_participante=participante,nivel=nivel)
+                        insert.save()
+
+                    #Cuando es estudiante de otra universidad      
+                    elif(int(rol1) == 7):
+                        tipo = request.POST['tipo_otra']
+                        participante=Participante2.objects.latest('id')
+                        id_est = Integrante.objects.get(document=document)
+                        insert = Atributos_otra(id_estudiante=id_est,id_participante=participante,tipo=tipo)
                         insert.save()
 
             return render(request, "create/register.html", {'semillero': semillero, 'pregrados': pregrados, 'postgrados': postgrados, 'lineas': lineas,'roles':roles,'integrantes':integrantes})
@@ -383,9 +392,13 @@ def integrante_details(request,id):
             linea_coordinador = LineaSemillero.objects.filter(id_coo=integrante,id_participante=participante)
             return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante,"linea_coordinador":linea_coordinador})
 
-        elif(participante.rol.name=="Estudiante" or participante.rol.name=="Estudiante lider"):
+        elif(participante.rol.name=="Estudiante Udea" or participante.rol.name=="Estudiante lider"):
             atributo = Atributos.objects.get(id_estudiante=integrante,id_participante=participante)
             return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante,"atributo":atributo})
+
+        elif(participante.rol.name=="Estudiante de otra institucion"):
+            atributo = Atributos_otra.objects.get(id_estudiante=integrante,id_participante=participante)
+            return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante,"atributo_otra":atributo})
 
         else:    
             return render(request, "create/integrante.html",{"integrante":integrante,"participante":participante})
@@ -400,8 +413,9 @@ def integrante_edit(request, id):
             integrante = Integrante.objects.get(id=id)
             coordinador = coordinadores.objects.get(user=request.user)
             participante = Participante2.objects.get(id_integrante=integrante,id_semillero=int(coordinador.id_semillero))
-            query = reduce(or_, (Q(name="Coordinador de grupo"),Q(name="Coordinador de linea"),Q(name="Estudiante lider"),Q(name="Estudiante")))
-            roles = Rol.objects.filter(query)
+            #query = reduce(or_, (Q(name="Coordinador de grupo"),Q(name="Coordinador de linea"),Q(name="Estudiante lider"),Q(name="Estudiante Udea"),Q(name="Estudiante de otra institucion")))
+            #roles = Rol.objects.filter(query)
+            roles = Rol.objects.all().exclude(id=2)
             lineas = Linea.objects.all()
             pregrados = Career.objects.filter(tipo="Pregrado")
             postgrados = Career.objects.filter(tipo="Postgrado")
@@ -431,7 +445,7 @@ def integrante_edit(request, id):
                 rol = request.POST["rol"]
                 if int(rol) != participante.rol.id:
                     #Cambio de rol, se debe eliminar atributos en caso de ser estudiante y eliminar lineas en caso de ser coordinador de linea
-                    if(participante.rol.name == "Estudiante" or participante.rol.name == "Estudiante lider"):
+                    if(participante.rol.name == "Estudiante Udea" or participante.rol.name == "Estudiante lider"):
                         atributo = Atributos.objects.get(id_participante=participante)
                         atributo.delete()
 
@@ -439,6 +453,10 @@ def integrante_edit(request, id):
                         lineas = LineaSemillero.objects.filter(id_participante=participante)
                         for linea in lineas:
                             linea.delete()
+
+                    elif(participante.rol.name == "Estudiante de otra institucion"):
+                        atributo = Atributos_otra.objects.get(id_participante=participante)
+                        atributo.delete()
 
                     #Actualizacion del rol y de la fecha de ingreso al semillero
                     rol1 = Rol.objects.get(id=int(rol))
@@ -475,13 +493,20 @@ def integrante_edit(request, id):
                         insert = Atributos(id_estudiante=id_est,id_programa=programa,id_participante=participante,nivel=nivel)
                         insert.save()
 
+                    #Cuando es estudiante de otra universidad se agrega el tipo de estudiante unicamente
+                    elif(int(rol) == 7):
+                        tipo = request.POST['tipo_otra']
+                        id_est = Integrante.objects.get(document=document)
+                        insert = Atributos_otra(id_estudiante=id_est,id_participante=participante,tipo=tipo)
+                        insert.save()    
+
                 else:
                     integrante=Integrante.objects.get(id=id)
                     coordinador = coordinadores.objects.get(user=request.user)
                     participante = Participante2.objects.get(id_integrante=integrante,id_semillero=int(coordinador.id_semillero))
                     
                     #En caso de ser un estudiante, se debe actualizar la carrera y nivel del integrante
-                    if(participante.rol.name == "Estudiante" or participante.rol.name == "Estudiante lider"):
+                    if(participante.rol.name == "Estudiante Udea" or participante.rol.name == "Estudiante lider"):
                         atributo = Atributos.objects.get(id_participante=participante)
                         tipo = request.POST['tipo']
                         if(int(tipo) == 1):
@@ -492,6 +517,13 @@ def integrante_edit(request, id):
                         atributo.id_programa = programa
                         atributo.nivel = request.POST["level"]
                         atributo.save(update_fields=["id_programa","nivel"])
+                    
+                    #En caso de ser estudiante de otra institucion se debe actualizar el tipo de estudiante
+                    elif(participante.rol.name == "Estudiante de otra institucion"):
+                        atributo = Atributos_otra.objects.get(id_participante=participante)
+                        tipo = request.POST['tipo_otra']
+                        atributo.tipo = tipo
+                        atributo.save(update_fields=["tipo"])
 
                     #En caso de ser un coordinador de linea se deben eliminar las ultimas n lineas o se deben agregar n lineas.
                     elif(participante.rol.name == "Coordinador de linea"):
@@ -529,12 +561,18 @@ def integrante_edit(request, id):
                 linea_coordinador = LineaSemillero.objects.filter(id_coo=integrante,id_participante=participante)
                 return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"linea_coordinador":linea_coordinador})
 
-            elif(participante.rol.name=="Estudiante" or participante.rol.name=="Estudiante lider"):
+            elif(participante.rol.name=="Estudiante Udea" or participante.rol.name=="Estudiante lider"):
                 atributo = Atributos.objects.get(id_estudiante=integrante,id_participante=participante)
                 if(atributo.id_programa.tipo=="Pregrado"):
                     return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"pregrado":"pregrado","lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"atributo":atributo})
                 else:
                     return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"postgrado":"postgrado","lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"atributo":atributo})
+            elif(participante.rol.name=="Estudiante de otra institucion"):
+                atributo = Atributos_otra.objects.get(id_estudiante=integrante,id_participante=participante)
+                if(atributo.tipo == "1"):
+                    return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"tipo":"pregrado","lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"atributo":atributo})
+                else:
+                    return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"tipo":"postgrado","lineas":lineas,"integrante":integrante,"participante":participante,'roles':roles,"atributo":atributo})
             else:    
                 return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"lineas":lineas,'integrante': integrante, 'participante': participante,'roles':roles})
 

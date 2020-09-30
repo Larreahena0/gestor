@@ -106,6 +106,7 @@ class Participante2(models.Model):
 	def __str__(self):
 		return self.id_integrante.name
 
+#Atributos Estudiantes UDEA
 class Atributos(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
 	id_estudiante = models.ForeignKey(Integrante, verbose_name="Estudiante", null=True, blank=True, on_delete=models.CASCADE)
@@ -116,6 +117,21 @@ class Atributos(models.Model):
 	class Meta():
 		verbose_name = "Atributo"
 		verbose_name_plural = "Atributos"
+		ordering = ["id"]
+
+	def __str__(self):
+		return self.id_estudiante.name
+
+#Atributos Estudiantes otra universidad
+class Atributos_otra(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	id_estudiante = models.ForeignKey(Integrante, verbose_name="Estudiante", null=True, blank=True, on_delete=models.CASCADE)
+	id_participante = models.ForeignKey(Participante2, verbose_name="Participante", null=True, blank=True, on_delete=models.CASCADE)
+	tipo = models.CharField(max_length=100, null=True,verbose_name="Tipo")
+
+	class Meta():
+		verbose_name = "Atributo"
+		verbose_name_plural = "Atributos otra universidad"
 		ordering = ["id"]
 
 	def __str__(self):

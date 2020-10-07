@@ -48,7 +48,7 @@
                     </td>    
                     {% if request.user|is_admin %}
                         <td>
-                            <a class="config2" title="Editar" alt="Editar" id="edit" href="#" onclick="modify({{reporte.id}})"> <i class="fas fa-wrench"></i></a> 
+                            <a class="config2" title="Enviar" alt="Enviar" id="edit" href="#" onclick="modify({{reporte.id}})"> <i class="fas fa-wrench"></i></a> 
                         </td>
                     {% endif %}    
                 </tr>
@@ -85,7 +85,7 @@
                         <br>
                         <input type="file" name="doc" id="doc" style="display:none;" onchange="texto(this,'span')">
                     </td>
-                    <td><a class="config2" title="Editar" alt="Editar" id="edit11" href="#" onclick=""><i class="fab fa-telegram-plane"></i></a> </td>
+                    <td><a class="config2" title="Enviar" alt="Enviar" id="edit11" href="#" onclick=""><i class="fab fa-telegram-plane"></i></a> </td>
                 </tr>
             </table>
         </form>    

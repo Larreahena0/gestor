@@ -97,11 +97,9 @@ def conv_details(request, id_item=None):
             id_semillero = request.POST["id"]
             semillero = Semillero.objects.get(id=id_semillero)
             email_destino = semillero.coordinador.email
-            menssage = message = EmailMultiAlternatives("Revision Finalizada", #Titulo
-                                    'Sr Coordinador, ya revisé los documentos adjuntos a la convocatoria, favor revisar.',
-                                    settings.EMAIL_HOST_USER, #Remitente
-                                    [email_destino]) #Destinatario
-            menssage.send()
+            mensaje = 'Sr Coordinador, ya revisé los documentos adjuntos a la convocatoria, favor revisar.'
+            asunto = "Revision de documentos adjuntos"
+            generate_mail(email_destino,mensaje,asunto)
             return HttpResponse("1")
         else:    
             #Insert de la participacion del semilero escogido por el usuario
@@ -151,6 +149,15 @@ def conv_details(request, id_item=None):
                 os.chdir(retorno)
                 mensaje = "El semillero fue registrado en la convocatoria."
                 mensaje1 = "Exito"
+
+                asunto = "Registro exitoso" 
+                mensaje_mail = "Sr Coordinador, se ha registrado el semillero: "+semillero+" a la convocatoria: "+item.name+", con el numero: "+str(id_par)
+                destinatario = participante.id_semillero.coordinador.email
+                generate_mail(destinatario,mensaje_mail,asunto)
+                mensaje_mail = "Sr Administrador, se ha registrado el semillero: "+semillero+" a la convocatoria: "+item.name+", con el numero: "+str(id_par)
+                destinatario = settings.EMAIL_HOST_USER
+                generate_mail(destinatario,mensaje_mail,asunto)
+
                 return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1,"comprobante":comprobante})
 
     return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,
@@ -311,8 +318,10 @@ def reportar(request,id):
                     codigo = proyecto.codigo
                     if int(progreso) == 100:
                         tipo = "2"
+                        cadena = "final"
                     else:
                         tipo = "1"
+                        cadena = "de avance"
                     convocatoria = proyecto.convocatoria.name
                     semillero = proyecto.semillero.name
                     grupo = proyecto.semillero.id_group.name
@@ -329,8 +338,14 @@ def reportar(request,id):
                     os.chdir(retorno)
                     proyecto.porcentaje=progreso
                     proyecto.save(update_fields=['porcentaje'])
+                    email_destino = settings.EMAIL_HOST_USER
+                    mensaje = 'Sr Administrador, se ha generado un nuevo reporte '+cadena+' por el coordinador del semillero: '+semillero+' a cargo del proyecto: '+str(proyecto.codigo)+ ' favor revisarlo.'
+                    asunto = "Nuevo reporte generado"
+                    generate_mail(email_destino,mensaje,asunto)
+
                     mensaje = "Se ha agregado el reporte exitosamente."
                     mensaje1 = "Exito"
+
                     return render(request, "conv/reporte.html",{'mensaje':mensaje,'mensaje1':mensaje1})    
 
                 return render(request, "conv/reporte.html",{'proyecto':proyecto})
@@ -425,6 +440,17 @@ def reportes(request,id):
             except:
                 insert = observaciones(description=descripcion)
                 insert.save()
+            
+            if(reporte.tipo == "1"):
+                tipo="de avance"
+            elif(reporte.tipo == "2"):
+                tipo="final"
+            
+            semillero = str(proyecto.semillero.name)
+            mensaje = "Sr Coordinador, se han revisado el reporte "+tipo+" adjunto al proyecto "+str(proyecto.codigo)+" a cargo del semillero "+semillero+", porfavor revisarlo en el sistema. Muchas Gracias"
+            email_destino = proyecto.semillero.coordinador.email
+            asunto = "Revision de reporte"
+            generate_mail(email_destino,mensaje,asunto)
 
             observacion = observaciones.objects.latest('id')
             reporte.observaciones = observacion
@@ -542,5 +568,8 @@ def generate_reporte(codigo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
     with open ("vars.tex",'w') as h:
         h.write(archivo)
     d=os.getcwd()
-    call("pdflatex "+d+"/plantilla.tex",shell=1)
+    call("xelatex "+d+"/plantilla.tex",shell=1)
     
+def generate_mail(destinatario,mensaje,asunto):
+    menssage = EmailMultiAlternatives(asunto,mensaje,settings.EMAIL_HOST_USER,[destinatario])
+    menssage.send()

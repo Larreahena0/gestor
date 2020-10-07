@@ -223,7 +223,7 @@ function send_mail(id){
         useBootstrap: false,
         closeIcon: true,
         title: '¿Está seguro?',
-        content: 'Esta tratando de enviar un correo electronico al coordinador notificandole que la revision fue realizada exitosamente.',
+        content: 'Esta tratando de enviar un correo electronico al coordinador notificandole que la revision fue realizada.',
         typeAnimated: true,
         buttons: {
             somethingElse: {
@@ -243,7 +243,7 @@ function send_mail(id){
                             useBootstrap: false,
                             closeIcon: true,
                             title: 'Envio exitoso',
-                            content: 'Se ha notificado al coordinador que la revision ha sido finalizada exitosamente.',
+                            content: 'Se ha notificado al coordinador que la revision ha sido realizada.',
                             typeAnimated: true,
                             buttons: {
                                 somethingElse: {
@@ -304,6 +304,62 @@ $(document).ready(function(){
         $('#estado').val(0)
     });
 
+    $('#enviar_editar').click(function(e){
+        e.preventDefault();
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'Ha realizado cambios a una convocatorio',
+            typeAnimated: true,
+            buttons: {
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        $('form').submit();
+                    }
+                },
+                cancelar: function () {
+
+                }
+            }
+        });
+    });
+
+    $('#enviar_reporte').click(function(e){
+        e.preventDefault();
+        $.confirm({
+            boxWidth: '400px',
+            useBootstrap: false,
+            closeIcon: true,
+            title: '¿Está seguro?',
+            content: 'El reporte no podrá ser modificado. Puede visualizar el reporte antes de enviarlo en caso de error.',
+            typeAnimated: true,
+            buttons: {
+                Visualizar: {
+                    text: 'Visualizar reporte',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        //Se debe generar reporte aqui
+                        console.log("generar reporte")
+                    }
+                },
+                somethingElse: {
+                    text: 'Seguro',
+                    btnClass: 'btn-warning',
+                    action: function(){
+                        $('form').submit();
+                    }
+                },
+                cancelar: function () {
+
+                }
+            }
+        });
+    });
+
     $('#enviar').click(function(e){
         e.preventDefault();
         var obligatorios = $('.obligatorio');
@@ -320,7 +376,7 @@ $(document).ready(function(){
                 useBootstrap: false,
                 closeIcon: true,
                 title: '¿Está seguro?',
-                content: 'El reporte no podrá ser modificado.',
+                content: 'Esta intentando participar en una convocatoria',
                 typeAnimated: true,
                 buttons: {
                     somethingElse: {

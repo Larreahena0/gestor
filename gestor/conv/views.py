@@ -329,24 +329,36 @@ def reportar(request,id):
                     retorno=os.getcwd()
                     os.chdir("./pdf_files/reportes")
                     generate_reporte(codigo,convocatoria,semillero,grupo,coordinador,actividades,comprom_cump,comprom_pend,progreso)
-                    with open("plantilla.pdf", "rb") as file_encoded:
-                        encoded_string = base64.b64encode(file_encoded.read())
-                    documento = ContentFile(base64.b64decode(encoded_string), name='reporte.pdf')
-                    insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
-                    insert.save()
-                    delete_pdf_files("plantilla")
-                    os.chdir(retorno)
-                    proyecto.porcentaje=progreso
-                    proyecto.save(update_fields=['porcentaje'])
-                    email_destino = settings.EMAIL_HOST_USER
-                    mensaje = 'Sr Administrador, se ha generado un nuevo reporte '+cadena+' por el coordinador del semillero: '+semillero+' a cargo del proyecto: '+str(proyecto.codigo)+ ' favor revisarlo.'
-                    asunto = "Nuevo reporte generado"
-                    generate_mail(email_destino,mensaje,asunto)
+                    if(request.POST["caso"]=="0"):
+                        with open("plantilla.pdf", "rb") as file_encoded:
+                            encoded_string = base64.b64encode(file_encoded.read())
+                        documento = ContentFile(base64.b64decode(encoded_string), name='reporte.pdf')
+                        insert = Documentos_proyecto(tipo=tipo,proyecto=proyecto,documento=documento)
+                        insert.save()
+                        delete_pdf_files("plantilla")
+                        os.chdir(retorno)
+                        proyecto.porcentaje=progreso
+                        proyecto.save(update_fields=['porcentaje'])
+                        email_destino = settings.EMAIL_HOST_USER
+                        mensaje = 'Sr Administrador, se ha generado un nuevo reporte '+cadena+' por el coordinador del semillero: '+semillero+' a cargo del proyecto: '+str(proyecto.codigo)+ ' favor revisarlo.'
+                        asunto = "Nuevo reporte generado"
+                        generate_mail(email_destino,mensaje,asunto)
 
-                    mensaje = "Se ha agregado el reporte exitosamente."
-                    mensaje1 = "Exito"
+                        mensaje = "Se ha agregado el reporte exitosamente."
+                        mensaje1 = "Exito"
 
-                    return render(request, "conv/reporte.html",{'mensaje':mensaje,'mensaje1':mensaje1})    
+                        return render(request, "conv/reporte.html",{'mensaje':mensaje,'mensaje1':mensaje1})    
+                    elif(request.POST['caso'] == "1"):
+                        with open("plantilla.pdf", "rb") as pdf_file:
+                            encoded_string = base64.b64encode(pdf_file.read())
+                            reporte=str(encoded_string)
+                            reporte=reporte.replace("b'","")
+                            reporte=reporte.replace("'","")                            
+                        delete_pdf_files("plantilla")
+                        os.chdir(retorno)
+                        return HttpResponse(reporte)
+                    
+                    
 
                 return render(request, "conv/reporte.html",{'proyecto':proyecto})
             elif(proyecto.estado == '0'):

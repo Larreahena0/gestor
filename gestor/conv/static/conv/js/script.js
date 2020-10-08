@@ -343,7 +343,24 @@ $(document).ready(function(){
                     btnClass: 'btn-warning',
                     action: function(){
                         //Se debe generar reporte aqui
-                        console.log("generar reporte")
+                        var porcentaje = $("#progreso").val();
+                        var actividades = $("#actividades").val();
+                        var compro_cum = $("#compro_cum").val();
+                        var compro_pen = $("#compro_pen").val();
+                        console.log(actividades)
+                        var caso = "1"
+                        let url = window.location;
+                        const postData={
+                            'progreso': porcentaje,
+                            'actividades': actividades,
+                            'compro_cum': compro_cum,
+                            'compro_pen': compro_pen,
+                            'caso': caso,
+                            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                        };
+                        $.post(url, postData, function(response){
+                            window.open("data:application/pdf;base64, " + response);
+                        });
                     }
                 },
                 somethingElse: {

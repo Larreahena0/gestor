@@ -7,6 +7,7 @@
     <h1>Agregar reporte al proyecto</h1>
     <hr>
     <form action="" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="caso" id="caso" value="0">
   		{% csrf_token %}
         <br>
         <p><b>Proyecto: </b>{{proyecto.codigo}}</p>
@@ -16,7 +17,7 @@
         <label for=""><b>Actividades desarrolladas a la fecha: </b></label>
         <textarea name="actividades" id="actividades" cols="30" rows="10" placeholder="Ingrese las actividades desarrolladas a la fecha" required></textarea>
         <label for=""><b>Compromisos cumplidos a la fecha: </b></label>
-        <textarea name="compro_cum" id="compro_com" cols="30" rows="10" placeholder="Ingrese los compromisos cumplidos a la fecha" required></textarea>
+        <textarea name="compro_cum" id="compro_cum" cols="30" rows="10" placeholder="Ingrese los compromisos cumplidos a la fecha" required></textarea>
         <label for=""><b>Compromisos pendientes a la fecha: </b></label>
         <textarea name="compro_pen" id="compro_pen" cols="30" rows="10" placeholder="Ingrese los compromisos pendientes a la fecha" required></textarea>
         <input id="enviar_reporte" type="submit" value="Enviar"/>

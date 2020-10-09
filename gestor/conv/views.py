@@ -145,18 +145,18 @@ def conv_details(request, id_item=None):
                     comprobante=str(encoded_string)
                     comprobante=comprobante.replace("b'","")
                     comprobante=comprobante.replace("'","")
-                delete_pdf_files("plantilla")
-                os.chdir(retorno)
                 mensaje = "El semillero fue registrado en la convocatoria."
                 mensaje1 = "Exito"
 
                 asunto = "Registro exitoso" 
-                mensaje_mail = "Sr Coordinador, se ha registrado el semillero: "+semillero+" a la convocatoria: "+item.name+", con el numero: "+str(id_par)
+                mensaje_mail = "Sr Coordinador, se ha registrado el semillero: "+semillero+" a la convocatoria: "+item.name+", con el numero: "+str(id_par)+", a continuacion se adjunta el comprobante. Muchas gracias."
                 destinatario = participante.id_semillero.coordinador.email
-                generate_mail(destinatario,mensaje_mail,asunto)
-                mensaje_mail = "Sr Administrador, se ha registrado el semillero: "+semillero+" a la convocatoria: "+item.name+", con el numero: "+str(id_par)
+                generate_mail(destinatario,mensaje_mail,asunto,"1")
+                mensaje_mail = "Sr Administrador, se ha registrado el semillero: "+semillero+" a la convocatoria: "+item.name+", con el numero: "+str(id_par)+", a continuacion se adjunta el comprobante. Muchas gracias."
                 destinatario = settings.EMAIL_HOST_USER
-                generate_mail(destinatario,mensaje_mail,asunto)
+                generate_mail(destinatario,mensaje_mail,asunto,"1")
+                delete_pdf_files("plantilla")
+                os.chdir(retorno)
 
                 return render(request, "conv/details.html",{'participantes':participantes,'grupos':grupos,'item':item,'inf_documents':inf_documents,'opc_documents':opc_documents,'obl_documents':obl_documents,'today':today,"mensaje":mensaje,"mensaje1":mensaje1,"comprobante":comprobante})
 
@@ -582,6 +582,8 @@ def generate_reporte(codigo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
     d=os.getcwd()
     call("xelatex "+d+"/plantilla.tex",shell=1)
     
-def generate_mail(destinatario,mensaje,asunto):
+def generate_mail(destinatario,mensaje,asunto,file=None):
     menssage = EmailMultiAlternatives(asunto,mensaje,settings.EMAIL_HOST_USER,[destinatario])
+    if(file != None):
+        menssage.attach_file('plantilla.pdf')
     menssage.send()

@@ -347,7 +347,15 @@ $(document).ready(function(){
                         var actividades = $("#actividades").val();
                         var compro_cum = $("#compro_cum").val();
                         var compro_pen = $("#compro_pen").val();
-                        console.log(actividades)
+                        if(actividades==""){
+                            actividades="Campo vacio";
+                        }
+                        if(compro_cum==""){
+                            compro_cum="Campo vacio"
+                        }
+                        if(compro_pen==""){
+                            compro_pen="Campo vacio"
+                        }
                         var caso = "1"
                         let url = window.location;
                         const postData={

@@ -10,6 +10,7 @@ import base64
 from subprocess import call
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
+from django.template.loader import get_template
 
 import datetime
 
@@ -583,7 +584,12 @@ def generate_reporte(codigo,conv,semi,gru,coord,act_des,act_cum,act_pen,porcen):
     call("xelatex "+d+"/plantilla.tex",shell=1)
     
 def generate_mail(destinatario,mensaje,asunto,file=None):
-    menssage = EmailMultiAlternatives(asunto,mensaje,settings.EMAIL_HOST_USER,[destinatario])
+    context = {"mensaje":mensaje}
+    template = get_template("./conv/email_layout.html")
+    content = template.render(context)
+
+    message = EmailMultiAlternatives(asunto,"",settings.EMAIL_HOST_USER,[destinatario])
+    message.attach_alternative(content, 'text/html')
     if(file != None):
-        menssage.attach_file('plantilla.pdf')
-    menssage.send()
+        message.attach_file('plantilla.pdf')
+    message.send()

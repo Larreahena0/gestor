@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'create.apps.CreateConfig',
     'conv.apps.ConvConfig',
+    'django_inlinecss',
 ]
 
 MIDDLEWARE = [

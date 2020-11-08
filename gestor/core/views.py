@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from .models import Usuario
 from .models import Noticia
-from create.models import coordinadores,Integrante,Participante2,Rol,Semillero
+from create.models import coordinadores,Integrante,Participante2,Rol,Semillero,Atributos
 from conv.models import Proyectos
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login as do_login
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.db.models import Avg, Max, Min
 
 # Create your views here.
 def home(request):
@@ -103,3 +104,115 @@ def semilleros(request):
     semilleros = Semillero.objects.all()
     return render(request, "core/semilleros.html",{'semilleros':semilleros})
 
+def estadisticas(request):
+    semilleros = Semillero.objects.all()
+    if request.method == "POST":
+        caso = request.POST["query"]
+        opcion = request.POST['opcion']
+        #Numero de estudiantes de pregrado UdeA
+        if caso == "0":  
+            #Todos los semilleros
+            if(opcion == "0"):
+                semilleros = Semillero.objects.all()
+                rol = Rol.objects.get(name="Estudiante Udea")
+                for semillero in semilleros:
+                    #Todos los estudiantes que pertenecen al semillero
+                    participantes = Participante2.objects.filter(id_semillero=semillero,rol=rol)
+                    cantidad = 0
+                    #Conteo de Estudiantes de pregrado
+                    for participante in participantes:
+                        informacion = Atributos.objects.get(id_participante=participante)
+                        if(informacion.id_programa.tipo == "Pregrado"):
+                            cantidad+=1
+                    print("Hay un total de "+str(cantidad)+" estudiantes de pregrado UdeA registrados en el semillero "+semillero.name+".") 
+                #Total de estudiantes de pregrado UdeA sin duplicados
+                estudiantes = Atributos.objects.filter(id_programa__tipo="Pregrado").order_by("id_estudiante").values("id_estudiante").distinct()
+                cantidad = str(len(estudiantes))
+                print("Hay un total de "+cantidad+" estudiantes de pregrado UdeA registrados en la aplicación.") 
+            
+            #Listado de Semilleros
+            elif(opcion == "1"):
+                contador = int(request.POST['contador'])
+                for i in range(1,contador+1):
+                    try:   
+                        añadido = request.POST['SemilleroAñadido'+str(i)]
+                        semillero = Semillero.objects.get(id=int(añadido))
+                        rol = Rol.objects.get(name="Estudiante Udea")
+                        #Todos los estudiantes que pertenecen al semillero
+                        participantes = Participante2.objects.filter(id_semillero=semillero,rol=rol)
+                        cantidad = 0
+                        #Conteo de Estudiantes de pregrado
+                        for participante in participantes:
+                            informacion = Atributos.objects.get(id_participante=participante)
+                            if(informacion.id_programa.tipo == "Pregrado"):
+                                cantidad+=1
+                        print("Hay un total de "+str(cantidad)+" estudiantes de pregrado UdeA registrados en el semillero "+semillero.name+".") 
+                    except:    
+                        pass
+        #Numero de estudiantes de Posgrado UdeA                
+        elif caso == "1":
+            #Todos los semilleros
+            if(opcion == "0"):
+                semilleros = Semillero.objects.all()
+                rol = Rol.objects.get(name="Estudiante Udea")
+                for semillero in semilleros:
+                    #Todos los estudiantes que pertenecen al semillero
+                    participantes = Participante2.objects.filter(id_semillero=semillero,rol=rol)
+                    cantidad = 0
+                    #Conteo de Estudiantes de posgrado
+                    for participante in participantes:
+                        informacion = Atributos.objects.get(id_participante=participante)
+                        if(informacion.id_programa.tipo == "Postgrado"):
+                            cantidad+=1
+                    print("Hay un total de "+str(cantidad)+" estudiantes de posgrado UdeA registrados en el semillero "+semillero.name+".") 
+                #Total de estudiantes de posgrado UdeA sin duplicados
+                estudiantes = Atributos.objects.filter(id_programa__tipo="Postgrado").order_by("id_estudiante").values("id_estudiante").distinct()
+                cantidad = str(len(estudiantes))
+                print("Hay un total de "+cantidad+" estudiantes de posgrado UdeA registrados en la aplicación.") 
+            
+            #Listado de Semilleros
+            elif(opcion == "1"):
+                contador = int(request.POST['contador'])
+                for i in range(1,contador+1):
+                    try:   
+                        añadido = request.POST['SemilleroAñadido'+str(i)]
+                        semillero = Semillero.objects.get(id=int(añadido))
+                        rol = Rol.objects.get(name="Estudiante Udea")
+                        #Todos los estudiantes que pertenecen al semillero
+                        participantes = Participante2.objects.filter(id_semillero=semillero,rol=rol)
+                        cantidad = 0
+                        #Conteo de Estudiantes de posgrado
+                        for participante in participantes:
+                            informacion = Atributos.objects.get(id_participante=participante)
+                            if(informacion.id_programa.tipo == "Postgrado"):
+                                cantidad+=1
+                        print("Hay un total de "+str(cantidad)+" estudiantes de posgrado UdeA registrados en el semillero "+semillero.name+".") 
+                    except:    
+                        pass
+        #Numero de integrantes de un semillero    
+        elif caso == "2":
+            #Todos los semilleros
+            if(opcion == "0"):
+                semilleros = Semillero.objects.all()
+                for semillero in semilleros:
+                    #Todos los integrantes que pertenecen al semillero
+                    integrantes = Participante2.objects.filter(id_semillero=semillero)
+                    cantidad = str(len(integrantes))
+                    print("Hay un total de "+cantidad+" integrantes registrados al semillero: "+semillero.name+" en la aplicación.") 
+            
+            #Listado de Semilleros
+            elif(opcion == "1"):
+                contador = int(request.POST['contador'])
+                for i in range(1,contador+1):
+                    try:   
+                        añadido = request.POST['SemilleroAñadido'+str(i)]
+                        semillero = Semillero.objects.get(id=int(añadido))
+                        integrantes = Participante2.objects.filter(id_semillero=semillero)
+                        cantidad = str(len(integrantes))
+                        print("Hay un total de "+cantidad+" integrantes registrados al semillero: "+semillero.name+" en la aplicación.") 
+                    except:    
+                        pass
+
+        #return render(request, "core/estadisticas.html",{'semilleros':semilleros,'mensaje':mensaje})
+        
+    return render(request, "core/estadisticas.html",{'semilleros':semilleros})

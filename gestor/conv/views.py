@@ -357,9 +357,7 @@ def reportar(request,id):
                             reporte=reporte.replace("'","")                            
                         delete_pdf_files("plantilla")
                         os.chdir(retorno)
-                        return HttpResponse(reporte)
-                    
-                    
+                        return HttpResponse(reporte)                    
 
                 return render(request, "conv/reporte.html",{'proyecto':proyecto})
             elif(proyecto.estado == '0'):

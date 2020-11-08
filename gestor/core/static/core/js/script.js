@@ -46,7 +46,7 @@ function delete1(id) {
 };
 
 $(document).ready(function(){
-
+    var count = 1;
     $('.add').hide();
     $('.see').show();
     //$('#coordinador').val("");
@@ -233,6 +233,90 @@ $(document).ready(function(){
                     }
                 });
             });    
+        }
+    });
+
+    if($('#opcion').val()=="0"){
+        $(".listado").hide();
+    }
+    else{
+        $(".listado").show();
+    };
+
+    $('#opcion').change(function(){
+        if($('#opcion').val()=="0"){
+            $(".listado").hide();
+        }
+        else{
+            $(".listado").show();
+        };
+    });
+
+    $('#addSemillero').click(function(e){
+        e.preventDefault();
+        var flag=false;
+        $('#tabla .SemilleroRow input').each(function(){
+            if($(this).val().indexOf($('#ListaSemillero').val()) === -1){
+
+            } else {
+				flag = true;
+			}
+		});
+        if(!flag){
+            var formulario = $('#tabla');
+            formulario.append('<tr class="SemilleroRow" id="tr_'+ count.toString() +'"></tr>')
+            var fila = $('#tr_'+count.toString());
+            fila.append('<td>'+$('#ListaSemillero option:selected').html()+'<input name="SemilleroAñadido'+count.toString()+'" type="hidden" value="'+$('#ListaSemillero option:selected').val()+'"></td>');
+            $('#contador').val(count);
+            count += 1;
+        }
+        else{
+            $.confirm({
+                boxWidth: '400px',
+                useBootstrap: false,
+                closeIcon: true,
+                title: 'Semillero Añadido',
+                content: 'No es posible añadir el mismo semillero dos veces.',
+                typeAnimated: true,
+                buttons: {
+					ok: {
+						btnClass: 'btn-warning',
+                    }
+                }
+            });
+        }
+    });
+
+
+    $('#consulta').click(function(e){
+        e.preventDefault();
+        var opcion = $('#opcion').val();
+        var contador = 0;
+        if( opcion == "1"){
+            $('#tabla .SemilleroRow').each(function(){
+                contador=contador+1;
+            });
+            if(contador == 0){
+                $.alert({
+                    boxWidth: '400px',
+                    useBootstrap: false,
+                    closeIcon: true,
+                    title: 'Error',
+                    content: 'Debe listar por lo menos un semillero.',
+                    typeAnimated: true,
+                    buttons: {
+                        ok: {
+                            btnClass: 'btn-warning',
+                        }
+                    }
+                });
+            }
+            else{
+                $('form').submit();
+            }
+        }
+        else{
+            $('form').submit();
         }
     });
 

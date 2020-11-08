@@ -3,14 +3,43 @@
 }
 
 header {
-    background: #3b6333;
+    background: #01602D;
     width: 1050px;
     height: 194px;
     margin: 0 auto;
 }
 
+.header-img{
+    width: 290px;
+    float: left;
+    border-right-width: 2px;
+    border-right-style: solid;
+    border-color: white;
+    padding-right: 48px;
+}
+
+.header-content{
+    width: 510px;
+    float: left;
+}
+
+.header-content p{
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
+    font-weight: bold;
+    text-align:center;
+}
+
+.header {
+    width: 850px;
+    height: 110px;
+    margin: 0px auto;
+    padding: 42px 0px
+}
+
 header img {
-	width: 632px;
+	width: 100%;
 	display: block;
 	margin: 0 auto;
 }
@@ -20,7 +49,7 @@ header img {
 }
 
 nav {
-    background: #274712;
+    background: #348F41;
     width: 1050px;
     height: 37px;
     margin: 0 auto;
@@ -42,7 +71,7 @@ nav ul li a {
     font-size: 15px;
     padding: 9.5px;
     color: #fff;
-    background: #274712;
+    background: #348F41;
 }
 
 /* nav ul li a {
@@ -72,13 +101,13 @@ nav ul li a:hover {
 
 aside {
     float: left;
-    background-color: #274712;
+    background-color: #01602D;
     margin: 30px 0 0 30px;
     width: 180px;
 }
 
 aside div {
-    background: #274712;
+    background: #01602D;
     float: left;
 }
 
@@ -97,7 +126,7 @@ aside a {
     font-weight: bold;
     font-size: 13px;
     color: #fff;
-    background: #4a6439;
+    background: #348F41;
     padding: 10px;
     text-align: center;
     margin: 0 auto;
@@ -111,7 +140,7 @@ h1 {
 }
 
 input[type=submit] {
-    background-color: #396534; /* Green */
+    background-color: #348F41; /* Green */
     border: none;
     color: white;
     padding: 5px 20px;
@@ -124,7 +153,7 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-    background-color: #274712;
+    background-color: #01602D;
     cursor: pointer;
 }
 
@@ -184,57 +213,57 @@ div .config2 {
 
 div #see {
     padding: 4px 10px;
-    background: #2b49c0;
+    background: #007473;
 }
 
 div #see:hover {
-    background: #183194;
+    background: #007297;
 }
 
 div #editar, div #add {
     padding: 4px 10px;
-    background: #396534;
+    background: #348F41;
 }
 
 div #editar:hover, div #add:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 div #asignar {
     padding: 4px 10px;
-    background: #ff8000;
+    background: #FFA400;
 }
 
 div #asignar:hover {
-    background: #b65c02;
+    background: rgb(194, 126, 0);
 }
 
 div #delete {
     padding: 4px 12px;
-    background: #b41818;
+    background: #F5333F;
 }
 
 div #del {
     padding: 4px 12px;
-    background: #b41818;
+    background: #F5333F;
 }
 
 div #del:hover {
-    background: #8f1010;
+    background: rgb(192, 41, 51);
 }
 
 div #delete:hover {
-    background: #8f1010;
+    background: rgb(192, 41, 51);
 }
 
 div #back {
     font-size: 11pt;
     padding: 4px 12px;
-    background: #b41818;
+    background: #F5333F;
 }
 
 div #back:hover {
-    background: #8f1010;
+    background: rgb(192, 41, 51);
 }
 
 /* table * {
@@ -271,7 +300,7 @@ form textarea {
     padding: 15px;
     margin: 0 auto;
     border-radius: 0.2rem;
-    background-color: #d82a2a;
+    background-color: #F5333F;
 }
 
 .message p {
@@ -328,6 +357,6 @@ form textarea {
 
 #edit_sem{
     background-color: white;
-    color: #274712;
+    color: #01602D;
     padding: 5px;
 }

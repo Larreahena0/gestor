@@ -1,6 +1,6 @@
 #participar {
     color: white;
-    background: #274712;
+    background: #348F41;
 }
 
 #participar:hover {
@@ -14,28 +14,28 @@
 }
 div #see4 {
     padding: 4px 10px;
-    background: #2b49c0;
+    background: #007473;
 }
 
 div #see4:hover {
-    background: #183194;
+    background: #007297;
 }
 
 div #edit, div #edit1,div #edit11 {
     padding: 4px 10px;
-    background: #396534;
+    background: #348F41;
 }
 
 div #edit:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 div #edit1:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 div #edit11:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 #boton {

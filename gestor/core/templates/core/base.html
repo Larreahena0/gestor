@@ -19,7 +19,14 @@
 
 <body>
         <header>
-            <img src="{% static 'core/img/header.png' %}" alt="">
+            <div class="header">
+                <div class="header-img">
+                    <img src="{% static 'core/img/facultad-ingenieria.png' %}" alt="">
+                </div>
+                <div class="header-content">
+                    <p>Sistema de Gestión de Semilleros</p>
+                </div>
+            </div>    
         </header>
         <nav>
             <ul>
@@ -27,6 +34,7 @@
                     <li><a href="{% url 'proyectos' %}" id="proyectos">Proyectos</a></li>
                     {% if request.user|is_admin %}
                     <li><a href="{% url 'create' %}" id="semillero">Semilleros</a></li>
+                    <li><a href="{% url 'estadisticas' %}" id="estadisticas">Estadisticas</a></li>
                     {% elif request.user|is_coord %}
                     <li><a href="{% url 'register' %}" id="integrante">Integrantes</a></li>    
                     <li><a href="{% url 'workline' %}" id="linea">Añadir línea</a></li>

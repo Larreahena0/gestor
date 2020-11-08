@@ -14,7 +14,7 @@ label {
 }
 
 button {
-    background-color: #396534; /* Green */
+    background-color: #348F41; /* Green */
     border: none;
     color: white;
     padding: 1px 15px;
@@ -25,12 +25,12 @@ button {
 }
 
 button:hover {
-    background-color: #274712;
+    background-color:#01602D;
     cursor: pointer;
 }
 
 input[type=submit] {
-    background-color: #396534; /* Green */
+    background-color: #348F41; /* Green */
     border: none;
     color: white;
     padding: 5px 20px;
@@ -41,7 +41,7 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-    background-color: #274712;
+    background-color: #01602D;
     cursor: pointer;
 }
 
@@ -66,7 +66,7 @@ table, tr, th, td {
 table a {
     text-decoration: none;
     font-weight: bold;
-    color: #274712;
+    color: #01602D;
 }
 
 
@@ -87,6 +87,6 @@ div table input {
 }
 
 #image1{
-    color: #274712;
+    color: #01602D;
     text-decoration: none;
 }

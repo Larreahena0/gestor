@@ -12,11 +12,11 @@
     text-align: center;
     font-size: 10pt;
     padding: 4px 15px;
-    background: #396534;
+    background: #348F41;
 }
 
 #bparticipar:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 #dparticipar {
@@ -31,7 +31,7 @@
 
 .container .document p{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #274712;
+    color: #348F41;
     font-weight: 700;
     font-size: 15px;
     font-style: oblique;
@@ -39,7 +39,7 @@
 
 .container p, .row p{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #274712;
+    color: #348F41;
     font-weight: 700;
     font-size: 20px;
     font-style: oblique
@@ -68,17 +68,17 @@ table, tr, th, td {
 div a {
     text-decoration: none;
     font-weight: bold;
-    color: blue;
+    color: #007297;
 }
 
 #a1{
     text-decoration: none;
     font-weight: bold;
-    color: #274712;
+    color: #01602D;
 }
 
 input[type=button] {
-    background-color: #396534; /* Green */
+    background-color: #348F41; /* Green */
     border: none;
     color: white;
     padding: 5px 20px;
@@ -89,12 +89,12 @@ input[type=button] {
 }
 
 input[type=button]:hover {
-    background-color: #274712;
+    background-color: #01602D;
     cursor: pointer;
 }
 
 input[type=submit] {
-    background-color: #396534; /* Green */
+    background-color: #348F41; /* Green */
     border: none;
     color: white;
     padding: 5px 20px;
@@ -105,7 +105,7 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-    background-color: #274712;
+    background-color: #01602D;
     cursor: pointer;
 }
 
@@ -114,38 +114,42 @@ input[type=file] {
 }
 div #see1, div #see4 {
     padding: 4px 10px;
-    background: #2b49c0;
+    background: #007473;
 }
 
 div #see1,div #see4:hover {
-    background: #183194;
+    background: #007297;
 }
 div #send {
     padding: 4px 10px;
-    background: #396534;
+    background: #348F41;
 }
 
 div #send:hover {
-    background: #274712;
+    background: #01602D;
 }
 div #edit,div #edit1,div #mail {
     padding: 4px 10px;
-    background: #396534;
+    background: #348F41;
 }
 
 div #edit:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 div #edit1:hover {
-    background: #274712;
+    background: #01602D;
 }
 
 #tabla button,table #boton{
-    background-color: #396534;
+    background-color: #348F41;
     padding: 8px;
     color: #fff;
     border: none;
+}
+
+table #boton:hover{
+    background: #01602D;
 }
 
 #tabla{
@@ -163,7 +167,7 @@ div #edit1:hover {
 }
 
 #new{
-    color:red;
+    color:#F5333F;
 }
 
 #new svg,#pen_r svg,#pen_c svg,#ready svg{
@@ -172,15 +176,15 @@ div #edit1:hover {
 }
 
 #pen_r{
-    color:#ff8000;
+    color:#FFA400;
 }
 
 #pen_c{
-    color:blue;
+    color:#007297;
 }
 
 #ready{
-    color:green;
+    color:#348F41;
 }
 #br{
     margin-bottom: 10px
@@ -201,6 +205,6 @@ div #edit1:hover {
 }
 
 div #mail:hover {
-    background: #274712;
+    background: #01602D;
     cursor: pointer;
 }

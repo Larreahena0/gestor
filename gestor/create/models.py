@@ -167,3 +167,43 @@ class coordinadores(models.Model):
 
 	def __str__(self):
 		return self.user.username
+
+class categoriaPrincipal(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	nombre = models.TextField(max_length=400, verbose_name="Nombre", null=True)
+
+	class Meta():
+		verbose_name = "Categoria Principal"
+		verbose_name_plural = "Categorias Principales de produccion cientifica"
+		ordering = ["id"]
+
+	def __str__(self):
+		return self.nombre
+
+class categoriaAdyacente(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	nombre = models.TextField(max_length=400, verbose_name="Nombre", null=True)
+	categoria = models.ForeignKey(categoriaPrincipal, verbose_name="Categoria Principal", null=True, blank=True, on_delete=models.CASCADE)
+
+	class Meta():
+		verbose_name = "Categoria Adyacente"
+		verbose_name_plural = "Categorias Adyacentes de produccion cientifica"
+		ordering = ["id"]
+
+	def __str__(self):
+		return self.nombre
+
+class produccion(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	categoria = models.ForeignKey(categoriaAdyacente, verbose_name="Categoria adyacente", on_delete=models.CASCADE)
+	archivo = models.FileField(verbose_name="Archivo adjunto")
+	semillero = models.ForeignKey(Semillero, verbose_name="Semillero", on_delete=models.CASCADE)
+	proyecto = models.ForeignKey('conv.Proyectos', verbose_name="Proyecto Asociado",null=True , on_delete=models.CASCADE)
+
+	class Meta():
+		verbose_name = "Produccion Cientifica"
+		verbose_name_plural = "Producciones Cientificas"
+		ordering = ["id"]
+
+	def __str__(self):
+		return str(self.id)

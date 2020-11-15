@@ -36,6 +36,9 @@ $(document).ready(function(){
 	$('#campos').hide();
 	$('#nuevo').hide();
 	$('#documento').hide();
+	$('.generacion').hide();
+	$('.produccion').hide();
+	$('.producto').hide();
 	
 	//Funcion util para editar los campos de un usuario
 	if($('#tipo').val() == 1){
@@ -54,6 +57,44 @@ $(document).ready(function(){
 			$(this).show();
 		});
 	}
+
+	//Si estaba Seleccionado Generacion se muestra y se oculta el resto
+	if($('#principal').val() == 1){
+		$('.generacion').each(function(){
+			$(this).show();
+		});
+		$('.produccion').each(function(){
+			$(this).hide();
+		});
+		$('.producto').each(function(){
+			$(this).hide();
+		});
+	}
+	//Si estaba Seleccionado Produccion se muestra y se oculta el resto
+	else if($('#principal').val() == 2){
+		$('.generacion').each(function(){
+			$(this).hide();
+		});
+		$('.produccion').each(function(){
+			$(this).show();
+		});
+		$('.producto').each(function(){
+			$(this).hide();
+		});
+	}
+	//Si estaba Seleccionado Producto se muestra y se oculta el resto
+	else if($('#principal').val() == 3){
+		$('.generacion').each(function(){
+			$(this).hide();
+		});
+		$('.produccion').each(function(){
+			$(this).hide();
+		});
+		$('.producto').each(function(){
+			$(this).show();
+		});
+	};
+
 
 	$('#editar').click(function(){
 		$('#ver').hide();
@@ -251,6 +292,42 @@ $(document).ready(function(){
 			});
 		}
 	});
+
+	$('#principal').change(function(){
+		if($('#principal').val() == 1){
+			$('.generacion').each(function(){
+				$(this).show();
+			});
+			$('.produccion').each(function(){
+				$(this).hide();
+			});
+			$('.producto').each(function(){
+				$(this).hide();
+			});
+		}
+		else if($('#principal').val() == 2){
+			$('.generacion').each(function(){
+				$(this).hide();
+			});
+			$('.produccion').each(function(){
+				$(this).show();
+			});
+			$('.producto').each(function(){
+				$(this).hide();
+			});
+		}
+		else if($('#principal').val() == 3){
+			$('.generacion').each(function(){
+				$(this).hide();
+			});
+			$('.produccion').each(function(){
+				$(this).hide();
+			});
+			$('.producto').each(function(){
+				$(this).show();
+			});
+		};
+	});	
 	$('#lañadir').click(function(){
 
 		var flag = false;

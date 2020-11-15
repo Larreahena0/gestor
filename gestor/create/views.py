@@ -3,7 +3,7 @@ from .models import Semillero
 from .models import Linea
 from .models import LineaSemillero
 from .models import Integrante
-from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra
+from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra,categoriaAdyacente,categoriaPrincipal,produccion
 from core.models import Grupo
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -576,11 +576,6 @@ def integrante_edit(request, id):
             else:    
                 return render(request, "create/integrante_edit.html",{'pregrados': pregrados, 'postgrados': postgrados,"lineas":lineas,'integrante': integrante, 'participante': participante,'roles':roles})
 
-
-def produccion(request):
-    
-    return render(request, "create/produccion.html")
-
 def editar(request):
     if request.user.is_authenticated:
         if request.user.groups.filter(name="Coordinador").exists():
@@ -615,3 +610,16 @@ def editar(request):
         return redirect("/")
 
     return render(request, "create/edit.html",{'semillero':semillero})
+
+
+def produccion(request):
+    
+    principales = categoriaPrincipal.objects.all()
+    generacionConocimiento = categoriaPrincipal.objects.get(nombre='Generación de nuevo conocimiento')
+    produccionTecnica = categoriaPrincipal.objects.get(nombre='Producción técnica y tecnológica')
+    productoDivulgacion = categoriaPrincipal.objects.get(nombre='Productos de divulgación')
+    adyacenteGeneracion = categoriaAdyacente.objects.filter(categoria=generacionConocimiento)
+    adyacenteProduccion = categoriaAdyacente.objects.filter(categoria=produccionTecnica)
+    adyacenteProducto = categoriaAdyacente.objects.filter(categoria=productoDivulgacion)
+
+    return render(request, "create/produccion.html",{'principales':principales,'Generaciones':adyacenteGeneracion,'Producciones':adyacenteProduccion,'Productos':adyacenteProducto})

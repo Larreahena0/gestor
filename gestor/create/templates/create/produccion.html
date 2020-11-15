@@ -1,9 +1,46 @@
 {% extends 'core/base.html' %}
 
 {% block cuerpo %}
-
-    <form action="">
-        
+    <br>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="">Escoja una categoria de la produccion cientifica a registrar</label>
+        <select name="principal" id="principal">
+            {% for principal in principales %}
+                <option value="{{principal.id}}">{{principal.nombre}}</option>
+            {% endfor %}
+        </select>
+        <div class="generacion">
+            <label>Escoja un tipo de generación de nuevo conocimiento</label>
+            <select name="adya_generacion" id="adya_generacion">
+                {% for generacion in Generaciones %}
+                    <option value="{{generacion.id}}">{{generacion.nombre}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="produccion">
+            <label>Escoja un tipo de produccion técnica y tecnológica</label>
+            <select name="adya_produccion" id="adya_produccion">
+                {% for produccion in Producciones %}
+                    <option value="{{produccion.id}}">{{produccion.nombre}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="producto">
+            <label>Escoja un tipo de producto de divulgación</label>
+            <select name="adya_producto" id="adya_producto">
+                {% for producto in Productos %}
+                    <option value="{{producto.id}}">{{producto.nombre}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Inserte el archivo de produccion cientifica</label>
+            <input type="file" name="" id="">
+            <input type="submit" value="Ingresar Produccion">
+        </div>
     </form>
-
+    <br>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'create/css/produccion.css' %}">
+    <script type="text/javascript" src="{% static 'create/js/script.js' %}"></script>
 {% endblock %}

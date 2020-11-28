@@ -3,7 +3,8 @@ from .models import Semillero
 from .models import Linea
 from .models import LineaSemillero
 from .models import Integrante
-from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra,categoriaAdyacente,categoriaPrincipal,produccion
+from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra,categoriaAdyacente,categoriaPrincipal
+from .models import produccion as Produccion
 from core.models import Grupo
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -614,12 +615,36 @@ def editar(request):
 
 def produccion(request):
     
-    principales = categoriaPrincipal.objects.all()
-    generacionConocimiento = categoriaPrincipal.objects.get(nombre='Generación de nuevo conocimiento')
-    produccionTecnica = categoriaPrincipal.objects.get(nombre='Producción técnica y tecnológica')
-    productoDivulgacion = categoriaPrincipal.objects.get(nombre='Productos de divulgación')
-    adyacenteGeneracion = categoriaAdyacente.objects.filter(categoria=generacionConocimiento)
-    adyacenteProduccion = categoriaAdyacente.objects.filter(categoria=produccionTecnica)
-    adyacenteProducto = categoriaAdyacente.objects.filter(categoria=productoDivulgacion)
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name="Coordinador").exists():
+            if(request.method == "POST"):
+                idcategoria = request.POST['principal']
+                archivo = request.FILES['archivo']
+                categoria = categoriaPrincipal.objects.get(id=idcategoria)
+                if(categoria.nombre == 'Generación de nuevo conocimiento'):
+                    idtipo = request.POST['adya_generacion']
+                elif(categoria.nombre == 'Producción técnica y tecnológica'):
+                    idtipo = request.POST['adya_porduccion']
+                elif(categoria.nombre == 'Productos de divulgación'):
+                    idtipo = request.POST['adya_producto']
+
+                tipo = categoriaAdyacente.objects.get(id=int(idtipo))
+                id_semillero = coordinadores.objects.get(user=request.user).id_semillero
+                semillero = Semillero.objects.get(id=int(id_semillero))
+                insert = Produccion(categoria=tipo,archivo=archivo,semillero=semillero)
+                insert.save()
+                
+            principales = categoriaPrincipal.objects.all()
+            generacionConocimiento = categoriaPrincipal.objects.get(nombre='Generación de nuevo conocimiento')
+            produccionTecnica = categoriaPrincipal.objects.get(nombre='Producción técnica y tecnológica')
+            productoDivulgacion = categoriaPrincipal.objects.get(nombre='Productos de divulgación')
+            adyacenteGeneracion = categoriaAdyacente.objects.filter(categoria=generacionConocimiento)
+            adyacenteProduccion = categoriaAdyacente.objects.filter(categoria=produccionTecnica)
+            adyacenteProducto = categoriaAdyacente.objects.filter(categoria=productoDivulgacion)
+        else:
+            return redirect("create")
+    else:
+        return redirect("/")
+
 
     return render(request, "create/produccion.html",{'principales':principales,'Generaciones':adyacenteGeneracion,'Producciones':adyacenteProduccion,'Productos':adyacenteProducto})

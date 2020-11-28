@@ -379,6 +379,60 @@ $(document).ready(function(){
 		$('form').submit();
 	});
 
+	$('#prod_submit').click(function(e){
+		e.preventDefault();
+		
+		$.confirm({
+			boxWidth: '400px',
+			useBootstrap: false,
+			closeIcon: true,
+			title: '¿Está seguro?',
+			content: 'Esta seguro de registrar la produccion cientifica ingresada.',
+			typeAnimated: true,
+			buttons: {
+				somethingElse: {
+					text: 'Seguro',
+					btnClass: 'btn-warning',
+					action: function(){
+						if($('#archivo').val()==""){
+							$.alert({
+								boxWidth: '400px',
+								useBootstrap: false,
+								closeIcon: true,
+								title: 'Error',
+								content: 'Debe adjuntar un archivo que justifique la produccion cientifica que se va a registrar en la aplicación.',
+								typeAnimated: true,
+								buttons: {
+									ok: {
+										btnClass: 'btn-warning',
+									}
+								}
+							});
+						}
+						else{
+							$('form').submit();
+							$.alert({
+								boxWidth: '400px',
+								useBootstrap: false,
+								closeIcon: true,
+								title: 'Exito',
+								content: 'Se registro correctamente la produccion cientifica ingresada.',
+								typeAnimated: true,
+								buttons: {
+									ok: {
+										btnClass: 'btn-warning',
+									}
+								}
+							});
+						}	
+					}
+				},
+				cancelar: function () {
+				}
+			}
+		});	
+	});
+
 	$('#textSearch').keyup(function(e){
 		e.preventDefault();
 		texto = $(this).val().toLowerCase();

@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Usuario
 from .models import Noticia
-from create.models import coordinadores,Integrante,Participante2,Rol,Semillero,Atributos
+from create.models import coordinadores,Integrante,Participante2,Rol,Semillero,Atributos,categoriaAdyacente,categoriaPrincipal,produccion
 from conv.models import Proyectos
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login as do_login
@@ -212,6 +212,69 @@ def estadisticas(request):
                         print("Hay un total de "+cantidad+" integrantes registrados al semillero: "+semillero.name+" en la aplicación.") 
                     except:    
                         pass
+
+        #Numero de articulos de investigacion publicados
+        elif caso == "3":
+            categoriaArticulo = categoriaAdyacente.objects.get(nombre="Artículos de Investigación publicados en revista indexada, ISI o Scopus")
+            #Todos los semilleros
+            if(opcion == "0"):
+                semilleros = Semillero.objects.all()
+                for semillero in semilleros:                
+                    producciones = produccion.objects.filter(categoria=categoriaArticulo,semillero=semillero)
+                    cantidad=len(producciones)
+                    print("Hay un total de "+cantidad+" articulos de investigacion publicados por el semillero: "+semillero.name+" en la aplicación.")
+        
+            #Listado de Semilleros
+            elif(opcion == "1"):
+                contador = int(request.POST['contador'])
+                for i in range(1,contador+1):
+                    añadido = request.POST['SemilleroAñadido'+str(i)]
+                    semillero = Semillero.objects.get(id=int(añadido))
+                    producciones = produccion.objects.filter(categoria=categoriaArticulo,semillero=semillero)
+                    cantidad=len(producciones)
+                    print("Hay un total de "+cantidad+" articulos de investigacion publicados por el semillero: "+semillero.name+" en la aplicación.")
+
+        #Numero de capitulos de libros publicados
+        elif caso == "4":
+            categoriaCapitulo = categoriaAdyacente.objects.get(nombre="Capítulos de libro")
+            #Todos los semilleros
+            if(opcion == "0"):
+                semilleros = Semillero.objects.all()
+                for semillero in semilleros:
+                    producciones = produccion.objects.filter(categoria=categoriaCapitulo,semillero=semillero)
+                    cantidad=len(producciones)
+                    print("Hay un total de "+ str(cantidad) +" capítulos de libros publicados por el semillero: "+semillero.name+" en la aplicación.")
+        
+            #Listado de Semilleros
+            elif(opcion == "1"):
+                contador = int(request.POST['contador'])
+                for i in range(1,contador+1):
+                    añadido = request.POST['SemilleroAñadido'+str(i)]
+                    semillero = Semillero.objects.get(id=int(añadido))
+                    producciones = produccion.objects.filter(categoria=categoriaCapitulo,semillero=semillero)
+                    cantidad=len(producciones)
+                    print("Hay un total de "+str(cantidad)+" capítulos de libros publicados por el semillero: "+semillero.name+" en la aplicación.")
+        
+        #Numero de libros de investigación publicados
+        elif caso == "5":
+            categoriaLibro = categoriaAdyacente.objects.get(nombre="Libros")
+            #Todos los semilleros
+            if(opcion == "0"):
+                semilleros = Semillero.objects.all()
+                for semillero in semilleros:
+                    producciones = produccion.objects.filter(categoria=categoriaLibro,semillero=semillero)
+                    cantidad=len(producciones)
+                    print("Hay un total de "+str(cantidad)+" capítulos de libros publicados por el semillero: "+semillero.name+" en la aplicación.")
+        
+            #Listado de Semilleros
+            elif(opcion == "1"):
+                contador = int(request.POST['contador'])
+                for i in range(1,contador+1):
+                    añadido = request.POST['SemilleroAñadido'+str(i)]
+                    semillero = Semillero.objects.get(id=int(añadido))
+                    producciones = produccion.objects.filter(categoria=categoriaLibro,semillero=semillero)
+                    cantidad=len(producciones)
+                    print("Hay un total de "+str(cantidad)+" capítulos de libros publicados por el semillero: "+semillero.name+" en la aplicación.") 
 
         #return render(request, "core/estadisticas.html",{'semilleros':semilleros,'mensaje':mensaje})
         

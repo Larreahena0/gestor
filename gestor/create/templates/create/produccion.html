@@ -3,6 +3,7 @@
 {% block cuerpo %}
     <br>
     <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
         <label for="">Escoja una categoria de la produccion cientifica a registrar</label>
         <select name="principal" id="principal">
             {% for principal in principales %}
@@ -35,8 +36,8 @@
         </div>
         <div>
             <label>Inserte el archivo de produccion cientifica</label>
-            <input type="file" name="" id="">
-            <input type="submit" value="Ingresar Produccion">
+            <input type="file" name="archivo" id="archivo">
+            <input id="prod_submit" type="submit" value="Ingresar Produccion">
         </div>
     </form>
     <br>

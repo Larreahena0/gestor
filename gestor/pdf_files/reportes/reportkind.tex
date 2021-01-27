@@ -1,15 +1,39 @@
 %----------------
 %Tipo de solicitud
 %-----------------
-\DIVIDE{0.43}{100}{\barlength}
+%Ajustar porcentaje de colores de acuerdo al porc. de avance
+\DIVIDE{\advances}{100}{\pcolor}
+
+\SUBTRACT{1}{\pcolor}{\R}
+\MULTIPLY{255}{\R}{\R}
+\INTEGERPART{\R}{\R} 
+
+\MULTIPLY{255}{\pcolor}{\G}
+\INTEGERPART{\G}{\G}
+
+\MULTIPLY{360}{\pcolor}{\B}
+\DEGREESSIN{\B}{\B}
+\ABSVALUE{\B}{\B}
+\MULTIPLY{255}{\B}{\B}
+\INTEGERPART{\B}{\B}
+
+\DIVIDE{0.53}{100}{\barlength}
 \MULTIPLY{\advances}{\barlength}{\solution}
+
+\definecolor{mycolorBar}{RGB}{\R, \G, 0}
+\newcommand\wcolorBar{mycolorBar}
+
+\newcommand\tope{100}
+\ifthenelse{\advances < \tope}{\newcommand\reportkinds{de Avance }}{\newcommand\reportkinds{Final }}
+%Ojo con el espacio al final, se debe agregar par que no quede pegada la siguiento palabra
 
 \newcommand{\mypageO}{
 %Final
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Tipo de solicitud}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Tipo de solicitud}}
 		\end{minipage}
 		\vspace{0.1cm}\\
 		\begin{minipage}[t]{\textwidth}%
@@ -21,24 +45,26 @@
 
 \newcommand{\mypageT}[3]{%<<<<
 %de Avance
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
-		\begin{minipage}[t]{0.55\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Tipo de Solicitud}}
+		\begin{minipage}[t]{0.45\textwidth}%
+			\cellcolor{\wcolorC}\textsc{\textbf{Tipo de Solicitud}}
 		\end{minipage}
 	\end{tabular}	
 	\begin{tabular}{l}
-		\begin{minipage}[t]{0.43\textwidth}%
+		\begin{minipage}[t]{0.53\textwidth}%
 			\centering
-			\cellcolor{blue!10}\textsc{\textbf{Porcentaje de avance técnico del proyecto}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Porcentaje de avance técnico del proyecto}}
 		\end{minipage}
 	\end{tabular}	
-\end{minipage}	
-	
+\end{minipage}
+
+\noindent	
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
-		\begin{minipage}[t]{0.55\textwidth}%
-			\cellcolor{white!10}\textbf{Informe \reportkinds}
+		\begin{minipage}[t]{0.45\textwidth}%
+			\textbf{Informe \reportkinds}
 		\end{minipage}
 	\end{tabular}	
 	\begin{tabular}{c}

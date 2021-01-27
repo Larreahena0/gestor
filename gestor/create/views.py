@@ -3,7 +3,7 @@ from .models import Semillero
 from .models import Linea
 from .models import LineaSemillero
 from .models import Integrante
-from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra,categoriaAdyacente,categoriaPrincipal
+from .models import Career,Rol,Atributos,coordinadores,Participante2,Atributos_otra,categoriaAdyacente,categoriaPrincipal,Mes
 from .models import produccion as Produccion
 from core.models import Grupo
 from django.contrib.auth.models import User
@@ -624,14 +624,20 @@ def produccion(request):
                 if(categoria.nombre == 'Generación de nuevo conocimiento'):
                     idtipo = request.POST['adya_generacion']
                 elif(categoria.nombre == 'Producción técnica y tecnológica'):
-                    idtipo = request.POST['adya_porduccion']
+                    idtipo = request.POST['adya_produccion']
                 elif(categoria.nombre == 'Productos de divulgación'):
                     idtipo = request.POST['adya_producto']
 
                 tipo = categoriaAdyacente.objects.get(id=int(idtipo))
                 id_semillero = coordinadores.objects.get(user=request.user).id_semillero
                 semillero = Semillero.objects.get(id=int(id_semillero))
-                insert = Produccion(categoria=tipo,archivo=archivo,semillero=semillero)
+                id_mes = request.POST['mes']
+                mes = Mes.objects.get(id=id_mes)
+                if(request.POST['año'] != ""):
+                    año = request.POST['año']
+                    insert = Produccion(categoria=tipo,archivo=archivo,semillero=semillero,mes=mes,año=año)
+                else:
+                    insert = Produccion(categoria=tipo,archivo=archivo,semillero=semillero,mes=mes)
                 insert.save()
                 
             principales = categoriaPrincipal.objects.all()
@@ -641,10 +647,14 @@ def produccion(request):
             adyacenteGeneracion = categoriaAdyacente.objects.filter(categoria=generacionConocimiento)
             adyacenteProduccion = categoriaAdyacente.objects.filter(categoria=produccionTecnica)
             adyacenteProducto = categoriaAdyacente.objects.filter(categoria=productoDivulgacion)
+            meses = Mes.objects.all()
+            coordinador = coordinadores.objects.get(user=request.user)
+            semillero = Semillero.objects.get(id=int(coordinador.id_semillero))
+            producciones = Produccion.objects.filter(semillero=semillero)
         else:
             return redirect("create")
     else:
         return redirect("/")
 
 
-    return render(request, "create/produccion.html",{'principales':principales,'Generaciones':adyacenteGeneracion,'Producciones':adyacenteProduccion,'Productos':adyacenteProducto})
+    return render(request, "create/produccion.html",{'producciones':producciones,'semillero':semillero,'principales':principales,'Generaciones':adyacenteGeneracion,'Producciones':adyacenteProduccion,'Productos':adyacenteProducto,'Meses':meses})

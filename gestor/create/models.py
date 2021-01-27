@@ -193,12 +193,26 @@ class categoriaAdyacente(models.Model):
 	def __str__(self):
 		return self.nombre
 
+class Mes(models.Model):
+	id = models.AutoField(primary_key=True, verbose_name="Id")
+	descripcion = models.TextField(max_length=400, verbose_name="Descripción", null=True)
+
+	class Meta():
+		verbose_name = "Mes"
+		verbose_name_plural = "Meses"
+		ordering = ["id"]
+
+	def __str__(self):
+		return str(self.descripcion)
+
 class produccion(models.Model):
 	id = models.AutoField(primary_key=True, verbose_name="Id")
 	categoria = models.ForeignKey(categoriaAdyacente, verbose_name="Categoria adyacente", on_delete=models.CASCADE)
 	archivo = models.FileField(verbose_name="Archivo adjunto")
 	semillero = models.ForeignKey(Semillero, verbose_name="Semillero", on_delete=models.CASCADE)
 	proyecto = models.ForeignKey('conv.Proyectos', verbose_name="Proyecto Asociado",null=True , on_delete=models.CASCADE)
+	mes = models.ForeignKey(Mes, verbose_name="Mes de publicación",null=True , on_delete=models.CASCADE)
+	año = models.CharField(max_length=100, null=True,verbose_name="Año de publicación")
 
 	class Meta():
 		verbose_name = "Produccion Cientifica"

@@ -34,7 +34,7 @@
                     <li><a href="{% url 'proyectos' %}" id="proyectos">Proyectos</a></li>
                     {% if request.user|is_admin %}
                     <li><a href="{% url 'create' %}" id="semillero">Semilleros</a></li>
-                    <li><a href="{% url 'estadisticas' %}" id="estadisticas">Estadisticas</a></li>
+                    <li><a href="{% url 'estadisticas' %}" id="estadisticas">Reportes</a></li>
                     {% elif request.user|is_coord %}
                     <li><a href="{% url 'register' %}" id="integrante">Integrantes</a></li>    
                     <li><a href="{% url 'workline' %}" id="linea">Añadir línea</a></li>

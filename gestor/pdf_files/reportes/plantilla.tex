@@ -7,24 +7,26 @@
 % Configuración del documento
 %-------------------------------------------------------------------------------
 \documentclass[12pt]{report}
-\usepackage[letterpaper,margin=0.5in]{geometry}
-%-------------------------------------------------------------------------------
+\usepackage[letterpaper, margin = 0.5in]{geometry}
+%----------------
 % Paquetes
-%-------------------------------------------------------------------------------
+%----------------
 \input{packages}
+\usepackage{fontspec}
+
+\newfontfamily\myfont[Scale=.9]{Roboto Slab}
+\newfontfamily\myfontT[Scale=.9]{Roboto}
+
+\definecolor{mycolor}{RGB}{0,116,115}
+\newcommand\wcolor{mycolor}
+\definecolor{mycolorC}{RGB}{59,191,173}
+\newcommand\wcolorC{mycolorC}
 
 %-------------------------------------------------------------------------------
 % Variables
 %-------------------------------------------------------------------------------
 \input{vars}
-\newcommand\tope{100}
-\ifthenelse{\advances < \tope}{\newcommand\reportkinds{de Avance }}{\newcommand\reportkinds{Final }}
-\ifthenelse{\advances < 16}{\newcommand\wcolor{red!90}}{\ifthenelse{\advances < 31}{\newcommand\wcolor{red!50}}{\ifthenelse{\advances < 46}{\newcommand\wcolor{orange!90}}{\ifthenelse{\advances < 61}{\newcommand\wcolor{orange!50}}{\ifthenelse{\advances < 76}{\newcommand\wcolor{yellow!70}}{\ifthenelse{\advances < 91}{\newcommand\wcolor{yellow!50}}{\newcommand\wcolor{green!80}}}}}}}
-
-
-
-%Final, de Avance %Ojo con el despacio al final, se debe agregar par que no quede pegada la siguiento palabra
-
+\input{reportkind}
 %-------------------------------------------------------------------------------
 % Configuraciones adicionales
 %-------------------------------------------------------------------------------
@@ -42,7 +44,7 @@
 \newsavebox{\CARD}
 \fancyhead[L]{\usebox{\CARD}}
 \fancyhead[R]{Informe \reportkinds - Proyecto \code}
-\fancyfoot[R]{Pag. \thepage\ $/$ \pageref{LastPage}}
+\fancyfoot[L]{Pag. \thepage\ $/$ \pageref{LastPage}}
 
 \sbox{\CARD}{%
 	\begin{pspicture}(0.5in, 0.3in)
@@ -56,171 +58,184 @@
 %-------------------------
 %Imagen de fondo
 %-------------------------
+%\thispagestyle{empty}
+%\AddToShipoutPictureBG{
+%	\begin{tikzpicture}[remember picture, overlay, shift=(current page.center) ]
+%	\node[opacity=1,inner sep=0pt]
+%	{\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{escudoB.png}};
+%	\end{tikzpicture}}
+
 \thispagestyle{empty}
 \AddToShipoutPictureBG{
-	\begin{tikzpicture}[remember picture, overlay, shift=(current page.center) ]
-	\node[opacity=1,inner sep=0pt]
-	{\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{escudoB.png}};
-	\end{tikzpicture}}
+	\begin{minipage}{\textwidth}
+			\begin{minipage}{0.5\textwidth}
+					\begin{tikzpicture}[remember picture, overlay, shift=(current page.center) ]
+						\node[opacity=1,inner sep=0pt]
+						{\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{escudoB.png}};
+					\end{tikzpicture}
+				\end{minipage}
+			\begin{minipage}{0.635\textwidth}
+					\flushright
+					\includegraphics[width=0.2\paperwidth]{centro.png}
+			\end{minipage}
+		\end{minipage}
+}
+
+
 
 %-------------------------
 %Cabecera, primera página
 %-------------------------
-\newgeometry{top=0.5in, bottom=0.5in, right=0.9in, left=0.3in}
+%\newgeometry{top=0.5in, bottom=0.5in, right=0.9in, left=0.3in}
+\newgeometry{top=0.53in, bottom=0.7in, right=0.7in, left=0.5in}
 
-\fbox{\begin{minipage}{\textwidth}
-		\fbox{\begin{minipage}{0.13\textwidth}
-				\begin{center}
-					\includegraphics[scale = 0.08]{escudo.png}% University Logo
-				\end{center}
-		\end{minipage}}\hspace{0.1cm}% adjust for horizontal spacing
-		\fbox{\begin{minipage}{0.7\textwidth}
-				\begin{center}\large
-					\begin{tabular}{c}
-						\begin{minipage}[t]{0.95\columnwidth}%
-							\centering
-							\textsc{\textbf{Formularios de Informe \reportkinds para \convo}}
-						\end{minipage}
-						\vspace{0.2cm}\\
-						\begin{minipage}[t]{0.95\columnwidth}%
-							\centering
-							\textsc{\textbf{Facultad de Ingeniería}}                      
-						\end{minipage}
-						\vspace{0.2cm}\\
-						\begin{minipage}[t]{0.95\columnwidth}%
-							\centering
-							\textsc{\textbf{Centro de Investigación y Posgrados}}                      
-						\end{minipage}
-					\end{tabular}
-				\end{center}
-		\end{minipage}}\hspace{0.3cm}% adjust for horizontal spacing
-		\fbox{\begin{minipage}{0.13\textwidth}
-				\begin{flushright}
-					\begin{pspicture}(1.0in, 1.0in)
-					\psbarcode[]{Informe \reportkinds - Proyecto \code}{height=1.0 width=1.0}{qrcode}
-					%{\color{white}2}
-					\end{pspicture}
-				\end{flushright}
-		\end{minipage}}
-	\end{minipage}
-}
+{\myfont
+	\begin{center}
+		\fbox{\begin{minipage}{1.03\textwidth}
+				\fbox{\begin{minipage}{0.31\textwidth}
+						\begin{center}
+							\includegraphics[scale = 0.16]{escudoFING.png}% University Logo
+						\end{center}
+				\end{minipage}}
+				\fbox{\begin{minipage}{0.58\textwidth}
+						\begin{center}%\large
+							\begin{tabular}{c}
+								\begin{minipage}[t]{0.95\columnwidth}%
+									\flushright
+									\textsc{Informe \reportkinds}
+								\end{minipage}\\
+								\begin{minipage}[t]{0.95\columnwidth}%
+									\flushright
+									\textsc{\textbf{\convo}}                      
+								\end{minipage}
+							\end{tabular}
+						\end{center}
+				\end{minipage}}
+				\fbox{\begin{minipage}{0.09\textwidth}
+						\flushright
+						\textcolor{\wcolor}{\qrcode[height=0.6in]{Informe \reportkinds - Proyecto \code}}
+				\end{minipage}}
+			\end{minipage}
+		}
+	\end{center}
+
 
 \begin{center}
 	\today
 \end{center}
-
+}
 \vspace{0.1 cm}
 
 %-----------------
 %Tipo de solicitud
 %-----------------
-\input{reportkind}
-\ifthenelse{\advances < \tope}{\mypageT{\solution}{\wcolor}{\advances}}{\mypageO}
+{\myfont
+\noindent
+\ifthenelse{\advances < \tope}{\mypageT{\solution}{\wcolorBar}{\advances}}{\mypageO}
 \vspace{0.3 cm}
 
 %------------------------
 %Información del proyecto
 %------------------------
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{0.5\textwidth}%
-			\cellcolor{blue!70}\textcolor{white}{\textsc{\textbf{Información del proyecto}}}
+			\cellcolor{\wcolor}\textcolor{white}{\textsc{\textbf{Información del proyecto}}}
 		\end{minipage}
 	\end{tabular}	
 \end{minipage}
-
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{0.7\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Nombre del semillero}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Nombre del semillero}}
 		\end{minipage}
+		\vspace{0.1cm}
 	\end{tabular}	
 	\begin{tabular}{l}
 		\begin{minipage}[t]{0.28\textwidth}%
 			\centering
-			\cellcolor{blue!10}\textsc{\textbf{Código del proyecto}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Código del proyecto}}
 		\end{minipage}
-	\end{tabular}	
+		\vspace{0.1cm}
+	\end{tabular}
 \end{minipage}
 
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{0.7\textwidth}%
-			\cellcolor{white!10}{\hotbed}
+			{\hotbed}
 		\end{minipage}
 	\end{tabular}	
 	\begin{tabular}{c}
 		\begin{minipage}[t]{0.28\textwidth}
 			\centering
-			\cellcolor{white!10}\textbf{\code}
+			\textbf{\code}
 		\end{minipage}
 	\end{tabular}	
 \end{minipage}
 
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Nombre completo del coordinador del semillero:}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Nombre completo del coordinador del semillero:}}
 		\end{minipage}
 		\vspace{0.1cm}\\
 		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{white!10}{\leader}
+			{\leader}
+		\end{minipage}
+	\end{tabular}	
+\end{minipage}
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{tabular}{l}
+		\begin{minipage}[t]{\textwidth}%
+			\cellcolor{\wcolorC}\textsc{\textbf{Nombre del grupo de investigación al que se encuentra adscrito el semillero:}}
+		\end{minipage}
+		\vspace{0.1cm}\\
+		\begin{minipage}[t]{\textwidth}%
+			{\resgroup}
 		\end{minipage}
 	\end{tabular}	
 \end{minipage}
 
+\vspace{0.2 cm}
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Nombre del grupo de investigación al que se encuentra adscrito el semillero:}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Actividades desarrolladas a la fecha:}}
 		\end{minipage}
-		\vspace{0.1cm}\\
-		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{white!10}{\resgroup}
-		\end{minipage}
+		\vspace{0.1cm}
 	\end{tabular}	
 \end{minipage}
+\indent\devactivities
 
 \vspace{0.3 cm}
-
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Actividades desarrolladas a la fecha:}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Compromisos cumplidos a la fecha:}}
 		\end{minipage}
-		\vspace{0.1cm}\\
-		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{white!10}{\devactivities}
-		\end{minipage}
+		\vspace{0.1cm}
 	\end{tabular}	
 \end{minipage}
+\indent\commitments
 
 \vspace{0.3 cm}
-
+\noindent
 \begin{minipage}{\textwidth}
 	\begin{tabular}{l}
 		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Compromisos cumplidos a la fecha:}}
+			\cellcolor{\wcolorC}\textsc{\textbf{Compromisos pendientes a la fecha:}}
 		\end{minipage}
-		\vspace{0.1cm}\\
-		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{white!10}{\commitments}
-		\end{minipage}
+		\vspace{0.1cm}
 	\end{tabular}	
 \end{minipage}
-
-\vspace{0.3 cm}
-
-\begin{minipage}{\textwidth}
-	\begin{tabular}{l}
-		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{blue!10}\textsc{\textbf{Compromisos pendientes a la fecha:}}
-		\end{minipage}
-		\vspace{0.1cm}\\
-		\begin{minipage}[t]{\textwidth}%
-			\cellcolor{white!10}{\todo}
-		\end{minipage}
-	\end{tabular}	
-\end{minipage}
-
+\indent\todo
+}
 \end{document}

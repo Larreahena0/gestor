@@ -5,7 +5,7 @@ from .models import LineaSemillero
 from .models import Career
 from .models import Linea
 from .models import Atributos
-from .models import Rol,Participante2,coordinadores,Atributos_otra,produccion,categoriaAdyacente,categoriaPrincipal
+from .models import Rol,Participante2,coordinadores,Atributos_otra,produccion,categoriaAdyacente,categoriaPrincipal,Mes
 
 # Register your models here.
 class SemilleroAdmin(admin.ModelAdmin):
@@ -30,3 +30,4 @@ admin.site.register(coordinadores)
 admin.site.register(categoriaAdyacente)
 admin.site.register(categoriaPrincipal)
 admin.site.register(produccion)
+admin.site.register(Mes)
